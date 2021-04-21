@@ -17,8 +17,7 @@ public class PlayerResourceData : MonoBehaviour {
     private ResourceSet currentTurnResources;
     [SerializeField]
     private ResourceSet carryOverResources;
-
-    public TurnController turnController;
+    
 
     //just have a few functions for buying?
 
@@ -138,10 +137,5 @@ public class PlayerResourceData : MonoBehaviour {
         currentTurnDeductions += building.BuildRequirements;
         //CalculateCurrentTurnResources();
         OnBuildingsChanged.Invoke();
-    }
-
-    public void Start()
-    {
-        turnController.AddEndTurnCallback(TurnReset);
     }
 }

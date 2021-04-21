@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class BuildingManager : MonoBehaviour {
 
-    public TurnController turnController;
-    
     public GridMap gridMap;
 
     public UIManager uiManager;
@@ -15,12 +13,7 @@ public class BuildingManager : MonoBehaviour {
     public Vector2Int defaultSpawnCoords;
 
     private List<Building> _buildings = new List<Building>();
-
-    public void Start()
-    {
-        turnController.AddEndTurnCallback(EndTurn);
-    }
-
+    
     public void EndTurn()
     {
         foreach(Building b in _buildings)
