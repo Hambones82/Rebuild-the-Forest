@@ -1,0 +1,17 @@
+- bug: movement considers 3d motion when only 2d motion is possible.  can introduce bugs when objects have their z positionss set
+
+- ability to build a building with pawn when ability has completed.
+
+
+
+-idea - different types of pollution.  e.g., appliances, sludge, nuclear stuff.  different ways to clean it up
+
+- again, get core game down first.
+
+- in addition to cleaning pollution, need to terraform (e.g., remove water/whatever...)
+
+//cancels for actions... ok but not necessary right now.
+if any action cannot happen, the entire queue should get dropped.
+
+pixel art: https://www.reddit.com/r/IndieGaming/comments/msfjpe/hello_i_am_a_pixel_artist_that_goes_by_the_name/
+https://opengameart.org/content/swamp-2d-tileset-pixel-art
