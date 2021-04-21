@@ -16,7 +16,6 @@ public static class TileDataTypes
     {
         {TileDataType.terrain, typeof(TerrainTile) },
         {TileDataType.encroachment, typeof(EncroachmentTile) },
-        {TileDataType.pollution, typeof(PollutionTile) },
         {TileDataType.debug_BuildingRangeOverlay, typeof(Tile) } //just the base tile -- this is just a graphical layer
     };
 }

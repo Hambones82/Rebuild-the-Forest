@@ -5,6 +5,6 @@ using UnityEngine;
 public class MouseoverInfo : MonoBehaviour
 {
     [SerializeField]
-    private string text = "";
+    private string text;
     public string Text { get => text; }
 }

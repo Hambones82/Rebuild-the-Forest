@@ -13,17 +13,6 @@ public class BuildingManager : MonoBehaviour {
     public Vector2Int defaultSpawnCoords;
 
     private List<Building> _buildings = new List<Building>();
-    
-    public void EndTurn()
-    {
-        foreach(Building b in _buildings)
-        {
-            if(b.endTurnCallbacks != null)
-            {
-                b.endTurnCallbacks.Invoke();
-            }
-        }
-    }
 
     public Building SpawnBuilding(Building building)
     {
