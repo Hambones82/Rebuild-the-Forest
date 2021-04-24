@@ -13,10 +13,8 @@ GameObject:
   - component: {fileID: 3504962035391567879}
   - component: {fileID: 2006731451}
   - component: {fileID: 2006731452}
-  - component: {fileID: 2006731453}
   - component: {fileID: 2006731454}
-  - component: {fileID: 5464584106521583475}
-  - component: {fileID: 1511604206}
+  - component: {fileID: 538022502}
   m_Layer: 0
   m_Name: ActorUnitPrefab
   m_TagString: Untagged
@@ -143,19 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3a8ab20295d5ae4988e348702d88445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2006731453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3504962035391567874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90f03283b211a3c44b8618e4f5cc3e54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
+  moveAction: {fileID: 11400000, guid: ce53250f5078d184a91f369e2ab465cb, type: 2}
+  cleanPollutionAction: {fileID: 11400000, guid: 1465117ba8bbc7345a036cef78321bb7, type: 2}
 --- !u!114 &2006731454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentActionName: 
---- !u!114 &5464584106521583475
+--- !u!114 &538022502
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,21 +165,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 3504962035391567874}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4872324659ee77149a763278ca7ee121, type: 3}
+  m_Script: {fileID: 11500000, guid: cd79911e47c71694ebca3149fb99105b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cleaningSpeed: 5
-  perCleanAmount: 20
---- !u!114 &1511604206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3504962035391567874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 849beec8a91352148b5b30fa60ab43c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  learningSpeed: 0.01
+  movementSpeed:
+    statType: {fileID: 11400000, guid: 4f25ef0459ad5884a8183e49600f4501, type: 2}
+    amount: 5
+  cleaningSpeed:
+    statType: {fileID: 11400000, guid: 3f0e0b4329049294ba0daa378467c33f, type: 2}
+    amount: 5
+  learning:
+    statType: {fileID: 11400000, guid: ab9203d504044cb42a33359b5dc9bfa3, type: 2}
+    amount: 0.01

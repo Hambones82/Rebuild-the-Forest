@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class UnitActionController : MonoBehaviour
 {
@@ -9,12 +10,14 @@ public class UnitActionController : MonoBehaviour
     [SerializeField]
     private string currentActionName = "no action loaded";
 
-    ActorUnitLearningStat learning;
+    StatLine learning;
 
     private void Awake()
     {
         currentAction = IdleAction.Instance;
-        learning = GetComponent<ActorUnitLearningStat>();
+        learning = GetComponent<ActorUnitStats>()?.Learning;
+        if (learning == null)
+            throw new InvalidOperationException("no learning stat present");
     }
 
     //this class needs to return the action objects to the pool
@@ -22,7 +25,7 @@ public class UnitActionController : MonoBehaviour
     {
         bool continueCurrentAction = true;
         continueCurrentAction = currentAction.AdvanceAction(Time.deltaTime);
-        currentAction.ImproveStat(Time.deltaTime * learning.LearningSpeed);
+        currentAction.ImproveStat(Time.deltaTime * learning.Amount);//GOING TO NEED A TOUGH FIX.  or maybe we'll just have the action do the improve again?
         if(continueCurrentAction == false)
         {
             //end current action

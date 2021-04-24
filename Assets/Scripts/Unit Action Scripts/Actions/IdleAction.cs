@@ -35,7 +35,7 @@ public class IdleAction : UnitAction
         
     }
 
-    public override void ImproveStat(float factor)
+    public override void ImproveStat(float ImproveAmount)
     {
         
     }

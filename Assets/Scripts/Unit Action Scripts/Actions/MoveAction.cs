@@ -14,7 +14,7 @@ public class MoveAction : UnitAction, IObjectPoolInterface
     private float currentTravelDistance;
     private Vector2Int targetMapPos;//grid coords
     private GridTransform gridTransform;
-    private ActorUnitSpeed actorUnitSpeed;//FIXXXXXXX
+    private StatLine speedStat;
     private Transform transform;
 
     private bool arrivedAtWorldCoords = false;
@@ -35,8 +35,8 @@ public class MoveAction : UnitAction, IObjectPoolInterface
         //Debug.Log("initialize is called for move action");
         base.Initialize(inGameObject);
         gridTransform = inGameObject.GetComponent<GridTransform>();
-        actorUnitSpeed = inGameObject.GetComponent<ActorUnitSpeed>();
-        if (gridTransform == null || actorUnitSpeed == null)
+        speedStat = inGameObject.GetComponent<ActorUnitStats>()?.MovementSpeed;
+        if (gridTransform == null || speedStat == null)
         {
             throw new InvalidOperationException("cannot create an actorunitmovingstate for a gameobject that does not have a grid transform or an actorUnit");
         }
@@ -60,7 +60,7 @@ public class MoveAction : UnitAction, IObjectPoolInterface
         bool continueMovement = false;
         if (!arrivedAtWorldCoords)
         {
-            currentTravelDistance += dt * (Mathf.Floor(actorUnitSpeed.Speed));
+            currentTravelDistance += dt * (Mathf.Floor(speedStat.Amount));
             float normalizedTravelDistance = currentTravelDistance / totalTravelDistance;
             Vector3 newPos = Vector3.Lerp(startWorldPos, targetWorldPos, normalizedTravelDistance);
             gridTransform.MoveToWorldCoords(newPos);
@@ -102,8 +102,8 @@ public class MoveAction : UnitAction, IObjectPoolInterface
         
     }
 
-    public override void ImproveStat(float factor)
+    public override void ImproveStat(float improveAmount)
     {
-        actorUnitSpeed.ImproveSpeed(factor);
+        speedStat.ImproveStat(improveAmount);
     }
 }

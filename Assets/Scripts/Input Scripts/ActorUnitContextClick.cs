@@ -9,6 +9,11 @@ public class ActorUnitContextClick : ContextClickComponent
     UnitActionController actorUnit;
     GridMap gridMap;
 
+    [SerializeField]
+    UnitActionType moveAction;
+    [SerializeField]
+    UnitActionType cleanPollutionAction;
+
     public override void Awake()
     {
         actorUnit = GetComponent<UnitActionController>();
@@ -20,14 +25,14 @@ public class ActorUnitContextClick : ContextClickComponent
     public override void DoContextClick(Vector2Int mapPosition)
     {
 
-        MoveAction action = ObjectPool.Get<MoveAction>();
+        MoveAction action = (MoveAction)moveAction.GetAction();
         action.Initialize(gameObject);
         action.SetMapDestination(mapPosition);
         actorUnit.DoAction(action);
         Pollution target = gridMap.GetObjectAtCell<Pollution>(mapPosition, MapLayer.pollution);
         if (target!=null)
         {
-            CleanPollutionAction cpAction = ObjectPool.Get<CleanPollutionAction>();
+            CleanPollutionAction cpAction = (CleanPollutionAction)cleanPollutionAction.GetAction();
             cpAction.Initialize(gameObject);
             cpAction.SetTargetPollution(target);
             actorUnit.DoAction(cpAction);

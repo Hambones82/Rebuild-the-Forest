@@ -7,13 +7,13 @@ public class CleanPollutionAction : UnitAction, IObjectPoolInterface
 {
     private float cleanTimer = 0;
     private float cleanPeriod = 1;
-    private ActorUnitPollutionStats stats;
+    private StatLine cleaningStat;
     private Pollution targetPollution;
 
     public override void Initialize(GameObject inGameObject)
     {
         base.Initialize(inGameObject);
-        stats = inGameObject.GetComponent<ActorUnitPollutionStats>();
+        cleaningStat = inGameObject.GetComponent<ActorUnitStats>().CleaningSpeed;
     }
 
     public CleanPollutionAction()
@@ -31,7 +31,7 @@ public class CleanPollutionAction : UnitAction, IObjectPoolInterface
         cleanTimer += dt;
         bool retVal = true;
         //if pollution is dead, return false
-        float modifiedPeriod = cleanPeriod / Mathf.Floor(stats.CleaningSpeed);
+        float modifiedPeriod = cleanPeriod / Mathf.Floor(cleaningStat.Amount);
         while(cleanTimer >= modifiedPeriod) 
         {
             cleanTimer -= modifiedPeriod;
@@ -48,7 +48,7 @@ public class CleanPollutionAction : UnitAction, IObjectPoolInterface
 
     private bool DoCleanPollutionTick()
     {
-        float resultingAmount = targetPollution.Amount - stats.PerCleanAmount;
+        float resultingAmount = targetPollution.Amount - ((CleaningSpeedStat)(cleaningStat.StatType)).AmountPerClean;
         targetPollution.SetAmount(resultingAmount);
         return (resultingAmount > 0);
     }
@@ -63,8 +63,8 @@ public class CleanPollutionAction : UnitAction, IObjectPoolInterface
 
     }
 
-    public override void ImproveStat(float factor)
+    public override void ImproveStat(float improveAmount)
     {
-        stats.ImproveSpeed(factor);
+        cleaningStat.ImproveStat(improveAmount);
     }
 }
