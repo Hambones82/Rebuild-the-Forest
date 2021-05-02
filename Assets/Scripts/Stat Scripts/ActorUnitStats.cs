@@ -14,27 +14,18 @@ public class ActorUnitStats : MonoBehaviour
     private StatLine learning;
     public StatLine Learning { get => learning; }
 
-    private List<StatLine> stats;
-    
+    private StatLineSet stats;
+
     void Awake()
     {
-        stats = new List<StatLine>()
-        {
-            movementSpeed,
-            cleaningSpeed,
-            learning
-        };
+        stats = new StatLineSet();
+        stats.SetElements.Add(movementSpeed);
+        stats.SetElements.Add(cleaningSpeed);
+        stats.SetElements.Add(learning);
     }
 
     public StatLine GetStat(StatType statType)
     {
-        for(int i = 0; i < stats.Count; i++)
-        {
-            if(stats[i].StatType == statType)
-            {
-                return stats[i];
-            }
-        }
-        return null;
+        return stats.Get(statType);
     }
 }

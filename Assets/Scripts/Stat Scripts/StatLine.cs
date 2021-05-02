@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class StatLine 
+public class StatLine : TypedNumericalComparable<StatType>
 {
-    [SerializeField]
-    private StatType statType;
-    public StatType StatType { get => statType; }
-    [SerializeField]
-    private float amount;
-    public float Amount { get => amount; }
+    public StatLine(StatType statType, float f) : base(statType, f) { }
+
+    public StatType StatType { get => type; }
+    
+    public float Amount { get => data; private set => data = value; }
+
     public void ImproveStat(float improveAmount)
     {
-        amount += improveAmount;
+        Amount += improveAmount;
     }
 }

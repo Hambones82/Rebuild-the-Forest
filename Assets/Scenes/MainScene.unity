@@ -7729,6 +7729,30 @@ PrefabInstance:
     m_TransformParent: {fileID: 1990238064}
     m_Modifications:
     - target: {fileID: 538022502, guid: b44f50d64c1583547bfc58d3ef13e0ad, type: 3}
+      propertyPath: learning.data
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 538022502, guid: b44f50d64c1583547bfc58d3ef13e0ad, type: 3}
+      propertyPath: learning.type
+      value: 
+      objectReference: {fileID: 11400000, guid: ab9203d504044cb42a33359b5dc9bfa3, type: 2}
+    - target: {fileID: 538022502, guid: b44f50d64c1583547bfc58d3ef13e0ad, type: 3}
+      propertyPath: cleaningSpeed.data
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 538022502, guid: b44f50d64c1583547bfc58d3ef13e0ad, type: 3}
+      propertyPath: cleaningSpeed.type
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f0e0b4329049294ba0daa378467c33f, type: 2}
+    - target: {fileID: 538022502, guid: b44f50d64c1583547bfc58d3ef13e0ad, type: 3}
+      propertyPath: movementSpeed.data
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 538022502, guid: b44f50d64c1583547bfc58d3ef13e0ad, type: 3}
+      propertyPath: movementSpeed.type
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f25ef0459ad5884a8183e49600f4501, type: 2}
+    - target: {fileID: 538022502, guid: b44f50d64c1583547bfc58d3ef13e0ad, type: 3}
       propertyPath: cleaningSpeed.amount
       value: 1
       objectReference: {fileID: 0}

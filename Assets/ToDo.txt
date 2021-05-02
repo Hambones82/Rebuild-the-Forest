@@ -1,12 +1,32 @@
-- ability to build a building with pawn when ability has completed.
 
 
+- ability to build a building with pawn when stats are sufficient
+- make a statset class, reimplement the comparison stuff i had done with the connectionset?  that way we can check if "has at least"
+- on the other hand, i don't think we need to do adding/subtracting, whatever, so maybe we can make it a lot simpler...  
+
+
+BUGS:
+-----
+when lots of actions to clean are queued, the pawn sometimes cleans pollution that is not the one he goes to.  this might have smoething to do with the combination
+of the action object being initialized early and the object pool
+- the problem is...  when you click to clean the same pollution twice.
+- it'll allow the pollution to die and respawn somewhere else, with the pointer still pointing to the old pollution.
+- need to think of a fix.
+
+
+- so the fix will be, on disable, tell all actions targeting this item to cancel.  do this with a callback.  that means the action will have to hook up to the ondisable
+- callback.  this means that we want our action to have the ability to have a target.  we can extend the unit action to either be generic or just to have a target...
+- it makes sense to have the unit action save its target and to do this as a base class, because then we wouldn't have to repeat code.  so instead of just doing this for the
+- pollution target thing, do it for all things that target an object.  
+- so the thing that we're doing is we're simply storing the target.
+
+- include data into scriptable object
 
 -idea - different types of pollution.  e.g., appliances, sludge, nuclear stuff.  different ways to clean it up
 
 - again, get core game down first.
 
-- in addition to cleaning pollution, need to terraform (e.g., remove water/whatever...)
+- in addition to cleaning pollution, need to terraform (e.g., remove water/whatever...) (???)
 
 //cancels for actions... ok but not necessary right now.
 if any action cannot happen, the entire queue should get dropped.

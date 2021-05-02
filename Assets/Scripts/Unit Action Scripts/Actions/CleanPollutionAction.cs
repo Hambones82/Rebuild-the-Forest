@@ -3,17 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CleanPollutionAction : UnitAction, IObjectPoolInterface
+public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPoolInterface
 {
+    //it'd be nice to include this info in a scriptable object.
     private float cleanTimer = 0;
     private float cleanPeriod = 1;
     private StatLine cleaningStat;
-    private Pollution targetPollution;
+    private bool targetHasDied;
 
-    public override void Initialize(GameObject inGameObject)
+    public override void Initialize(GameObject inGameObject, Pollution inPollution)
     {
-        base.Initialize(inGameObject);
+        base.Initialize(inGameObject, inPollution);
         cleaningStat = inGameObject.GetComponent<ActorUnitStats>().CleaningSpeed;
+        //register for clearing...
+        targetHasDied = false;
+        inPollution.OnDisableEvent.AddListener(KillTarget);
+    }
+
+    public void KillTarget()
+    {
+        targetHasDied = true;
     }
 
     public CleanPollutionAction()
@@ -34,6 +43,7 @@ public class CleanPollutionAction : UnitAction, IObjectPoolInterface
         float modifiedPeriod = cleanPeriod / Mathf.Floor(cleaningStat.Amount);
         while(cleanTimer >= modifiedPeriod) 
         {
+            if (targetHasDied) return false;
             cleanTimer -= modifiedPeriod;
             retVal = DoCleanPollutionTick();
             if (!retVal) break; //if the tick fully cleans up the pollution, don't continue the while loop
@@ -43,13 +53,13 @@ public class CleanPollutionAction : UnitAction, IObjectPoolInterface
 
     public void SetTargetPollution(Pollution targetPol)
     {
-        targetPollution = targetPol;
+        target = targetPol;
     }
 
     private bool DoCleanPollutionTick()
     {
-        float resultingAmount = targetPollution.Amount - ((CleaningSpeedStat)(cleaningStat.StatType)).AmountPerClean;
-        targetPollution.SetAmount(resultingAmount);
+        float resultingAmount = target.Amount - ((CleaningSpeedStat)(cleaningStat.StatType)).AmountPerClean;
+        target.SetAmount(resultingAmount);
         return (resultingAmount > 0);
     }
 

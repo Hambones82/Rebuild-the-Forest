@@ -33,8 +33,7 @@ public class ActorUnitContextClick : ContextClickComponent
         if (target!=null)
         {
             CleanPollutionAction cpAction = (CleanPollutionAction)cleanPollutionAction.GetAction();
-            cpAction.Initialize(gameObject);
-            cpAction.SetTargetPollution(target);
+            cpAction.Initialize(gameObject, target);
             actorUnit.DoAction(cpAction);
         }
         //Debug.Log("doing context click");

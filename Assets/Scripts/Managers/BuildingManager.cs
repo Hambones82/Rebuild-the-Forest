@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class BuildingManager : MonoBehaviour {
 
+    [SerializeField]
     public GridMap gridMap;
 
-    public UIManager uiManager;
-
+    [SerializeField]
     public Vector2Int defaultSpawnCoords;
 
     private List<Building> _buildings = new List<Building>();
@@ -29,21 +29,11 @@ public class BuildingManager : MonoBehaviour {
     }
     
 
-    //this one is for whether you can start placement -- i.e., it's intended to show that you can even start considering placing the building
-    //not sure about this one.. maybe delete...
-    //placeholder???
-    public bool CanPlaceBuilding(Building building)
-    {
-        //just a placeholder for now
-        return true;
-    }
-
-    //check all building cells
-    //maybe we can do gridmap.overlap or grid transform.overlap?
+    //checks that:
+    //(a) terrain is buildable; and
+    //(b) there is no overlapping building
     public bool CanPlaceBuildingAt(Building building, Vector2Int mapCoords)
     {
-        //maybe this should just be gridtransform.overlaps?
-        //or possibly... a function to check if any cells of a grid transform are occupied in any particular layer...
         GridTransform buildingGT = building.GetComponent<GridTransform>();
         for(int x = mapCoords.x; x < mapCoords.x + buildingGT.Width; x++)
         {
@@ -56,7 +46,7 @@ public class BuildingManager : MonoBehaviour {
                     return false;
                 }
                 TerrainTile terrainTile = (TerrainTile)(gridMap.GetTileAt(typeof(TerrainTile), coords));
-                //Debug.Log(terrainTile?.ToString());
+                
                 if(!terrainTile.Buildable)
                 {
                     Debug.Log("Can't place building - terrain is not buildable");
@@ -64,7 +54,6 @@ public class BuildingManager : MonoBehaviour {
                 }
             }
         }
-        //Debug.Log("map allows building placement.");
         return true;
     }
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using System;
 
 public class Pollution : MonoBehaviour
 {
@@ -17,6 +19,9 @@ public class Pollution : MonoBehaviour
     private float amount;
     public float Amount { get => amount; }
 
+    public UnityEvent OnDisableEvent;
+    //delegate, event
+    //
 
     private void Awake()
     {
@@ -39,5 +44,13 @@ public class Pollution : MonoBehaviour
             pollutionManager.RemovePollution(this);
         }
     }
-    //every frame, the pollution manager searches for dead ones and kills them.
+
+    private void OnDisable()
+    {
+        if(OnDisableEvent != null)
+        {
+            OnDisableEvent.Invoke();
+            OnDisableEvent.RemoveAllListeners();
+        }
+    }
 }

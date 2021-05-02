@@ -25,7 +25,7 @@ public class UnitActionController : MonoBehaviour
     {
         bool continueCurrentAction = true;
         continueCurrentAction = currentAction.AdvanceAction(Time.deltaTime);
-        currentAction.ImproveStat(Time.deltaTime * learning.Amount);//GOING TO NEED A TOUGH FIX.  or maybe we'll just have the action do the improve again?
+        currentAction.ImproveStat(Time.deltaTime * learning.Amount);
         if(continueCurrentAction == false)
         {
             //end current action
@@ -45,15 +45,13 @@ public class UnitActionController : MonoBehaviour
 
     private void SwitchToAction(UnitAction action)
     {
-        //ok, so how do i return the action to the correct pool if i don't have its type?  i guess make sure to get its type...
-        //but we should just do this in the objectpool class
         currentAction.EndAction();
         currentAction = action;
         currentAction.StartAction();
         currentActionName = currentAction.ActionName;
     }
 
-    public void DoAction(UnitAction action)
+    public void DoAction(UnitAction action) //prevent the same action from being queued multiple times on same target, IF you shouldn't repeat
     {
         unitActionQueue.Enqueue(action);
     }

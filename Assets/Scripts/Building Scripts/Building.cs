@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 public class Building : MonoBehaviour
 {
-    
 
+    public StatLineSet statLineSet;
     
 }
