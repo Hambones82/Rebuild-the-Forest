@@ -20,9 +20,7 @@ public class Pollution : MonoBehaviour
     public float Amount { get => amount; }
 
     public UnityEvent OnDisableEvent;
-    //delegate, event
-    //
-
+    
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();

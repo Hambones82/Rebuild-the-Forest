@@ -16,7 +16,9 @@ public class MouseSelector : MonoBehaviour {
     [HideInInspector]
     private GameObject selectorImage;
 
+#pragma warning disable CS0414 // The field 'MouseSelector.isSelected' is assigned but its value is never used
     private bool isSelected = false;
+#pragma warning restore CS0414 // The field 'MouseSelector.isSelected' is assigned but its value is never used
 
 	// Use this for initialization
 	void Start () {

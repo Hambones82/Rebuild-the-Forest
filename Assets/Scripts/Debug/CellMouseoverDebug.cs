@@ -6,9 +6,13 @@ using UnityEngine;
 public class CellMouseoverDebug : MonoBehaviour
 {
     [SerializeField]
+#pragma warning disable CS0649 // Field 'CellMouseoverDebug.mouseManager' is never assigned to, and will always have its default value null
     MouseManager mouseManager;
+#pragma warning restore CS0649 // Field 'CellMouseoverDebug.mouseManager' is never assigned to, and will always have its default value null
     [SerializeField]
+#pragma warning disable CS0649 // Field 'CellMouseoverDebug.gridMap' is never assigned to, and will always have its default value null
     GridMap gridMap;
+#pragma warning restore CS0649 // Field 'CellMouseoverDebug.gridMap' is never assigned to, and will always have its default value null
     GameObject mouseoverDebugPanel;
     TMPro.TextMeshProUGUI text;
     RectTransform rectTransform;

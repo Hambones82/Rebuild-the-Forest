@@ -23,13 +23,19 @@ public class EncroachmentManager : MonoBehaviour
     private float encroachmentRate;
 
     [SerializeField]
+#pragma warning disable CS0649 // Field 'EncroachmentManager.encroachmentTileMap' is never assigned to, and will always have its default value null
     private TileDataMap encroachmentTileMap;
+#pragma warning restore CS0649 // Field 'EncroachmentManager.encroachmentTileMap' is never assigned to, and will always have its default value null
 
     [SerializeField]
+#pragma warning disable CS0649 // Field 'EncroachmentManager.gridMap' is never assigned to, and will always have its default value null
     private GridMap gridMap;
+#pragma warning restore CS0649 // Field 'EncroachmentManager.gridMap' is never assigned to, and will always have its default value null
 
     [SerializeField] //the order of tiles in the list 
+#pragma warning disable CS0649 // Field 'EncroachmentManager.encroachmentTiles' is never assigned to, and will always have its default value null
     private List<EncroachmentTile> encroachmentTiles;//the different types of tiles... though is this even necessary???
+#pragma warning restore CS0649 // Field 'EncroachmentManager.encroachmentTiles' is never assigned to, and will always have its default value null
 
     public void Awake()
     {

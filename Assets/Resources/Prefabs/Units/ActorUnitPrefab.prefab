@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2006731452}
   - component: {fileID: 2006731454}
   - component: {fileID: 538022502}
+  - component: {fileID: 3148813566434386222}
   m_Layer: 0
   m_Name: ActorUnitPrefab
   m_TagString: Untagged
@@ -169,11 +170,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed:
-    statType: {fileID: 11400000, guid: 4f25ef0459ad5884a8183e49600f4501, type: 2}
-    amount: 5
+    type: {fileID: 11400000, guid: 4f25ef0459ad5884a8183e49600f4501, type: 2}
+    data: 5
   cleaningSpeed:
-    statType: {fileID: 11400000, guid: 3f0e0b4329049294ba0daa378467c33f, type: 2}
-    amount: 5
+    type: {fileID: 11400000, guid: 3f0e0b4329049294ba0daa378467c33f, type: 2}
+    data: 5
   learning:
-    statType: {fileID: 11400000, guid: ab9203d504044cb42a33359b5dc9bfa3, type: 2}
-    amount: 0.01
+    type: {fileID: 11400000, guid: ab9203d504044cb42a33359b5dc9bfa3, type: 2}
+    data: 0.01
+--- !u!114 &3148813566434386222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3504962035391567874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b71a0309155d644990c39b6689e8a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

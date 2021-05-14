@@ -14,7 +14,9 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
     public Vector2Int bottomLeftWorldCell;
     public Grid grid;
 
+#pragma warning disable CS0067 // The event 'GridMap.mapChangeEvent' is never used
     public event Action mapChangeEvent;
+#pragma warning restore CS0067 // The event 'GridMap.mapChangeEvent' is never used
 
     //refactor the next thing as vector2int - or even rect?
     public int width;

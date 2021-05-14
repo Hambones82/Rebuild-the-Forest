@@ -7,11 +7,15 @@ using System;
 public class PollutionManager : MonoBehaviour
 {
     [SerializeField]
+#pragma warning disable CS0649 // Field 'PollutionManager.gridMap' is never assigned to, and will always have its default value null
     private GridMap gridMap;
+#pragma warning restore CS0649 // Field 'PollutionManager.gridMap' is never assigned to, and will always have its default value null
     [SerializeField]
     private GridSubMap pollutionMap;
     [SerializeField]
+#pragma warning disable CS0649 // Field 'PollutionManager.pollutionPrefab' is never assigned to, and will always have its default value null
     private Pollution pollutionPrefab;
+#pragma warning restore CS0649 // Field 'PollutionManager.pollutionPrefab' is never assigned to, and will always have its default value null
     [SerializeField]
     private List<Pollution> pollutionObjects = new List<Pollution>();
 

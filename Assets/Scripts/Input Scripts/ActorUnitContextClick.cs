@@ -10,9 +10,13 @@ public class ActorUnitContextClick : ContextClickComponent
     GridMap gridMap;
 
     [SerializeField]
+#pragma warning disable CS0649 // Field 'ActorUnitContextClick.moveAction' is never assigned to, and will always have its default value null
     UnitActionType moveAction;
+#pragma warning restore CS0649 // Field 'ActorUnitContextClick.moveAction' is never assigned to, and will always have its default value null
     [SerializeField]
+#pragma warning disable CS0649 // Field 'ActorUnitContextClick.cleanPollutionAction' is never assigned to, and will always have its default value null
     UnitActionType cleanPollutionAction;
+#pragma warning restore CS0649 // Field 'ActorUnitContextClick.cleanPollutionAction' is never assigned to, and will always have its default value null
 
     public override void Awake()
     {
@@ -25,14 +29,14 @@ public class ActorUnitContextClick : ContextClickComponent
     public override void DoContextClick(Vector2Int mapPosition)
     {
 
-        MoveAction action = (MoveAction)moveAction.GetAction();
+        MoveAction action = (MoveAction)moveAction.GetObject();
         action.Initialize(gameObject);
         action.SetMapDestination(mapPosition);
         actorUnit.DoAction(action);
         Pollution target = gridMap.GetObjectAtCell<Pollution>(mapPosition, MapLayer.pollution);
         if (target!=null)
         {
-            CleanPollutionAction cpAction = (CleanPollutionAction)cleanPollutionAction.GetAction();
+            CleanPollutionAction cpAction = (CleanPollutionAction)cleanPollutionAction.GetObject();
             cpAction.Initialize(gameObject, target);
             actorUnit.DoAction(cpAction);
         }

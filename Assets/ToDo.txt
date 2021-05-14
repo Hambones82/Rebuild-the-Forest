@@ -1,24 +1,16 @@
+- move on to building spawn ui.  need to do the ui for it.  create a build button class.  should just accept button type and handle everything else.  fill the panel up with those
+- panel should have its own class that decides how to fill the buttons.
+- this way, we'll be able to transform a pawn into a building.
 
 
-- ability to build a building with pawn when stats are sufficient
-- make a statset class, reimplement the comparison stuff i had done with the connectionset?  that way we can check if "has at least"
-- on the other hand, i don't think we need to do adding/subtracting, whatever, so maybe we can make it a lot simpler...  
+- ok what i want to do is:
+a) provide a list of buildings taht can be built upon clicking on a guy
+	- create a panel to show a list of buildings.
+	- the panel has a behavior that should monitor various features like unit skills as compared with building requirements
+	- let's create our first building and see if we can get this stuff to work.  
+b) provide the functionality for indicating that such building should be placed.  the previous "cursor" and thing to be placed, etc., stuff can be helpful.
+c) provide the functionality for actually building the buildings
 
-
-BUGS:
------
-when lots of actions to clean are queued, the pawn sometimes cleans pollution that is not the one he goes to.  this might have smoething to do with the combination
-of the action object being initialized early and the object pool
-- the problem is...  when you click to clean the same pollution twice.
-- it'll allow the pollution to die and respawn somewhere else, with the pointer still pointing to the old pollution.
-- need to think of a fix.
-
-
-- so the fix will be, on disable, tell all actions targeting this item to cancel.  do this with a callback.  that means the action will have to hook up to the ondisable
-- callback.  this means that we want our action to have the ability to have a target.  we can extend the unit action to either be generic or just to have a target...
-- it makes sense to have the unit action save its target and to do this as a base class, because then we wouldn't have to repeat code.  so instead of just doing this for the
-- pollution target thing, do it for all things that target an object.  
-- so the thing that we're doing is we're simply storing the target.
 
 - include data into scriptable object
 

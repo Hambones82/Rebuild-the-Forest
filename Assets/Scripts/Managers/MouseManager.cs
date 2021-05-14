@@ -47,7 +47,7 @@ public class MouseManager : MonoBehaviour {
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-                uIManager.clickAt(mouseWorldPosition);
+                uIManager.LeftClickAt(mouseWorldPosition);
             }
         }
         if(Input.GetMouseButtonDown(1))

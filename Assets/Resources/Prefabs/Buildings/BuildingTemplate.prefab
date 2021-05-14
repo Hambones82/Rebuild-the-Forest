@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 114903671657060870}
   - component: {fileID: 114603623875108166}
   - component: {fileID: 114058856135367282}
-  - component: {fileID: 2050788341449136201}
-  - component: {fileID: -5495167745311420653}
   m_Layer: 0
   m_Name: BuildingTemplate
   m_TagString: Untagged
@@ -110,12 +108,6 @@ MonoBehaviour:
   worldWidth: 0
   topLeftPosMap: {x: 4, y: 8}
   registeredInMap: 1
-  mapExtents:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
 --- !u!114 &114603623875108166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +123,7 @@ MonoBehaviour:
   OnSelect:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2050788341449136201}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: InvokeCommandWindow
         m_Mode: 1
@@ -146,7 +138,7 @@ MonoBehaviour:
   OnDeselect:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2050788341449136201}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: CloseCommandWindow
         m_Mode: 1
@@ -171,45 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703e85e645a5211489b4e380a426a873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxConnectionLength: 3
-  costInMoney: 0
-  playerData: {fileID: 0}
-  intakeRequirements:
-    resources: []
-  resourceProduction:
-    resources: []
-  buildRequirements:
-    resources: []
-  AvailableProducedResources:
-    resources: []
-  productionIsOn: 0
-  connectionSet:
-    parent: {fileID: 0}
-    connections: []
---- !u!114 &2050788341449136201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1030047143314608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c85b08dc07836224f9f457c5fa02d269, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  commandPanelPrefab: {fileID: 114737746702027798, guid: 297029db97a5b2044b60bc63f25b21c8, type: 3}
---- !u!114 &-5495167745311420653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1030047143314608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 607902ffb330650438f786713cef0822, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  indicatorPrefab: {fileID: -4941463359201866282, guid: ec2717ad208d3384696815bc4adb993c, type: 3}
-  building: {fileID: 0}
+  statRequirements:
+    setElements:
+    - type: {fileID: 11400000, guid: 3f0e0b4329049294ba0daa378467c33f, type: 2}
+      data: 7

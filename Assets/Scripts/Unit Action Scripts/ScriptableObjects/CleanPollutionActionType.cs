@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Clean Pollution Action Type", menuName = "ScriptableObjects/Types/Clean Pollution Action Type")]
 public class CleanPollutionActionType : UnitActionType
 {
-    public override UnitAction GetAction()
+    public override UnitAction GetObject()
     {
         return ObjectPool.Get<CleanPollutionAction>();
     }
