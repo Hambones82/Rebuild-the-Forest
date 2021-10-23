@@ -23,6 +23,9 @@ public class BuildingManager : MonoBehaviour {
     }
 
     [SerializeField]
+    private List<BuildingType> availableBuildingTypes;
+
+    [SerializeField]
     public GridMap gridMap;
 
     [SerializeField]
@@ -88,5 +91,10 @@ public class BuildingManager : MonoBehaviour {
             }
         }
         return true;
+    }
+
+    public List<BuildingType> GetAvailableBuildingTypes()
+    {
+        return new List<BuildingType>(availableBuildingTypes);
     }
 }

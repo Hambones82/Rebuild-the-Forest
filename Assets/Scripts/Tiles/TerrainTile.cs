@@ -7,9 +7,7 @@ using UnityEngine.Tilemaps;
 public class TerrainTile : Tile
 {
     [SerializeField]
-#pragma warning disable CS0649 // Field 'TerrainTile.buildable' is never assigned to, and will always have its default value false
     private bool buildable;
-#pragma warning restore CS0649 // Field 'TerrainTile.buildable' is never assigned to, and will always have its default value false
     public bool Buildable
     {
         get => buildable;

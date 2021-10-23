@@ -16,9 +16,9 @@ public class UIManager : MonoBehaviour {
     {
         get => selectedGridTransform;
     }
-#pragma warning disable CS0414 // The field 'UIManager.commandPanelIsActive' is assigned but its value is never used
+
     private bool commandPanelIsActive = false;
-#pragma warning restore CS0414 // The field 'UIManager.commandPanelIsActive' is assigned but its value is never used
+
     public Canvas UICanvas;
 
     private SelectBuildingDelegate selectBuildingDelegate;
@@ -27,9 +27,7 @@ public class UIManager : MonoBehaviour {
     public UnityEvent OnDeselectEvent;
 
     [SerializeField]
-#pragma warning disable CS0649 // Field 'UIManager.placementCursorPrefab' is never assigned to, and will always have its default value null
     private PlacementCursor placementCursorPrefab;
-#pragma warning restore CS0649 // Field 'UIManager.placementCursorPrefab' is never assigned to, and will always have its default value null
 
     private PlacementCursor placementCursor;
     public PlacementCursor PlacementCursor
@@ -75,6 +73,7 @@ public class UIManager : MonoBehaviour {
         if(clickedGridTransform == null)
         {
             selectedGridTransform = null;
+            OnDeselectEvent.Invoke();
         }
         else
         {

@@ -21,9 +21,7 @@ public class TileDataMap : MonoBehaviour
 
     //the normalized thing should use the grid
     [SerializeField]
-#pragma warning disable CS0649 // Field 'TileDataMap.tileDataType' is never assigned to, and will always have its default value
     private TileDataType tileDataType;
-#pragma warning restore CS0649 // Field 'TileDataMap.tileDataType' is never assigned to, and will always have its default value
     public TileDataType TileDataType
     {
         get => tileDataType;

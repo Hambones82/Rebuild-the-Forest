@@ -10,13 +10,9 @@ public class ActorUnitContextClick : ContextClickComponent
     GridMap gridMap;
 
     [SerializeField]
-#pragma warning disable CS0649 // Field 'ActorUnitContextClick.moveAction' is never assigned to, and will always have its default value null
     UnitActionType moveAction;
-#pragma warning restore CS0649 // Field 'ActorUnitContextClick.moveAction' is never assigned to, and will always have its default value null
     [SerializeField]
-#pragma warning disable CS0649 // Field 'ActorUnitContextClick.cleanPollutionAction' is never assigned to, and will always have its default value null
     UnitActionType cleanPollutionAction;
-#pragma warning restore CS0649 // Field 'ActorUnitContextClick.cleanPollutionAction' is never assigned to, and will always have its default value null
 
     public override void Awake()
     {

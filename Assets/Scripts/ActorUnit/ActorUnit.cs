@@ -6,6 +6,7 @@ using UnityEngine;
 public class ActorUnit : MonoBehaviour
 {
     private ActorUnitStats stats;
+    public ActorUnitStats Stats { get => stats; }
 
     private void Awake()
     {
