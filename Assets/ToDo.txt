@@ -1,24 +1,27 @@
-- move on to building spawn ui.  need to do the ui for it.  create a build button class.  should just accept button type and handle everything else.  fill the panel up with those
-- panel should have its own class that decides how to fill the buttons.
-- this way, we'll be able to transform a pawn into a building.
+checking whether building is buildable does not work... i think the indices are selected incorrectly.  
+bounds checking for a lot of elements.  -- test out some bugs.
+
+- working on the effeects layer... need a visualizer...
 
 
-- ok what i want to do is:
-a) provide a list of buildings taht can be built upon clicking on a guy
-	- create a panel to show a list of buildings.
-	- the panel has a behavior that should monitor various features like unit skills as compared with building requirements
-	- let's create our first building and see if we can get this stuff to work.  
-b) provide the functionality for indicating that such building should be placed.  the previous "cursor" and thing to be placed, etc., stuff can be helpful.
-c) provide the functionality for actually building the buildings
+gameplay ideas:
+building to spawn actor units
+building to affect pollution
+to function, buildings must be significantly pollution free
+individual actor units can clean pollution, but better to automate
+we probably need an "effects" layer --> lets entities check its status, affects gameplay, allows for visualization.
+when a building is built or destroyed, update effects layer.
+effects layer structure...  would be nice if it was a series of layers, where each was associated with a particular effect.  we might(?) have a mechanism for this alr?
+--- so we do have the "Grid sub maps..."  can these work?
+ok... the thing with grid sub maps is they require grid cells/grid transforms, which we don't want.
+i think the easiest way to do this would just be have a completely independent component that handles effects.
 
-
-- include data into scriptable object
 
 -idea - different types of pollution.  e.g., appliances, sludge, nuclear stuff.  different ways to clean it up
 
 - again, get core game down first.
 
-- in addition to cleaning pollution, need to terraform (e.g., remove water/whatever...) (???)
+- in addition to cleaning pollution, need to terraform (e.g., remove water/whatever...) (???) --> i don't' think this meshes with the flavor of "cleaning" the forest
 
 //cancels for actions... ok but not necessary right now.
 if any action cannot happen, the entire queue should get dropped.

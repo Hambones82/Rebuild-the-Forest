@@ -163,6 +163,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703e85e645a5211489b4e380a426a873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildingName: Healthy Oak
   buildingManager: {fileID: 0}
   statRequirements:
     setElements: []
+  _buildingEffects:
+  - _range: 1
+    _effect:
+      _effectType: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
+      _amount: 1

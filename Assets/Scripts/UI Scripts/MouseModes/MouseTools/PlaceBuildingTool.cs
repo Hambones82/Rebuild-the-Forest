@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//this class, itself, might want the building cursor.  rather than ... what is it, ui manager?
 public class PlaceBuildingTool : MouseTool
 {
     private static BuildingManager buildingManager;
@@ -23,14 +24,17 @@ public class PlaceBuildingTool : MouseTool
     private Building buildingToPlacePrefab;
     private ActorUnit actorUnit;
 
+
+    //ok... big issue here is... we really want to determine the top left (?) or bottom left (?) position...  for the building
     public override bool LeftClick(Vector3 mousePosition, UIManager uiManager)
     {
-        Vector2Int mapCoords = uiManager.gridMap.WorldToMap(mousePosition);
+        //Vector2Int mapCoords = uiManager.gridMap.WorldToMap(mousePosition);
         UnitActionController actionController = actorUnit.GetComponent<UnitActionController>();
-        if(buildingManager.CanPlaceBuildingAt(buildingToPlacePrefab, mapCoords))
+        PlacementCursor cursor = uiManager.PlacementCursor;
+        Vector2Int mapCoords = cursor.GetComponent<GridTransform>().topLeftPosMap;
+        if (buildingManager.CanPlaceBuildingAt(buildingToPlacePrefab, mapCoords))
         {
             //set the unit action controll with two actions -- a move and a build.  define the build action.
-            
             //generate move action, schedule it
             MoveAction moveAction = ObjectPool.Get<MoveAction>();
             moveAction.Initialize(actorUnit.gameObject);

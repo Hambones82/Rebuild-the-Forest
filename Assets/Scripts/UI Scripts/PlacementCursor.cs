@@ -23,6 +23,14 @@ public class PlacementCursor : MonoBehaviour
         get { return _isActive; }
     }
 
+    private void Update()
+    {
+        if(_isActive)
+        {
+            moveCursorTo(MouseManager.Instance.MouseWorldPosition);
+        }
+    }
+
     public void setBuilding(Building building)
     {
         SpriteRenderer buildingSprite = building.GetComponent<SpriteRenderer>();

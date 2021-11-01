@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 
 //want to have this use a list of maps. each map is for a different mappable monobehaviour component
-[DefaultExecutionOrder(-2)] //the reason for this is we want the map to be initialized before things that rely on the map.  for example, the grid transforms rely on the map
+[DefaultExecutionOrder(-10)] //the reason for this is we want the map to be initialized before things that rely on the map.  for example, the grid transforms rely on the map
 public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for those individual maps
 
     public bool showBordersInEditor;

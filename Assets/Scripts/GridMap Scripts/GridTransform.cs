@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 
-[DefaultExecutionOrder(-1)] 
+[DefaultExecutionOrder(-9)] 
 public class GridTransform : MonoBehaviour, IGridMapable
 {
     [SerializeField]

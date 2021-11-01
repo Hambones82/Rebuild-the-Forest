@@ -45,6 +45,21 @@ public class UIManager : MonoBehaviour {
     
     private MouseTool currentMouseTool = BaseTool.Instance;
 
+    private static UIManager _instance;
+    public static UIManager Instance { get => _instance; }
+
+    private void Awake()
+    {
+        if(_instance != null)
+        {
+            throw new InvalidOperationException("Trying to instantiate two UIManagers, but it is a singleton.");
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
     public void LeftClickAt(Vector3 mouseWorldPosition)
     {
         if(currentMouseTool.LeftClick(mouseWorldPosition, this) == false)

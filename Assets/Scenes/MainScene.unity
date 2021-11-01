@@ -7286,7 +7286,7 @@ MonoBehaviour:
   OnDeselectEvent:
     m_PersistentCalls:
       m_Calls: []
-  placementCursorPrefab: {fileID: 0}
+  placementCursorPrefab: {fileID: 2093491743592682920, guid: 620915ca6d41c2f4a8dce8c810d2eff6, type: 3}
 --- !u!4 &950741560
 Transform:
   m_ObjectHideFlags: 0
@@ -7626,6 +7626,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3504962035391567873, guid: b44f50d64c1583547bfc58d3ef13e0ad, type: 3}
   m_PrefabInstance: {fileID: 3504962036102779579}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2041692324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2041692326}
+  - component: {fileID: 2041692325}
+  m_Layer: 0
+  m_Name: MapEffectsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2041692325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041692324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cad8c31cd8afdfd429d816d3e704e226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridMap: {fileID: 1990238066}
+--- !u!4 &2041692326
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041692324}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2076056760
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7639,7 +7683,7 @@ PrefabInstance:
       objectReference: {fileID: 950741559}
     - target: {fileID: 385979971367115615, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.000019639134
       objectReference: {fileID: 0}
     - target: {fileID: 1912259540184846535, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchorMax.y
@@ -7815,7 +7859,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   availableBuildingTypes:
   - {fileID: 11400000, guid: 893face88af731e4fabc7a74c0aab6e6, type: 2}
-  gridMap: {fileID: 0}
+  - {fileID: 11400000, guid: be688e35e3df4c142a5f84cbd6431e53, type: 2}
+  gridMap: {fileID: 1990238066}
   defaultSpawnCoords: {x: 0, y: 0}
 --- !u!4 &2096301398
 Transform:

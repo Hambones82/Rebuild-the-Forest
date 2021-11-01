@@ -5,7 +5,13 @@ using System;
 
 //fix the... dict thing... make it more generic so we can use it here...
 
+[DefaultExecutionOrder(-8)]
 public class BuildingManager : MonoBehaviour {
+
+    public delegate void BuildingSpawnEventHandler(Building building);
+
+    public event BuildingSpawnEventHandler OnBuildingSpawn;
+    //public event BuildingSpawnEventHandler onBuildingDelete;
 
     private static BuildingManager _instance;
     public static BuildingManager Instance
@@ -32,37 +38,37 @@ public class BuildingManager : MonoBehaviour {
     public Vector2Int defaultSpawnCoords;
 
     private List<Building> _buildings = new List<Building>();
-
-    public Building SpawnBuilding(Building building)
-    {
-
-        return SpawnBuildingAt(building, defaultSpawnCoords);
-    }
-    
-    public Building SpawnBuildingAt(Building buildingPrefab, Vector2Int MapCoords)
-    {
-        Building building = Instantiate(buildingPrefab, gridMap.GetComponent<Transform>());
-        building.GetComponent<GridTransform>().MoveToMapCoords(MapCoords);
-        _buildings.Add(building);
-        return building;
-    }
-
-    //worldCoords is supposed to be the center
-    public Building SpawnBuildingAt(Building buildingPrefab, Vector3 worldCoords)
-    {
-        Building building = SpawnBuilding(buildingPrefab);
-        building.GetComponent<GridTransform>().MoveToWorldCoords(worldCoords);
-        return building;
-    }
     
     public Building SpawnBuilding(BuildingType buildingType)
     {
         return SpawnBuilding(buildingType.BuildingPrefab);
     }
 
-    public Building SpawnBuildingAt(BuildingType buildingType, Vector2Int MapCoords)
+    public Building SpawnBuilding(Building building)
     {
-        return SpawnBuildingAt(buildingType.BuildingPrefab, MapCoords);
+        return SpawnBuildingAt(building, defaultSpawnCoords);
+    }
+    
+    //worldCoords is supposed to be the center
+    public Building SpawnBuildingAt(Building buildingPrefab, Vector3 worldCoords)
+    {
+        Building building = Instantiate(buildingPrefab, gridMap.GetComponent<Transform>());
+        building.GetComponent<GridTransform>().MoveToWorldCoords(worldCoords);
+        return FinishBuildingSpawn(building);
+    }
+    
+    public Building SpawnBuildingAt(Building buildingPrefab, Vector2Int mapCoords)
+    {
+        Building building = Instantiate(buildingPrefab, gridMap.GetComponent<Transform>());
+        building.GetComponent<GridTransform>().MoveToMapCoords(mapCoords);
+        return FinishBuildingSpawn(building);
+    }
+
+    private Building FinishBuildingSpawn(Building building)
+    {
+        _buildings.Add(building);
+        OnBuildingSpawn?.Invoke(building); //this one...
+        return building;
     }
 
     //checks that:
@@ -76,6 +82,7 @@ public class BuildingManager : MonoBehaviour {
             for(int y = mapCoords.y; y > mapCoords.y - buildingGT.Height; y--)
             {
                 Vector2Int coords = new Vector2Int(x, y);
+                //Debug.Log($"checking coords {coords.ToString()}");
                 if (gridMap.IsCellOccupied(coords, MapLayer.buildings))
                 {
                     Debug.Log("Can't place building - blocked by map.");
@@ -95,6 +102,11 @@ public class BuildingManager : MonoBehaviour {
 
     public List<BuildingType> GetAvailableBuildingTypes()
     {
-        return new List<BuildingType>(availableBuildingTypes);
+        List<BuildingType> retval = new List<BuildingType>();
+        for(int i = 0; i < availableBuildingTypes.Count; i++)
+        {
+            retval.Add(availableBuildingTypes[i]);
+        }
+        return retval;
     }
 }

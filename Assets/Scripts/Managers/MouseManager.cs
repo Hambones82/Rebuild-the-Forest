@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,11 +26,25 @@ public class MouseManager : MonoBehaviour {
     {
         return gridMap.WorldToMap(GetMouseWorldCoords());
     }
-    
+
+    private static MouseManager _instance;
+    public static MouseManager Instance
+    {
+        get => _instance;
+    }
+
 
     void Awake()
     {
         TileMapPlane = new Plane(Vector3.zero, Vector3.right, Vector3.up);//a hacky way to instantiate a plane at z=0
+        if(_instance != null)
+        {
+            throw new InvalidOperationException("can only have one mouse manager");
+        }
+        else
+        {
+            _instance = this;
+        }
     }
 
     public Vector3 GetMouseWorldCoords()
