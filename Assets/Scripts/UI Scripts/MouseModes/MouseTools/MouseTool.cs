@@ -8,4 +8,5 @@ public abstract class MouseTool
     public virtual void EndTool(UIManager uiManager) { }
     public abstract bool LeftClick(Vector3 mousePosition, UIManager uiManager);
     public abstract bool RightClick(Vector3 mousePosition, UIManager uiManager);
+    public abstract void Cancel();
 }

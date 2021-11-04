@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 114903671657060870}
   - component: {fileID: 114603623875108166}
   - component: {fileID: 114058856135367282}
+  - component: {fileID: -4203275643212243561}
   m_Layer: 0
-  m_Name: Healthy Maple
+  m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -163,7 +164,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703e85e645a5211489b4e380a426a873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingName: Healthy Maple
+  buildingName: Spawner
   buildingManager: {fileID: 0}
   statRequirements:
     setElements: []
+  _buildingEffects: []
+--- !u!114 &-4203275643212243561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030047143314608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71b02e5dd329aeb469453840e994aac8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPeriod: 5

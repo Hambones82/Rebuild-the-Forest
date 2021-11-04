@@ -43,11 +43,15 @@ public class MouseSelector : MonoBehaviour {
     
     public bool DeSelect()
     {
-        selectorImage.SetActive(false);
+        selectorImage?.SetActive(false);
         isSelected = false;
         OnDeselect.Invoke();
         return false; // returns whether it is selected
     }
 
-
+    public void OnDisable()
+    {
+        UIManager.Instance.DeselectMouseSelector(this);
+        DeSelect();
+    }
 }

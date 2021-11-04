@@ -54,7 +54,14 @@ public class BuildBuildingPanel : MonoBehaviour
         {
             currentActorUnit.OnDeath.RemoveListener(ActorUnitDies);
             CurrentActorUnit = null;
-            UpdateContents();
+            //UpdateContents(); //remove all
+            foreach (BuildBuildingButton button in childButtons)
+            {
+                buildBuildingButtonPool.RecycleObject(button.gameObject);
+            }
+            childButtons.Clear();//not sure abt this...
+            permittedBuildingTypes.Clear();
+            cachedPermittedBuildingTypes.Clear();
         }
     }
 
@@ -74,17 +81,16 @@ public class BuildBuildingPanel : MonoBehaviour
     }
 
     private List<BuildingType> permittedBuildingTypes = new List<BuildingType>();
+    private List<BuildingType> cachedPermittedBuildingTypes = new List<BuildingType>();
     private void UpdateContents()
     {
-        //if they're not the same thing...
-        foreach(BuildBuildingButton button in childButtons)
-        {
-            buildBuildingButtonPool.RecycleObject(button.gameObject);
-        }
-        childButtons.Clear();
-        //get all possible buildings from building manager
         List<BuildingType> availableBuildingTypes = BuildingManager.Instance.GetAvailableBuildingTypes();
-        //check the buildings against the player unit's skills
+        
+        cachedPermittedBuildingTypes.Clear();
+        foreach(BuildingType bType in permittedBuildingTypes)
+        {
+            cachedPermittedBuildingTypes.Add(bType);
+        }
         permittedBuildingTypes.Clear();
         if(currentActorUnit != null)
         {
@@ -96,8 +102,20 @@ public class BuildBuildingPanel : MonoBehaviour
                     permittedBuildingTypes.Add(bType);
                 }
             }
-            ClearButtons();
-            AddButtons(permittedBuildingTypes);
+            foreach(BuildingType bType in cachedPermittedBuildingTypes)
+            {
+                if(!permittedBuildingTypes.Contains(bType))
+                {
+                    //removebutton(bType)
+                }
+            }
+            foreach(BuildingType bType in permittedBuildingTypes)
+            {
+                if(!cachedPermittedBuildingTypes.Contains(bType))
+                {
+                    AddButton(bType);
+                }
+            }
         }
     }
 
@@ -115,14 +133,20 @@ public class BuildBuildingPanel : MonoBehaviour
         for (int i = 0; i < buildingTypes.Count; i++)
         {
             BuildingType bType = buildingTypes[i];
-            BuildBuildingButton button = buildBuildingButtonPool.GetGameObject().GetComponent<BuildBuildingButton>();
-            button.BType = bType;
-            button.ActorUnit = currentActorUnit;
-            button.Text.text = bType.BuildingPrefab.BuildingName;
-            button.gameObject.SetActive(true);
+            BuildBuildingButton button = AddButton(bType);
             button.transform.SetSiblingIndex(i);
-            childButtons.Add(button);
         }
+    }
+
+    private BuildBuildingButton AddButton(BuildingType bType)
+    {
+        BuildBuildingButton button = buildBuildingButtonPool.GetGameObject().GetComponent<BuildBuildingButton>();
+        button.BType = bType;
+        button.ActorUnit = currentActorUnit;
+        button.Text.text = bType.BuildingPrefab.BuildingName;
+        button.gameObject.SetActive(true);
+        childButtons.Add(button);
+        return button;
     }
 
 }

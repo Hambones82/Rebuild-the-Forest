@@ -1,7 +1,8 @@
-checking whether building is buildable does not work... i think the indices are selected incorrectly.  
-bounds checking for a lot of elements.  -- test out some bugs.
+fix the button refresh thing.  you should only add buttons if you don't have them already.
 
-- working on the effeects layer... need a visualizer...
+
+make the block pollution effect actually slow/stop pollution spread
+
 
 
 gameplay ideas:

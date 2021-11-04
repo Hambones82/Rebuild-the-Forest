@@ -9,6 +9,19 @@ public class ActorUnitManager : MonoBehaviour
     public static ActorUnitManager Instance { get => _instance; }
 
     [SerializeField]
+    private int _maxActorUnits = 3;
+    public int MaxActorUnits { get => _maxActorUnits; }
+
+    [SerializeField]
+    private int _currentActorUnitsCount = 0;
+    public int CurrentActorUnitsCount { get => _currentActorUnitsCount; }
+
+    public bool ActorUnitsFull { get { return _currentActorUnitsCount >= _maxActorUnits; } }
+
+    [SerializeField]
+    private List<ActorUnit> actorUnits = new List<ActorUnit>();
+
+    [SerializeField]
     private GridMap gridMap;
 
     [SerializeField]
@@ -16,6 +29,8 @@ public class ActorUnitManager : MonoBehaviour
 
     private GameObjectPool actorUnitPool;
     //make an object pool for actor unit.  i guess it woudl have to be a prefab.
+
+    
 
     private void Awake()
     {
@@ -25,12 +40,44 @@ public class ActorUnitManager : MonoBehaviour
         }
         _instance = this;
         actorUnitPool = new GameObjectPool(actorUnitPrefab, parentObj: gridMap.gameObject, activeByDefault: false);
+        //register all the actor units on the gridmap with this thing.
+        List<GridTransform> actorUnits = gridMap.GetMapOfType(MapLayer.playerUnits).GetAllObjects();
+        foreach(GridTransform gt in actorUnits)
+        {
+            ActorUnit actor = gt.GetComponent<ActorUnit>();
+            if(actor != null)
+            {
+                RegisterActorUnit(actor);
+            }
+        }
     }
+
+    private void RegisterActorUnit(ActorUnit unit)
+    {
+        actorUnits.Add(unit);
+        _currentActorUnitsCount++;
+    }
+
+    private void DeRegisterActorUnit(ActorUnit unit)
+    {
+        actorUnits.Remove(unit);
+        _currentActorUnitsCount--;
+    }
+    
 
     public void KillActorUnit(ActorUnit actorUnit)
     {
         actorUnit.gameObject.SetActive(false);
         actorUnit.Kill();
+        DeRegisterActorUnit(actorUnit);
         actorUnitPool.RecycleObject(actorUnit.gameObject);
+    }
+
+    public void SpawnActorUnit(Vector2Int coords)
+    {
+        ActorUnit newActorUnit = actorUnitPool.GetGameObject().GetComponent<ActorUnit>();
+        newActorUnit.gameObject.SetActive(true);
+        newActorUnit.GetComponent<GridTransform>().MoveToMapCoords(coords);
+        RegisterActorUnit(newActorUnit);
     }
 }

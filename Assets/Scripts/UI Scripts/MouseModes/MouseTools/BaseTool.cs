@@ -27,4 +27,10 @@ public class BaseTool : MouseTool
         currentMouseMode = currentMouseMode.RightClick(mousePosition, uiManager);
         return true;
     }
+
+    public override void Cancel()
+    {
+        currentMouseMode = NoObjectSelected.Instance;
+        UIManager.Instance.SelectGridTransform(null);
+    }
 }

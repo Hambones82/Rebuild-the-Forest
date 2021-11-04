@@ -23,13 +23,11 @@ public class MapEffectsManager : MonoBehaviour
         mapEffects = new List<MapEffect>[gridMap.width, gridMap.height];
         if (BuildingManager.Instance == null) Debug.Log("wtf?");
         BuildingManager.Instance.OnBuildingSpawn += AddBuildingEffect;
-        extents = gridMap.GetGridRect();
+        extents = new RectInt(0, 0, gridMap.width, gridMap.height);
         if (_instance == null) _instance = this;
         else throw new InvalidOperationException("can't instantiate this twice");
     }
     
-    
-
     private void AddBuildingEffect(Building building)
     {
         Debug.Log("calling add building effect");
@@ -50,10 +48,10 @@ public class MapEffectsManager : MonoBehaviour
     public void AddEffect(MapEffect mapEffect, Vector2Int mapCoords)
     {
         //Debug.Log($"adding effect to coords {mapCoords.ToString()}");
-        Debug.Log($"extents: {extents.ToString()}");
+        //Debug.Log($"extents: {extents.ToString()}");
         if (!extents.Contains(mapCoords))
         {
-            Debug.Log("map effect not contained within map.");
+            //Debug.Log("map effect not contained within map.");
             return;
         }
         //Debug.Log("map coords to add effect: " + mapCoords.ToString());
@@ -63,8 +61,9 @@ public class MapEffectsManager : MonoBehaviour
         {
             
             effectsAtCell = new List<MapEffect>();
+            mapEffects[mapCoords.x, mapCoords.y] = effectsAtCell;
         }
-        Debug.Log("adding effect");
+        //Debug.Log("adding effect");
         effectsAtCell.Add(mapEffect);
     }
     

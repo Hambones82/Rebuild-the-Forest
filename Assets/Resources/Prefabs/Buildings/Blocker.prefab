@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 114603623875108166}
   - component: {fileID: 114058856135367282}
   m_Layer: 0
-  m_Name: Healthy Oak
+  m_Name: Blocker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703e85e645a5211489b4e380a426a873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingName: Healthy Oak
+  buildingName: Blocker
   buildingManager: {fileID: 0}
   statRequirements:
     setElements: []

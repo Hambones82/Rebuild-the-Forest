@@ -74,4 +74,9 @@ public class PlaceBuildingTool : MouseTool
         uiManager.PlacementCursor.disableCursor();
     }
 
+    public override void Cancel()
+    {
+        EndTool(UIManager.Instance);
+        UIManager.Instance.SelectGridTransform(null);
+    }
 }

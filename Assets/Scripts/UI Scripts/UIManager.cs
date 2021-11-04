@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 public delegate void SelectBuildingDelegate(Building selectedBuilding);
 
+[DefaultExecutionOrder(-5)]
 public class UIManager : MonoBehaviour {
     public bool forcePlacement = false; 
     public GridMap gridMap;
@@ -95,6 +96,16 @@ public class UIManager : MonoBehaviour {
             clickedGridTransform.GetComponent<MouseSelector>().Select(); 
             selectedGridTransform = clickedGridTransform; 
             OnSelectEvent.Invoke();
+        }
+    }
+
+    
+    public void DeselectMouseSelector(MouseSelector objectToDisable)
+    {
+        if(selectedGridTransform != null && selectedGridTransform == objectToDisable.GetComponent<GridTransform>())
+        {
+            currentMouseTool.Cancel();
+            currentMouseTool = BaseTool.Instance;
         }
     }
 }
