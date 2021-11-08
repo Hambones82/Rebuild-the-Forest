@@ -9,6 +9,9 @@ using UnityEngine.Tilemaps;
 [DefaultExecutionOrder(-10)] //the reason for this is we want the map to be initialized before things that rely on the map.  for example, the grid transforms rely on the map
 public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for those individual maps
 
+    private static GridMap _current;
+    public static GridMap Current { get => _current; }
+
     public bool showBordersInEditor;
 
     public Vector2Int bottomLeftWorldCell;
@@ -50,6 +53,8 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
     
     void Awake()
     {
+        _current = this;
+
         foreach(TileDataMap tileDataMap in gameObject.transform.GetComponentsInChildren<TileDataMap>())
         {
             tileDataMaps.Add(tileDataMap);

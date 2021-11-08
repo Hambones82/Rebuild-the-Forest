@@ -7,6 +7,9 @@ using UnityEngine.Assertions;
 [DefaultExecutionOrder(-9)] 
 public class GridTransform : MonoBehaviour, IGridMapable
 {
+    public delegate void ChangeMapPosDelegate(Vector2Int amountMoved);
+    public event ChangeMapPosDelegate OnChangeMapPos;
+
     [SerializeField]
     private bool snapToGrid = true;
 
@@ -133,30 +136,38 @@ public class GridTransform : MonoBehaviour, IGridMapable
     private void MoveToRawWorldCoords(Vector3 worldCoords)
     {
         Assert.IsNotNull(gridMap);
+        //save current map coords (possibly entire grid transform?)
+        Vector2Int oldMapCoords = topLeftPosMap;
         if (registeredInMap && isActiveAndEnabled)
         {
-            //Debug.Log("deregistering");
             DeRegisterFromMap();
         }
         transform.position = worldCoords;
         if (snapToGrid)
         {
             SnapAndConstrainToBounds();
-            //Debug.Log("snapping");
         }
         else
         {
             ConstrainToBoundsWithoutSnap();
-            //Debug.Log("constraining");
         }
         if (registeredInMap && isActiveAndEnabled)
         {
-            //Debug.Log("registering");
             RegisterToMap();
-            //Debug.Log("done registering");
+        }
+        //why don't i do onleavemappos
+        //and then onarrivemappos -- that's a pretty good way to do it...  problem is...  there's no way to calculate the map pos from a world pos without
+        //changing those things...  
+        //OK -- I have an idea. use distance moved.  call if distance moved is not 0.  this is a good idea becasuse the distance moved can be used to calculate
+        //whatever you want.  
+        Vector2Int amountMoved = topLeftPosMap - oldMapCoords;
+        if(amountMoved != Vector2Int.zero)
+        {
+            OnChangeMapPos?.Invoke(amountMoved);
+            //Debug.Log("transform is moving cells");
         }
     }
-    
+
     private void OnDestroy()
     {
         DisableGridTransform();

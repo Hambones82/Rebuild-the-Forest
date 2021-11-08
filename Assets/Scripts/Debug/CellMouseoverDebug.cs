@@ -54,7 +54,7 @@ public class CellMouseoverDebug : MonoBehaviour
         }
         TerrainTile tile = (TerrainTile)gridMap.GetTileAt(typeof(TerrainTile), cell);
         text.text += "\n" + "Buildable?: " + tile.Buildable.ToString();
-        List<MapEffect> effects = MapEffectsManager.Instance.GetEffectsAtCell(cell);
+        List<MapEffectObject> effects = MapEffectsManager.Instance.GetEffectsAtCell(cell);
         if (effects != null)
         {
             for (int i = 0; i < effects.Count; i++)

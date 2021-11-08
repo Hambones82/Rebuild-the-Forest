@@ -39,30 +39,12 @@ public class BuildingManager : MonoBehaviour {
 
     private List<Building> _buildings = new List<Building>();
     
-    public Building SpawnBuilding(BuildingType buildingType)
-    {
-        return SpawnBuilding(buildingType.BuildingPrefab);
-    }
-
-    public Building SpawnBuilding(Building building)
-    {
-        return SpawnBuildingAt(building, defaultSpawnCoords);
-    }
-    
-    //worldCoords is supposed to be the center
     public Building SpawnBuildingAt(Building buildingPrefab, Vector3 worldCoords)
     {
-        Building building = Instantiate(buildingPrefab, gridMap.GetComponent<Transform>());
-        building.GetComponent<GridTransform>().MoveToWorldCoords(worldCoords);
+        Building building = Instantiate(buildingPrefab, worldCoords, Quaternion.identity, gridMap.GetComponent<Transform>());
         return FinishBuildingSpawn(building);
     }
     
-    public Building SpawnBuildingAt(Building buildingPrefab, Vector2Int mapCoords)
-    {
-        Building building = Instantiate(buildingPrefab, gridMap.GetComponent<Transform>());
-        building.GetComponent<GridTransform>().MoveToMapCoords(mapCoords);
-        return FinishBuildingSpawn(building);
-    }
 
     private Building FinishBuildingSpawn(Building building)
     {

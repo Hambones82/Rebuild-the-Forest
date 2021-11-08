@@ -1,8 +1,24 @@
-fix the button refresh thing.  you should only add buttons if you don't have them already.
 
 
-make the block pollution effect actually slow/stop pollution spread
+gameplay: cleaning up pollution gives a block pollution ability.  choice is whether to focus all cleaning on one guy, thus improving stat or let all guys clean.  
 
+-------------------------------------------
+
+- the units can hit a button to hold position and keep the pollution at bay.  this prevents pollution from spawning in a certain area around the unit.  the unit will gain
+pollution stoppage skill while doing this.
+- the units can also clean the pollution, which we've already implemented.
+if the pollution starts out covering the entire field (or most of it), then it makes sense to try to get multiple units in -- some cleaning and some keeping the pollution at bay, and then having one of them make a "stay at bay" building and one make a "spawn" building.
+- do the above as a base, core mechanic.  goal is to clear the field.
+
+--> ok, above makes sense.
+
+idea--> level 2 pollution -- maybe slower spreading... but need to upgrade yourselves to clean it/keep it at bay.
+
+so part of the progression/constant danger is that the pollution is constantly spreading.
+
+idea--> you can build an area -- the area defines how many units you can have.  
+
+so you win if there is no pollution left in the whole level.
 
 
 gameplay ideas:

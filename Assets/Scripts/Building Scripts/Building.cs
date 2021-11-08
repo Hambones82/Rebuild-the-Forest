@@ -18,8 +18,9 @@ public class Building : MonoBehaviour
     [SerializeField]
     private StatLineSet statRequirements;
     public StatLineSet StatRequirements { get => statRequirements; }
-
+    /*
     [SerializeField]
     private List<BuildingEffect> _buildingEffects;
     public List<BuildingEffect> BuildingEffects { get { return new List<BuildingEffect>(_buildingEffects); } }
+    */
 }

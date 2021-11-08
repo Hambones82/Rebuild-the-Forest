@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 114903671657060870}
   - component: {fileID: 114603623875108166}
   - component: {fileID: 114058856135367282}
+  - component: {fileID: 1739411717824330081}
   m_Layer: 0
   m_Name: Blocker
   m_TagString: Untagged
@@ -167,8 +168,21 @@ MonoBehaviour:
   buildingManager: {fileID: 0}
   statRequirements:
     setElements: []
-  _buildingEffects:
+--- !u!114 &1739411717824330081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030047143314608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8060cf872d0245144869b6c921bb907b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mapEffects:
   - _range: 1
+    _enabled: 1
     _effect:
       _effectType: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
       _amount: 1

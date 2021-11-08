@@ -15,6 +15,9 @@ public class PollutionManager : MonoBehaviour
     [SerializeField]
     private List<Pollution> pollutionObjects = new List<Pollution>();
 
+    [SerializeField]
+    private MapEffectType pollutionBlockEffect;
+
     //this is a helper buffer to assist with another function.  maybe scope it to that function only
     private List<Pollution> workingPollutionObjects;
 
@@ -71,6 +74,18 @@ public class PollutionManager : MonoBehaviour
         if(gridMap.IsWithinBounds(cell) && !pollutionMap.ComponentTypeExistsAtCell<Pollution>(cell))
         {
             bool addPollution = (CalculateProbabilityForSpreading(normalizedAmount)) > UnityEngine.Random.value;
+            List<MapEffectObject> effectsAtCell = MapEffectsManager.Instance.GetEffectsAtCell(cell);
+            if(effectsAtCell != null)
+            {
+                foreach (MapEffectObject effectObject in effectsAtCell)
+                {
+                    if (effectObject.EffectType == pollutionBlockEffect)
+                    {
+                        addPollution = false;
+                        break;
+                    }
+                }
+            }
             if(addPollution)
             {
                 newPollution(cell);

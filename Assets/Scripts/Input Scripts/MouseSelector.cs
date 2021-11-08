@@ -20,18 +20,10 @@ public class MouseSelector : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
-        //this sets the selector image based on the prefab and on the characteristics of the game object this script is attached to.
         selectorImage = Instantiate(selectorImagePrefab, this.gameObject.transform);
         selectorImage.GetComponent<SpriteRenderer>().size = new Vector2(GetComponent<SpriteRenderer>().bounds.size.x, GetComponent<SpriteRenderer>().bounds.size.y);
         selectorImage.SetActive(false);
-        //maybe selector image default off.  when this is selected, turn it on.
-
     }
-	
-	void Update () {
-		
-	}
     
     public bool Select()
     {

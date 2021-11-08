@@ -2,21 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//delete
 [System.Serializable]
 public class MapEffect 
 {
-    //effect type... don't want to use enums.  do i use map effect type scriptable objects?  if so, how do i get that into a thing?
-    //ok i think this could actually be possible...  each building can have an effect type and a radius.
-    [SerializeField]
-    protected MapEffectType _effectType;
-    public MapEffectType EffectType { get => _effectType; }
+    public delegate void OnChangeEnabledDelegate(MapEffect effect);
+    public event OnChangeEnabledDelegate OnChangeEnabled;
 
     [SerializeField]
-    protected float _amount;
-    public float Amount { get => _amount; }
+    private int _range;
+    public int Range { get => _range; }
 
-    public override string ToString()
-    {
-        return $"Effect: {_effectType.EffectName} - Amount: {_amount}";
-    }
+    [SerializeField]
+    private bool _enabled;
+    public bool Enabled { get => _enabled; set => OnChangeEnabled(this); }
+
+    [SerializeField]
+    private MapEffectObject _effect;
+    public MapEffectObject Effect { get => _effect; }
 }
