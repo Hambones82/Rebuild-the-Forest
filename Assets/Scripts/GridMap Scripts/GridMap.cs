@@ -67,9 +67,26 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
         {
             gridSubMaps.Add(new GridSubMap(width, height, mapLayer));
         }
+
+        
     }
-    
-	//so... the terrain could be a map layer... the problem is... we're returning a gridsubmap...  which isn't necessarily what we want.
+
+    private void Start()
+    {
+        //initialize pathfinder
+        bool[,] passableMap = new bool[width, height];
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                passableMap[x, y] = ((TerrainTile)(GetTileAt(typeof(TerrainTile), new Vector2Int(x, y)))).Buildable;
+            }
+        }
+
+        PathFinder.Initialize(width, height, passableMap);
+    }
+
+    //so... the terrain could be a map layer... the problem is... we're returning a gridsubmap...  which isn't necessarily what we want.
     //i.e., gridsubmap explicitly uses gridtransform, but our terrain map is 
     private bool MapOfTypeExists(MapLayer mLayer)
     {

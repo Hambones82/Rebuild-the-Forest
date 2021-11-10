@@ -29,10 +29,7 @@ public class TransformIntoBuildingAction : UnitActionWithTarget<Building>, IObje
         
         if(timerValue >= buildRate)
         {
-            //build building... but we don't seem to have any of this idea, e.g., building or location.  
-            //location can be center of actor unit's position converted to top left corner...
             BuildingManager.Instance.SpawnBuildingAt(building, buildLocation);
-            //kill the actor unit.
             ActorUnitManager.Instance.KillActorUnit(actorUnit);
             return false;
         }
