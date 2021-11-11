@@ -1,4 +1,4 @@
-pathfinding seems to be working.  implement it into the movement of the units.  not too hard.  
+i think there is one bug with pathfinding which is that it makes weird diagonal moves sometimes.  i think this is because the g function isn't working as intended.
 
 then i need to implement map changes (traversible) on build buildings and on change terrain (terrain can be deferred)
 

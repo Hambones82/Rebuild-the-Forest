@@ -98,6 +98,23 @@ public static class PathFinder
             {
                 if(!closedTiles.Contains(node) && node.passable)
                 {
+                    int tentative_g_score = CalculateGScore(currentTile, node);
+                    if(closedTiles.Contains(node) && tentative_g_score >= node.g_score)
+                    {
+                        continue;
+                    }
+                    if(!openTiles.Contains(node) || tentative_g_score < node.g_score)
+                    {
+                        node.previous = currentTile;
+                        node.g_score = tentative_g_score;
+                        node.h_score = DistanceToTarget(node.position, end);
+                        node.f_score = node.g_score + node.h_score;
+                        if(!openTiles.Contains(node))
+                        {
+                            openTiles.Add(node);
+                        }
+                    }
+                    /*
                     if(!openTiles.Contains(node))
                     {
                         node.previous = currentTile;
@@ -106,6 +123,7 @@ public static class PathFinder
                         node.f_score = node.h_score + node.g_score;
                         openTiles.Add(node);
                     }
+                    */
                 }
             }
         }
@@ -146,7 +164,12 @@ public static class PathFinder
         int xDist = Math.Abs(current.position.x - adjacent.position.x);
         int yDist = Math.Abs(current.position.y - adjacent.position.y);
         int ManhattanDistance = xDist + yDist;
-        if (ManhattanDistance == 2) return current.g_score + diagonalScore;
+        if (ManhattanDistance == 2)
+        {
+            //Debug.Log("we are getting the diagonal scores");
+            return current.g_score + diagonalScore;
+        }
+            
         else return current.g_score + horizontalScore;
     }
 

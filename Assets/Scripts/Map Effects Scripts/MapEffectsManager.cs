@@ -25,7 +25,7 @@ public class MapEffectsManager : MonoBehaviour
         mapEffects = new List<MapEffectObject>[gridMap.width, gridMap.height];
         extents = new RectInt(0, 0, gridMap.width, gridMap.height);
         if (_instance == null) _instance = this;
-        else throw new InvalidOperationException("can't instantiate this twice");
+        else throw new InvalidOperationException("can't instantiate MapEffectsManager twice");
     }
     
     public void AddEffect(MapEffectObject mapEffect, Vector2Int mapCoords)
@@ -55,6 +55,10 @@ public class MapEffectsManager : MonoBehaviour
     
     public bool RemoveEffect(MapEffectObject mapEffect, Vector2Int mapCoords)
     {
+        if(mapCoords.x < 0 || mapCoords.y < 0 || mapCoords.x >= gridMap.width || mapCoords.y >= gridMap.height)
+        {
+            return false;
+        }
         List<MapEffectObject> effectsAtCell = mapEffects[mapCoords.x, mapCoords.y];
         if (effectsAtCell == null) return false;
         foreach(MapEffectObject effect in effectsAtCell)

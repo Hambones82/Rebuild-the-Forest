@@ -20,6 +20,9 @@ public class MoveAction : UnitAction, IObjectPoolInterface
     private bool arrivedAtWorldCoords = false;
     private bool arrivedAtMapCoords = false;
 
+    List<Vector2Int> currentPath;
+    int currentPathIndex = 0;
+
     public MoveAction()
     {
         actionName = "Move";
@@ -43,8 +46,8 @@ public class MoveAction : UnitAction, IObjectPoolInterface
         transform = inGameObject.transform;
         targetWorldPos = transform.position;
         targetMapPos = gridTransform.topLeftPosMap;
-        arrivedAtMapCoords = false;
-        arrivedAtWorldCoords = false;
+        arrivedAtMapCoords = true;
+        arrivedAtWorldCoords = true;
         currentTravelDistance = 0;
         totalTravelDistance = 0;
     }
@@ -53,9 +56,49 @@ public class MoveAction : UnitAction, IObjectPoolInterface
     {
         startWorldPos = transform.position;
         totalTravelDistance = Vector3.Distance(startWorldPos, targetWorldPos);
+        currentPath = PathFinder.GetPath(gridTransform.topLeftPosMap, targetMapPos);
+        currentPathIndex = 0;
     }
 
     public override bool AdvanceAction(float dt)
+    {
+        /* 
+         * if we arrived at the next cell, pop the next cell dest
+         * if no such cell dest, then return false
+         * then perform the dt movement, which sets the bool vars
+         */
+        Vector2Int target;
+        if(arrivedAtMapCoords && arrivedAtWorldCoords)
+        {
+            if (currentPath == null)
+            {
+                return false;
+            }
+            else
+            {
+                if(currentPathIndex < currentPath.Count)
+                {
+                    target = currentPath[currentPathIndex];
+                    //Debug.Log($"traveling to {target.ToString()}");
+                    SetMapDestination(target);
+                    arrivedAtMapCoords = false;
+                    arrivedAtWorldCoords = false;
+                    startWorldPos = transform.position;
+                    totalTravelDistance = Vector3.Distance(startWorldPos, targetWorldPos);
+                    currentPathIndex++;
+                }
+                else
+                {
+                    return false;
+                }
+            }   
+        }
+        MoveCellToCell(dt);
+        return true;
+        
+    }
+
+    private bool MoveCellToCell(float dt)
     {
         bool continueMovement = false;
         if (!arrivedAtWorldCoords)
@@ -74,9 +117,9 @@ public class MoveAction : UnitAction, IObjectPoolInterface
                 arrivedAtWorldCoords = false;
                 arrivedAtMapCoords = false;
             }
-            
+
         }
-        
+
         if (arrivedAtMapCoords && arrivedAtWorldCoords)
         {
             continueMovement = false;
@@ -92,8 +135,6 @@ public class MoveAction : UnitAction, IObjectPoolInterface
     {
         targetMapPos = mapDestination;
         targetWorldPos = gridTransform.gridMap.MapToWorld(targetMapPos);
-        arrivedAtWorldCoords = false;
-        arrivedAtMapCoords = false; //is this necessary?
         currentTravelDistance = 0;
     }
     
