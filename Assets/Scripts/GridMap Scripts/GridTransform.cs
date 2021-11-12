@@ -168,6 +168,39 @@ public class GridTransform : MonoBehaviour, IGridMapable
         }
     }
 
+    public List<Vector2Int> GetAdjacentTiles()
+    {
+        List<Vector2Int> retVal = new List<Vector2Int>();
+        //two rows plus two truncated columns
+        for(int i = topLeftPosMap.x-1; i <= topLeftPosMap.x + width + 1; i++)
+        {
+            Vector2Int topCell = new Vector2Int(i, topLeftPosMap.y + 1);
+            Vector2Int bottomCell = new Vector2Int(i, topLeftPosMap.y - height - 1);
+            if(gridMap.IsWithinBounds(topCell))
+            {
+                retVal.Add(topCell);
+            }
+            if(gridMap.IsWithinBounds(bottomCell))
+            {
+                retVal.Add(bottomCell);
+            }
+        }
+        for(int i = topLeftPosMap.y; i <= topLeftPosMap.y - height + 1; i++)
+        {
+            Vector2Int leftCell = new Vector2Int(topLeftPosMap.x - 1, i);
+            Vector2Int rightCell = new Vector2Int(topLeftPosMap.x + width, i);
+            if(gridMap.IsWithinBounds(leftCell))
+            {
+                retVal.Add(leftCell);
+            }
+            if(gridMap.IsWithinBounds(rightCell))
+            {
+                retVal.Add(rightCell);
+            }
+        }
+        return retVal;
+    }
+
     private void OnDestroy()
     {
         DisableGridTransform();

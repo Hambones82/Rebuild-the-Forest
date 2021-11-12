@@ -13,6 +13,9 @@ public class ActorUnitStats : MonoBehaviour
     [SerializeField]
     private StatLine learning;
     public StatLine Learning { get => learning; }
+    [SerializeField]
+    private StatLine operating;
+    public StatLine Operating { get => operating; }
 
     private StatLineSet stats;
     public StatLineSet Stats
@@ -26,6 +29,7 @@ public class ActorUnitStats : MonoBehaviour
         stats.SetElements.Add(movementSpeed);
         stats.SetElements.Add(cleaningSpeed);
         stats.SetElements.Add(learning);
+        stats.SetElements.Add(operating);
     }
 
     public StatLine GetStat(StatType statType)

@@ -1,9 +1,35 @@
-i think there is one bug with pathfinding which is that it makes weird diagonal moves sometimes.  i think this is because the g function isn't working as intended.
+in the middle of implementing operating.  i think i need to finish the operate action and then do the interface thing.
 
 then i need to implement map changes (traversible) on build buildings and on change terrain (terrain can be deferred)
 
 
-tiledatatype seems pointless...
+i think we can start on prototyping gameplay right now.  
+
+try an "operate" user action.  question of how to implement.  unit does the operate (dt).  but...  do we just call operate on the building?
+yeah, why not.  make it a component.  user action calls operate on building, passing dt.  
+
+can't operate buildings covered in pollution.
+
+
+
+elements: 
+1) clean pollution - this more or less functions
+2) block pollution spread - same
+3) new actor units - we have this but do we want to implement it differently?
+4) traversing terrain - works
+5) research? - ???
+
+idea: 
+1) start with a large amount of pollution -- like top half of the map
+2) pollution has fast spread
+3) units must quickly establish a "bubble" and build buildings there
+4) ruined trees can be turned into units.  this would be a "harvest" function
+5) cleaning pollution uncovers more trees
+
+again, eventually, try to clean all pollution on map
+
+eventually, add higher level of pollution.  maybe this spreads more slowly but is harder to clear.
+
 
 change color as they become more experienced (to prevent people from turning their really good ones into buildings)
 
@@ -13,7 +39,6 @@ fix the pollution spawner thing (performance?).
 go/build on water (to clean pollution)...
 do a research thing.  that'll be a lot of work
 
-i probably should implement real pathfinding.
 but first let's do canceling unit actions
 
 gameplay: cleaning up pollution gives a block pollution ability.  choice is whether to focus all cleaning on one guy, thus improving stat or let all guys clean.  

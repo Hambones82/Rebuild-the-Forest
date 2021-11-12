@@ -34,7 +34,7 @@ public class MapEffectsManager : MonoBehaviour
         //Debug.Log($"extents: {extents.ToString()}");
         if (!extents.Contains(mapCoords))
         {
-            Debug.Log("map effect not contained within map.");
+            //Debug.Log("map effect not contained within map.");
             return;
         }
         //Debug.Log("map coords to add effect: " + mapCoords.ToString());
