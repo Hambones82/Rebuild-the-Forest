@@ -6,37 +6,57 @@ public class OperateAction : UnitActionWithTarget<BuildingComponentOperator>, IO
 {
     private StatLine operatingStat;
     private BuildingComponentOperator buildingComponentOperator;
+    private bool cancel = false;
+    private Building targetBuilding;
+    
 
     public override void Initialize(GameObject inGameObject, BuildingComponentOperator inBuildingComponentOperator)
     {
         base.Initialize(inGameObject, inBuildingComponentOperator);
         operatingStat = inGameObject.GetComponent<ActorUnitStats>().Operating;
         buildingComponentOperator = inBuildingComponentOperator;
-        //I guess also a callback for when the building dies?
+        cancel = false;
+        targetBuilding = inBuildingComponentOperator.GetComponent<Building>();
+        targetBuilding.onBuildingDeathEvent += BuildingDied;
+    }
+
+    public void BuildingDied(Building building)
+    {
+        cancel = true;
     }
 
     public override bool AdvanceAction(float dt)
     {
+        if(cancel)
+        {
+            return false;
+        }
         return buildingComponentOperator.Operate(dt);
+    }
+
+    public OperateAction()
+    {
+        actionName = "Operating";
     }
 
     public override void EndAction()
     {
-        throw new System.NotImplementedException();
+        targetBuilding.onBuildingDeathEvent -= BuildingDied;
+        ObjectPool.Return(this);
     }
 
     public override void ImproveStat(float ImproveAmount)
     {
-        throw new System.NotImplementedException();
+        operatingStat.ImproveStat(ImproveAmount);
     }
 
     public override void StartAction()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void Reset()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

@@ -15,6 +15,7 @@ public class BuildingComponentExhaustableSpawner : BuildingComponentOperator
 
     public override bool Operate(float dt)
     {
+        //Debug.Log("operator component: operate");
         if (_exhausted) return false;
         _operateTimer += dt;
         if(_operateTimer >= _operateTimerTrigger)
@@ -34,6 +35,7 @@ public class BuildingComponentExhaustableSpawner : BuildingComponentOperator
             cellToSpawnAt = candidateCells[Random.Range(0, candidateCells.Count)];
             ActorUnitManager.Instance.SpawnActorUnit(cellToSpawnAt);
             _exhausted = true;
+            _operateTimer = 0;
         }
     }
 

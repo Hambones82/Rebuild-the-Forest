@@ -13,6 +13,8 @@ public class ActorUnitContextClick : ContextClickComponent
     UnitActionType moveAction;
     [SerializeField]
     UnitActionType cleanPollutionAction;
+    [SerializeField]
+    UnitActionType operateBuildingAction;
 
     public override void Awake()
     {
@@ -29,12 +31,22 @@ public class ActorUnitContextClick : ContextClickComponent
         action.Initialize(gameObject);
         action.SetMapDestination(mapPosition);
         actorUnit.DoAction(action);
-        Pollution target = gridMap.GetObjectAtCell<Pollution>(mapPosition, MapLayer.pollution);
-        if (target!=null)
+        BuildingComponentOperator targetBuilding = gridMap.GetObjectAtCell<BuildingComponentOperator>(mapPosition, MapLayer.buildings);
+        if (targetBuilding != null)
         {
-            CleanPollutionAction cpAction = (CleanPollutionAction)cleanPollutionAction.GetObject();
-            cpAction.Initialize(gameObject, target);
-            actorUnit.DoAction(cpAction);
+            OperateAction obAction = (OperateAction)operateBuildingAction.GetObject();
+            obAction.Initialize(gameObject, targetBuilding);
+            actorUnit.DoAction(obAction);
+        }
+        else
+        {
+            Pollution target = gridMap.GetObjectAtCell<Pollution>(mapPosition, MapLayer.pollution);
+            if (target != null)
+            {
+                CleanPollutionAction cpAction = (CleanPollutionAction)cleanPollutionAction.GetObject();
+                cpAction.Initialize(gameObject, target);
+                actorUnit.DoAction(cpAction);
+            }
         }
         //Debug.Log("doing context click");
     }

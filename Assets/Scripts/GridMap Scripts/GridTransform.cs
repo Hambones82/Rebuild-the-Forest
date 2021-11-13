@@ -243,6 +243,7 @@ public class GridTransform : MonoBehaviour, IGridMapable
 
     private void DeRegisterFromMap()
     {
+        if (gridMap == null) Debug.Log("gridmap is null");
         gridMap.DeRegisterMapObject(this);//should be deregistermapobject
 
     }

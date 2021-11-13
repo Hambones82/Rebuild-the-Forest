@@ -10,6 +10,7 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
     private float cleanPeriod = 1;
     private StatLine cleaningStat;
     private bool targetHasDied;
+    Pollution targetPollution;
 
     public override void Initialize(GameObject inGameObject, Pollution inPollution)
     {
@@ -18,6 +19,7 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
         //register for clearing...
         targetHasDied = false;
         inPollution.OnDisableEvent.AddListener(KillTarget);
+        targetPollution = inPollution;
     }
 
     public void KillTarget()
@@ -32,6 +34,7 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
 
     public override void EndAction()
     {
+        targetPollution.OnDisableEvent.RemoveListener(KillTarget);
         ObjectPool.Return(this);
     }
 

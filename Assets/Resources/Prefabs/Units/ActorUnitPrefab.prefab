@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2006731454}
   - component: {fileID: 538022502}
   - component: {fileID: 3148813566434386222}
+  - component: {fileID: 1918467423}
   m_Layer: 0
   m_Name: ActorUnitPrefab
   m_TagString: Untagged
@@ -144,6 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveAction: {fileID: 11400000, guid: ce53250f5078d184a91f369e2ab465cb, type: 2}
   cleanPollutionAction: {fileID: 11400000, guid: 1465117ba8bbc7345a036cef78321bb7, type: 2}
+  operateBuildingAction: {fileID: 11400000, guid: 8fb0aae3cc38a1c409749e71f3948f59, type: 2}
 --- !u!114 &2006731454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +180,9 @@ MonoBehaviour:
   learning:
     type: {fileID: 11400000, guid: ab9203d504044cb42a33359b5dc9bfa3, type: 2}
     data: 0.01
+  operating:
+    type: {fileID: 0}
+    data: 0
 --- !u!114 &3148813566434386222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,3 +195,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b71a0309155d644990c39b6689e8a59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1918467423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3504962035391567874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8060cf872d0245144869b6c921bb907b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mapEffects:
+  - _range: 1
+    _enabled: 1
+    _effect:
+      _effectType: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
+      _amount: 1
