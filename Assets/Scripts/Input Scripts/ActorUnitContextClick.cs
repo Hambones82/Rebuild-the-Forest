@@ -32,22 +32,20 @@ public class ActorUnitContextClick : ContextClickComponent
         action.SetMapDestination(mapPosition);
         actorUnit.DoAction(action);
         BuildingComponentOperator targetBuilding = gridMap.GetObjectAtCell<BuildingComponentOperator>(mapPosition, MapLayer.buildings);
-        if (targetBuilding != null)
+        Pollution targetPollution = gridMap.GetObjectAtCell<Pollution>(mapPosition, MapLayer.pollution);
+        if (targetPollution != null)
+        {
+            CleanPollutionAction cpAction = (CleanPollutionAction)cleanPollutionAction.GetObject();
+            cpAction.Initialize(gameObject, targetPollution);
+            actorUnit.DoAction(cpAction);
+        }
+        else if (targetBuilding != null)
         {
             OperateAction obAction = (OperateAction)operateBuildingAction.GetObject();
             obAction.Initialize(gameObject, targetBuilding);
             actorUnit.DoAction(obAction);
         }
-        else
-        {
-            Pollution target = gridMap.GetObjectAtCell<Pollution>(mapPosition, MapLayer.pollution);
-            if (target != null)
-            {
-                CleanPollutionAction cpAction = (CleanPollutionAction)cleanPollutionAction.GetObject();
-                cpAction.Initialize(gameObject, target);
-                actorUnit.DoAction(cpAction);
-            }
-        }
+        
         //Debug.Log("doing context click");
     }
 }

@@ -28,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030047143314608}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 07cd36ff3f406f048ab174dd1c8c5c35, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 314def20ab0680a4786e294fb94f5e7a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
   useParentGrid: 1
   gridMap: {fileID: 0}
   width: 2
-  height: 3
+  height: 2
   worldHeight: 0
   worldWidth: 0
   topLeftPosMap: {x: 4, y: 8}
@@ -180,6 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d64e17149a1562418c60f5ef706aa86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _operateTimer: 2
-  _operateTimerTrigger: 0
+  _operateTimer: 0
+  _operateTimerTrigger: 2
   _exhausted: 0
+  exhaustedSprite: {fileID: 21300000, guid: 9c73eef44eac8b644b04a6c926a34b09, type: 3}

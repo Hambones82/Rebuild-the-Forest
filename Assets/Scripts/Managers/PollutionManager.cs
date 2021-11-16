@@ -21,25 +21,68 @@ public class PollutionManager : MonoBehaviour
     //this is a helper buffer to assist with another function.  maybe scope it to that function only
     private List<Pollution> workingPollutionObjects;
 
-    [SerializeField, Range(0,1)]
-    private float spreadBaseProbability = .01f;
+    [SerializeField, Range(0, 1)]
+    private float spreadBaseProbability;
     [SerializeField]
-    private float spreadPeriod = .1f;//.1 seconds
+    private float spreadPeriod;
     private float spreadTimer = 0;
 
     GameObjectPool pollutionPool;
+    
+    List<Vector2Int> freePositions;
 
     private void Awake()
     {
         pollutionPool = new GameObjectPool(pollutionPrefab.gameObject, parentObj: gridMap.gameObject, activeByDefault: false);
         pollutionMap = gridMap.GetMapOfType(MapLayer.pollution);
         
-        
-        foreach(GridTransform gt in pollutionMap.GetAllObjects())
+        freePositions = new List<Vector2Int>();
+
+        for (int x = 0; x < gridMap.width; x++)
+        {
+            for (int y = 0; y < gridMap.height; y++)
+            {
+                freePositions.Add(new Vector2Int(x, y));
+            }
+        }
+
+        foreach (GridTransform gt in pollutionMap.GetAllObjects())
         {
             Pollution pToAdd = gt.GetComponent<Pollution>();
             pToAdd.PollutionManager = this;
             pollutionObjects.Add(pToAdd);
+            freePositions.Remove(pToAdd.GetComponent<GridTransform>().topLeftPosMap);
+        }
+
+        PopulateInitialPollution();
+        
+    }
+
+    [SerializeField]
+    private int freeZoneWidth;
+
+    private void PopulateInitialPollution()
+    {
+        for(int y = 0; y < gridMap.height; y++)
+        {
+            for(int x = 0; x < gridMap.width; x++)
+            {
+                //left half: from 0 to width - freezone / 2
+                bool spawnHere = true;
+                int minMiddleX = (gridMap.width - freeZoneWidth) / 2;
+                int maxMiddleX = (gridMap.width + freeZoneWidth) / 2;
+                int minMiddleY = (gridMap.height - freeZoneWidth) / 2;
+                int maxMiddleY = (gridMap.height + freeZoneWidth) / 2;
+                
+                if(x > minMiddleX && x < maxMiddleX && y > minMiddleY && y < maxMiddleY)
+                {
+                    spawnHere = false;
+                }
+                if(spawnHere)
+                {
+                    AddPollution(new Vector2Int(x, y));
+                }
+            }
         }
     }
 
@@ -54,67 +97,66 @@ public class PollutionManager : MonoBehaviour
 
     }
 
+    //fix this.
+    //one thing we could do is just random... i mean instead of looking through all pollution objects, just get a random one.  try to put adjacent to that.
+    //problem is there would be a lot of no's.  
+    //another possible solution is keep a list of free spaces and select one of those randomly, possibly testing for adjacency.  
+    //i think we just need something simple.  
+    //if map is not just go through the list of empty cells randomly.  check 
     private void UpdatePollutionState()
     {
-        workingPollutionObjects = new List<Pollution>(pollutionObjects);
-        foreach(Pollution pollution in workingPollutionObjects)
+        if(freePositions.Count > 0)
         {
-            //Random.value
-            Vector2Int pollutionPosition = pollution.GetComponent<GridTransform>().topLeftPosMap;
-            float normalizedAmount = pollution.Amount / pollution.MaxAmount;
-            UpdateCellPollution(new Vector2Int(pollutionPosition.x - 1, pollutionPosition.y), normalizedAmount);
-            UpdateCellPollution(new Vector2Int(pollutionPosition.x + 1, pollutionPosition.y), normalizedAmount);
-            UpdateCellPollution(new Vector2Int(pollutionPosition.x, pollutionPosition.y - 1), normalizedAmount);
-            UpdateCellPollution(new Vector2Int(pollutionPosition.x, pollutionPosition.y + 1), normalizedAmount);
+            int position = UnityEngine.Random.Range(0, freePositions.Count);
+            AddPollution(freePositions[position]);
         }
-    }
+        
 
-    private void UpdateCellPollution(Vector2Int cell, float normalizedAmount)
+       
+    }
+    
+    //this needs the checker -- whether there's a block pollution effect...
+    private Pollution AddPollution(Vector2Int cell)
     {
-        if(gridMap.IsWithinBounds(cell) && !pollutionMap.ComponentTypeExistsAtCell<Pollution>(cell))
+        bool addPollution = true;
+        List<MapEffectObject> effectsAtCell = MapEffectsManager.Instance.GetEffectsAtCell(cell);
+        //could put the code below into a function in mapeffectsmanager.
+        if (effectsAtCell != null)
         {
-            bool addPollution = (CalculateProbabilityForSpreading(normalizedAmount)) > UnityEngine.Random.value;
-            List<MapEffectObject> effectsAtCell = MapEffectsManager.Instance.GetEffectsAtCell(cell);
-            if(effectsAtCell != null)
+            foreach (MapEffectObject effectObject in effectsAtCell)
             {
-                foreach (MapEffectObject effectObject in effectsAtCell)
+                if (effectObject.EffectType == pollutionBlockEffect)
                 {
-                    if (effectObject.EffectType == pollutionBlockEffect)
-                    {
-                        addPollution = false;
-                        break;
-                    }
+                    addPollution = false;
+                    break;
                 }
             }
-            if(addPollution)
-            {
-                newPollution(cell);
-            }
         }
-    }
 
-    private Pollution newPollution(Vector2Int cell)
-    {
-        GameObject newGO = pollutionPool.GetGameObject();
-        newGO.SetActive(true);
-        newGO.GetComponent<GridTransform>().MoveToMapCoords(cell);
-        Pollution newPollution = newGO.GetComponent<Pollution>();
-        pollutionObjects.Add(newPollution);
-        newPollution.PollutionManager = this;
-        newPollution.SetAmount(newPollution.MaxAmount);
-        return newPollution;
+        if(addPollution)
+        {
+            GameObject newGO = pollutionPool.GetGameObject();
+            newGO.SetActive(true);
+            newGO.GetComponent<GridTransform>().MoveToMapCoords(cell);
+            Pollution newPollution = newGO.GetComponent<Pollution>();
+            pollutionObjects.Add(newPollution);
+            newPollution.PollutionManager = this;
+            freePositions.Remove(cell);
+            newPollution.SetAmount(newPollution.MaxAmount);
+            return newPollution;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public void RemovePollution(Pollution pollution)
     {
+        Vector2Int pollutionPosition = pollution.GetComponent<GridTransform>().topLeftPosMap;
+        freePositions.Add(pollutionPosition);
         pollutionObjects.Remove(pollution);
         pollutionPool.RecycleObject(pollution.gameObject);
     }
-
-    private float CalculateProbabilityForSpreading(float normalizedAmount)//amount must be from 0 to 1.
-    {
-        if (normalizedAmount < 0 || normalizedAmount > 1)
-            throw new InvalidOperationException("pollution spreading probability must be between 0 and 1");
-        return normalizedAmount * spreadBaseProbability;
-    }
+   
 }

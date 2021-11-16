@@ -1,3 +1,51 @@
+
+don't spawn on untraversable tiles
+
+can't use building unless it's not covered in pollution.
+pollution hurts units
+health --> 0 kills units
+win/loss conditions
+
+new mouse tools
+
+wasd movement
+
+interface showing number of units
+interface showing unit abilities
+
+
+
+idea: improved blocker ability (increased range).
+
+BUG: need to check action validity on startup.  maybe make the action have its own isvalid thing.  that way we don't have to implement this stuff in an ad hoc basis.
+cleaning pollution, whatever, all those things need to check if the actor unit is in the appropriate square.
+
+
+
+abilities with cooldowns.  e.g., prevent pollution pain, prevent pollution spread.  maybe clear all pollution in a certain area...  
+
+pollution hurts you.
+
+links between trees can improve the total number you can build.  
+
+since cleaning pollution will be such a big part of the game, i think we need to reduce the number of clicks necessary.  we can go with the "Traditional" method of 
+removing control of individual units and just designating orders for parts of the map.  but i think an intermediate method of allowing dragged rectangles for cleaning would be best.  try it out and see if not.
+
+i can definitely see why the "traditional" method is appealing -- selecting different units and clicking with them is very tedious.
+
+there are other possible solutions, though... you could just have each of the guys have side icons that maybe even indicate what they're doing, and then click on those icons
+to subsequently set orders.
+
+IDEA: you have to search for pollution sources to uncover them.
+
+
+BUG: buildings can end up overlapping, probably if you ask two actors to build the buildings.  the transform into building function needs a check when it's about to happen.
+
+
+
+ok it's annoying that i can't clean the pollution on water... but maybe i can use that as a motivation...
+upgrade: unit prevent pollution spawn aura
+
 in the middle of implementing operating.  i think i need to finish the operate action and then do the interface thing.
 
 then i need to implement map changes (traversible) on build buildings and on change terrain (terrain can be deferred)
@@ -5,26 +53,14 @@ then i need to implement map changes (traversible) on build buildings and on cha
 
 i think we can start on prototyping gameplay right now.  
 
-try an "operate" user action.  question of how to implement.  unit does the operate (dt).  but...  do we just call operate on the building?
-yeah, why not.  make it a component.  user action calls operate on building, passing dt.  
-
 can't operate buildings covered in pollution.
 
 
 
 elements: 
-1) clean pollution - this more or less functions
-2) block pollution spread - same
-3) new actor units - we have this but do we want to implement it differently?
-4) traversing terrain - works
 5) research? - ???
 
 idea: 
-1) start with a large amount of pollution -- like top half of the map
-2) pollution has fast spread
-3) units must quickly establish a "bubble" and build buildings there
-4) ruined trees can be turned into units.  this would be a "harvest" function
-5) cleaning pollution uncovers more trees
 
 again, eventually, try to clean all pollution on map
 

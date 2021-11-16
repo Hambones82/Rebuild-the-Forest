@@ -13,6 +13,9 @@ public class BuildingComponentExhaustableSpawner : BuildingComponentOperator
     [SerializeField]
     private bool _exhausted = false;
 
+    [SerializeField]
+    private Sprite exhaustedSprite;
+
     public override bool Operate(float dt)
     {
         //Debug.Log("operator component: operate");
@@ -36,6 +39,7 @@ public class BuildingComponentExhaustableSpawner : BuildingComponentOperator
             ActorUnitManager.Instance.SpawnActorUnit(cellToSpawnAt);
             _exhausted = true;
             _operateTimer = 0;
+            GetComponent<SpriteRenderer>().sprite = exhaustedSprite;
         }
     }
 
