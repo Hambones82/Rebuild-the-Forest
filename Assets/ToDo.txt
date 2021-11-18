@@ -1,26 +1,58 @@
+working on: Action.CanDo
+can do in 3 places:
+1) upon using the UI to start the action
+2) when an action is dequeued
+3) during execution of an action, which i think will just end up being ad hoc.
 
-don't spawn on untraversable tiles
+it's important to have a consistent check, though, which is why we'ev placed the can do function into the base class as an abstract function.
+
+unit action controller --> needs to take into account whether an action can be done.  if not, i think cancel all queued actions.
+
+
+need to check whether build is possible when actually go to build.  actually, need to check whether ANY action is possible in this case.  
+i might want to include this in the base for the actions... test when first request action, test when about to actually do action.
+
+buildings don't operate in pollution. --> important, i think.  how can i implement this?
 
 can't use building unless it's not covered in pollution.
+
+heal tree w heal aura
+
+cancel action
+
+visual guide for blocker area of effect
+
+healing and damage
+
+don't spawn actor on untraversable tiles
+idea: threat meter, warning meter.  more you do, higher it goes, threats get worse.
+add: error/status messages in game.
+
 pollution hurts units
 health --> 0 kills units
 win/loss conditions
 
-new mouse tools
+new mouse tools - ??
 
 wasd movement
 
 interface showing number of units
 interface showing unit abilities
 
+idea: harvested units have randomized states
 
+idea: trees can have pollution of varying severity/difficulty to clean up.  better units are harvested from more polluted trees.
+
+idea: pollution is of different kids, different stat values, so that dealing with it requires some thought.
 
 idea: improved blocker ability (increased range).
 
 BUG: need to check action validity on startup.  maybe make the action have its own isvalid thing.  that way we don't have to implement this stuff in an ad hoc basis.
 cleaning pollution, whatever, all those things need to check if the actor unit is in the appropriate square.
 
+mycorrhizal networks
 
+mycorrhizal filament
 
 abilities with cooldowns.  e.g., prevent pollution pain, prevent pollution spread.  maybe clear all pollution in a certain area...  
 
@@ -46,12 +78,8 @@ BUG: buildings can end up overlapping, probably if you ask two actors to build t
 ok it's annoying that i can't clean the pollution on water... but maybe i can use that as a motivation...
 upgrade: unit prevent pollution spawn aura
 
-in the middle of implementing operating.  i think i need to finish the operate action and then do the interface thing.
-
 then i need to implement map changes (traversible) on build buildings and on change terrain (terrain can be deferred)
 
-
-i think we can start on prototyping gameplay right now.  
 
 can't operate buildings covered in pollution.
 
@@ -69,9 +97,6 @@ eventually, add higher level of pollution.  maybe this spreads more slowly but i
 
 change color as they become more experienced (to prevent people from turning their really good ones into buildings)
 
-spawner requires actor unit time.  an actor unit must operate it.
-
-fix the pollution spawner thing (performance?).
 go/build on water (to clean pollution)...
 do a research thing.  that'll be a lot of work
 

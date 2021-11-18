@@ -32,14 +32,27 @@ public class UnitActionController : MonoBehaviour
             if(unitActionQueue.Count > 0)
             {
                 SwitchToAction(unitActionQueue.Dequeue());
-                
+                if(!currentAction.CanDo())
+                {
+                    CancelAllActions();
+                }
+                //if(currentaction . cannot do, cancel all actions.
             }
             else
             {
                 SwitchToAction(IdleAction.Instance);
-
             }
             
+        }
+    }
+
+    public void CancelAllActions()
+    {
+        Debug.Log("cancling all actions");
+        currentAction.Cancel();
+        foreach(UnitAction action in unitActionQueue)
+        {
+            action.Cancel();
         }
     }
 

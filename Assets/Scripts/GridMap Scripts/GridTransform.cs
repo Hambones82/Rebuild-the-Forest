@@ -172,10 +172,10 @@ public class GridTransform : MonoBehaviour, IGridMapable
     {
         List<Vector2Int> retVal = new List<Vector2Int>();
         //two rows plus two truncated columns
-        for(int i = topLeftPosMap.x-1; i <= topLeftPosMap.x + width + 1; i++)
+        for(int i = topLeftPosMap.x-1; i <= topLeftPosMap.x + width; i++)
         {
             Vector2Int topCell = new Vector2Int(i, topLeftPosMap.y + 1);
-            Vector2Int bottomCell = new Vector2Int(i, topLeftPosMap.y - height - 1);
+            Vector2Int bottomCell = new Vector2Int(i, topLeftPosMap.y - height);
             if(gridMap.IsWithinBounds(topCell))
             {
                 retVal.Add(topCell);
@@ -185,7 +185,7 @@ public class GridTransform : MonoBehaviour, IGridMapable
                 retVal.Add(bottomCell);
             }
         }
-        for(int i = topLeftPosMap.y; i <= topLeftPosMap.y - height + 1; i++)
+        for(int i = topLeftPosMap.y - height + 1; i <= topLeftPosMap.y; i++)
         {
             Vector2Int leftCell = new Vector2Int(topLeftPosMap.x - 1, i);
             Vector2Int rightCell = new Vector2Int(topLeftPosMap.x + width, i);
@@ -198,6 +198,7 @@ public class GridTransform : MonoBehaviour, IGridMapable
                 retVal.Add(rightCell);
             }
         }
+        
         return retVal;
     }
 

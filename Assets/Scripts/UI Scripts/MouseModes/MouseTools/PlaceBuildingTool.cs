@@ -32,6 +32,7 @@ public class PlaceBuildingTool : MouseTool
         UnitActionController actionController = actorUnit.GetComponent<UnitActionController>();
         PlacementCursor cursor = uiManager.PlacementCursor;
         Vector2Int mapCoords = cursor.GetComponent<GridTransform>().topLeftPosMap;
+
         if (buildingManager.CanPlaceBuildingAt(buildingToPlacePrefab, mapCoords))
         {
             //set the unit action controll with two actions -- a move and a build.  define the build action.
@@ -43,7 +44,8 @@ public class PlaceBuildingTool : MouseTool
             //generate transform action, schedule it
             TransformIntoBuildingAction transformAction = ObjectPool.Get<TransformIntoBuildingAction>();
             transformAction.Initialize(actorUnit.gameObject, buildingToPlacePrefab);
-            transformAction.buildLocation = mousePosition;
+            transformAction.worldBuildLocation = mousePosition;
+            transformAction.mapBuildLocation = mapCoords;
             actionController.DoAction(transformAction);
         }
         

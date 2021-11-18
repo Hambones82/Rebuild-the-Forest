@@ -30,7 +30,8 @@ public class ActorUnitManager : MonoBehaviour
     private GameObjectPool actorUnitPool;
     //make an object pool for actor unit.  i guess it woudl have to be a prefab.
 
-    
+    [SerializeField]
+    private ActorUnit selectedActorUnit;
 
     private void Awake()
     {
@@ -50,6 +51,23 @@ public class ActorUnitManager : MonoBehaviour
                 RegisterActorUnit(actor);
             }
         }
+        UIManager.Instance.OnSelectEvent.AddListener(ProcessSelectionEvent);
+        UIManager.Instance.OnDeselectEvent.AddListener(ProcessDeselectionEvent);
+    }
+
+    public void CancelActorUnitActions()
+    {
+        selectedActorUnit.GetComponent<UnitActionController>().CancelAllActions();
+    }
+
+    private void ProcessSelectionEvent()
+    {
+        selectedActorUnit = UIManager.Instance.SelectedGridTransform.GetComponent<ActorUnit>();
+    }
+
+    private void ProcessDeselectionEvent()
+    {
+        selectedActorUnit = null;
     }
 
     private void RegisterActorUnit(ActorUnit unit)

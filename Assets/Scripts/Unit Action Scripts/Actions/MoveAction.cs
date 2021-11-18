@@ -22,6 +22,7 @@ public class MoveAction : UnitAction, IObjectPoolInterface
 
     List<Vector2Int> currentPath;
     int currentPathIndex = 0;
+    private bool cancel;
 
     public MoveAction()
     {
@@ -50,6 +51,7 @@ public class MoveAction : UnitAction, IObjectPoolInterface
         arrivedAtWorldCoords = true;
         currentTravelDistance = 0;
         totalTravelDistance = 0;
+        cancel = false;
     }
 
     public override void StartAction()
@@ -60,6 +62,17 @@ public class MoveAction : UnitAction, IObjectPoolInterface
         currentPathIndex = 0;
     }
 
+    public override void Cancel()
+    {
+        Debug.Log("cancel");
+        cancel = true;
+    }
+
+    public override bool CanDo()
+    {
+        return currentPath != null;
+    }
+
     public override bool AdvanceAction(float dt)
     {
         /* 
@@ -67,6 +80,12 @@ public class MoveAction : UnitAction, IObjectPoolInterface
          * if no such cell dest, then return false
          * then perform the dt movement, which sets the bool vars
          */
+        if (cancel) Debug.Log("cancel is set");
+        if(cancel && currentPath.Count > 1)
+        {
+            Debug.Log("removing nodes");
+            currentPath.RemoveRange(1, currentPath.Count-1);
+        }
         Vector2Int target;
         if(arrivedAtMapCoords && arrivedAtWorldCoords)
         {

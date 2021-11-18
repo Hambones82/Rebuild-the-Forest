@@ -45,7 +45,6 @@ public class BuildingManager : MonoBehaviour {
         return FinishBuildingSpawn(building);
     }
     
-
     private Building FinishBuildingSpawn(Building building)
     {
         _buildings.Add(building);
@@ -56,7 +55,7 @@ public class BuildingManager : MonoBehaviour {
     //checks that:
     //(a) terrain is buildable; and
     //(b) there is no overlapping building
-    public bool CanPlaceBuildingAt(Building building, Vector2Int mapCoords)
+    public bool CanPlaceBuildingAt(Building building, Vector2Int mapCoords) 
     {
         GridTransform buildingGT = building.GetComponent<GridTransform>();
         for(int x = mapCoords.x; x < mapCoords.x + buildingGT.Width; x++)
@@ -65,9 +64,9 @@ public class BuildingManager : MonoBehaviour {
             {
                 Vector2Int coords = new Vector2Int(x, y);
                 //Debug.Log($"checking coords {coords.ToString()}");
-                if (gridMap.IsCellOccupied(coords, MapLayer.buildings))
+                if (gridMap.IsCellOccupied(coords, MapLayer.buildings) || gridMap.IsCellOccupied(coords, MapLayer.pollution))
                 {
-                    Debug.Log("Can't place building - blocked by map.");
+                    Debug.Log("Can't place building - blocked by map (building or pollution).");
                     return false;
                 }
                 TerrainTile terrainTile = (TerrainTile)(gridMap.GetTileAt(typeof(TerrainTile), coords));

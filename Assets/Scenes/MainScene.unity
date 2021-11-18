@@ -231,6 +231,7 @@ MonoBehaviour:
   actorUnits: []
   gridMap: {fileID: 1990238066}
   actorUnitPrefab: {fileID: 3504962035391567874, guid: b44f50d64c1583547bfc58d3ef13e0ad, type: 3}
+  selectedActorUnit: {fileID: 0}
 --- !u!4 &392665349
 Transform:
   m_ObjectHideFlags: 0
@@ -411,8 +412,8 @@ MonoBehaviour:
   pollutionObjects: []
   pollutionBlockEffect: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
   spreadBaseProbability: 0.01
-  spreadPeriod: 10
-  freeZoneWidth: 9
+  spreadPeriod: 20
+  freeZoneWidth: 15
 --- !u!4 &415643804
 Transform:
   m_ObjectHideFlags: 0
@@ -7578,18 +7579,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114903671657060870, guid: 9761175d01454054fa65817b330c4c32, type: 3}
-      propertyPath: gridMap
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4601632972376416442, guid: 9761175d01454054fa65817b330c4c32, type: 3}
-      propertyPath: _operateTimer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4601632972376416442, guid: 9761175d01454054fa65817b330c4c32, type: 3}
-      propertyPath: _operateTimerTrigger
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9761175d01454054fa65817b330c4c32, type: 3}
 --- !u!4 &989230083 stripped
@@ -8333,7 +8322,7 @@ PrefabInstance:
       objectReference: {fileID: 950741559}
     - target: {fileID: 385979971367115615, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000020333795
+      value: 0.00002241161
       objectReference: {fileID: 0}
     - target: {fileID: 1912259540184846535, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchorMax.y
@@ -8704,13 +8693,13 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
-    - inputActionType: 5
+    - inputActionType: 6
       unityEvent:
         m_PersistentCalls:
           m_Calls:
-          - m_Target: {fileID: 0}
-            m_TargetAssemblyTypeName: 
-            m_MethodName: SpawnBuilding
+          - m_Target: {fileID: 392665348}
+            m_TargetAssemblyTypeName: ActorUnitManager, ProjectAssembly
+            m_MethodName: CancelActorUnitActions
             m_Mode: 1
             m_Arguments:
               m_ObjectArgument: {fileID: 0}

@@ -17,7 +17,14 @@ public class IdleAction : UnitAction
             return instance;
         }
     }
-    
+
+    public override bool CanDo()
+    {
+        return true;
+    }
+
+    public override void Cancel() { }
+
     public IdleAction()
     {
         actionName = "Idle";

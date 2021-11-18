@@ -33,3 +33,7 @@ MonoBehaviour:
       keyCode: 32
       keyPressType: 1
     inputActionType: 5
+  - keyPress:
+      keyCode: 27
+      keyPressType: 1
+    inputActionType: 6

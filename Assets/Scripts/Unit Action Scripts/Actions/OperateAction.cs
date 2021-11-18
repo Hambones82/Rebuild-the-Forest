@@ -8,7 +8,11 @@ public class OperateAction : UnitActionWithTarget<BuildingComponentOperator>, IO
     private BuildingComponentOperator buildingComponentOperator;
     private bool cancel = false;
     private Building targetBuilding;
-    
+
+    public override bool CanDo()
+    {
+        throw new System.NotImplementedException();
+    }
 
     public override void Initialize(GameObject inGameObject, BuildingComponentOperator inBuildingComponentOperator)
     {
@@ -58,5 +62,10 @@ public class OperateAction : UnitActionWithTarget<BuildingComponentOperator>, IO
     public void Reset()
     {
         
+    }
+
+    public override void Cancel()
+    {
+        cancel = true;
     }
 }

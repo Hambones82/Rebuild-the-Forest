@@ -6,5 +6,6 @@ public enum InputActionType
     camera_scroll_right,
     camera_scroll_up,
     camera_scroll_down,
-    spawn_building
+    spawn_building,
+    cancel_action
 }

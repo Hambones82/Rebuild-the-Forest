@@ -14,23 +14,39 @@ public class TransformIntoBuildingAction : UnitActionWithTarget<Building>, IObje
     
     private Building building { get => target; }
 
-    public Vector3 buildLocation;
+    public Vector3 worldBuildLocation;
+
+    public Vector2Int mapBuildLocation;
 
     private ActorUnit actorUnit;
+
+    private bool cancel;
 
     public TransformIntoBuildingAction()
     {
         actionName = "Transform Into Building";
     }
 
+    public override bool CanDo()
+    {
+        return BuildingManager.Instance.CanPlaceBuildingAt(building, mapBuildLocation);
+    }
+
     public override bool AdvanceAction(float dt)
     {
+        if(cancel)
+        {
+            return false;
+        }
         timerValue += dt;
         
         if(timerValue >= buildRate)
         {
-            BuildingManager.Instance.SpawnBuildingAt(building, buildLocation);
-            ActorUnitManager.Instance.KillActorUnit(actorUnit);
+            if(CanDo())
+            {
+                BuildingManager.Instance.SpawnBuildingAt(building, worldBuildLocation);
+                ActorUnitManager.Instance.KillActorUnit(actorUnit);
+            }
             return false;
         }
         return true;
@@ -47,10 +63,16 @@ public class TransformIntoBuildingAction : UnitActionWithTarget<Building>, IObje
     {
         base.Initialize(inGameObject, inComponent);
         actorUnit = inGameObject.GetComponent<ActorUnit>();
+        cancel = false;
     }
 
     public override void StartAction()
     {
         timerValue = 0;
+    }
+
+    public override void Cancel()
+    {
+        cancel = true;
     }
 }

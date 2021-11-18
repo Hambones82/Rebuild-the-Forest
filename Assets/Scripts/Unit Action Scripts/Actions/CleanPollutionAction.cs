@@ -11,6 +11,12 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
     private StatLine cleaningStat;
     private bool targetHasDied;
     Pollution targetPollution;
+    private bool cancel = false;
+
+    public override void Cancel()
+    {
+        cancel = true;
+    }
 
     public override void Initialize(GameObject inGameObject, Pollution inPollution)
     {
@@ -20,6 +26,7 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
         targetHasDied = false;
         inPollution.OnDisableEvent.AddListener(KillTarget);
         targetPollution = inPollution;
+        cancel = false;
     }
 
     public void KillTarget()
@@ -40,13 +47,19 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
 
     public override bool AdvanceAction(float dt)
     {
+        if (cancel) return false;
         cleanTimer += dt;
         bool retVal = true;
         //if pollution is dead, return false
         float modifiedPeriod = cleanPeriod / Mathf.Floor(cleaningStat.Amount);
         while(cleanTimer >= modifiedPeriod) 
         {
-            if (targetHasDied) return false;
+            if (!CanDo())
+            {
+                Debug.Log("Cannot clean pollution");
+                return false;
+            }
+                
             cleanTimer -= modifiedPeriod;
             retVal = DoCleanPollutionTick();
             if (!retVal) break; //if the tick fully cleans up the pollution, don't continue the while loop
@@ -64,6 +77,11 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
         float resultingAmount = target.Amount - ((CleaningSpeedStat)(cleaningStat.StatType)).AmountPerClean;
         target.SetAmount(resultingAmount);
         return (resultingAmount > 0);
+    }
+
+    public override bool CanDo()
+    {
+        return !((targetPollution == null) || (targetHasDied));
     }
 
     public override void StartAction()
