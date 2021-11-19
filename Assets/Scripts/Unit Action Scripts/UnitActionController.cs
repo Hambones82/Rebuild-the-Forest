@@ -48,7 +48,6 @@ public class UnitActionController : MonoBehaviour
 
     public void CancelAllActions()
     {
-        Debug.Log("cancling all actions");
         currentAction.Cancel();
         foreach(UnitAction action in unitActionQueue)
         {

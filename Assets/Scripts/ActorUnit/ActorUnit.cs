@@ -11,8 +11,7 @@ public class ActorUnit : MonoBehaviour
 
     public UnityEvent OnDeath;
 
-    //probably want an ondeath thing.
-    public void Kill()
+    public void ResetWhenKilled()
     {
         OnDeath.Invoke();
         OnDeath.RemoveAllListeners();

@@ -58,17 +58,16 @@ public class BuildingManager : MonoBehaviour {
     public bool CanPlaceBuildingAt(Building building, Vector2Int mapCoords) 
     {
         GridTransform buildingGT = building.GetComponent<GridTransform>();
+        if(buildingGT.WouldBeOccupiedAtPosition(mapCoords, MapLayer.buildings) || buildingGT.WouldBeOccupiedAtPosition(mapCoords, MapLayer.pollution))
+        {
+            Debug.Log("cannot place building on another building or on pollution");
+            return false;
+        }
         for(int x = mapCoords.x; x < mapCoords.x + buildingGT.Width; x++)
         {
             for(int y = mapCoords.y; y > mapCoords.y - buildingGT.Height; y--)
             {
                 Vector2Int coords = new Vector2Int(x, y);
-                //Debug.Log($"checking coords {coords.ToString()}");
-                if (gridMap.IsCellOccupied(coords, MapLayer.buildings) || gridMap.IsCellOccupied(coords, MapLayer.pollution))
-                {
-                    Debug.Log("Can't place building - blocked by map (building or pollution).");
-                    return false;
-                }
                 TerrainTile terrainTile = (TerrainTile)(gridMap.GetTileAt(typeof(TerrainTile), coords));
                 
                 if(!terrainTile.Buildable)

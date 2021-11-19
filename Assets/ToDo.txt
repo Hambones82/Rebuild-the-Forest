@@ -1,28 +1,12 @@
-working on: Action.CanDo
-can do in 3 places:
-1) upon using the UI to start the action
-2) when an action is dequeued
-3) during execution of an action, which i think will just end up being ad hoc.
+healing action.
 
-it's important to have a consistent check, though, which is why we'ev placed the can do function into the base class as an abstract function.
+have a text effects static class that just spawns floating/moving text effects for feedback (e.g., skill gains).
 
-unit action controller --> needs to take into account whether an action can be done.  if not, i think cancel all queued actions.
-
-
-need to check whether build is possible when actually go to build.  actually, need to check whether ANY action is possible in this case.  
-i might want to include this in the base for the actions... test when first request action, test when about to actually do action.
-
-buildings don't operate in pollution. --> important, i think.  how can i implement this?
-
-can't use building unless it's not covered in pollution.
+healing and damage
 
 heal tree w heal aura
 
-cancel action
-
 visual guide for blocker area of effect
-
-healing and damage
 
 don't spawn actor on untraversable tiles
 idea: threat meter, warning meter.  more you do, higher it goes, threats get worse.
@@ -33,8 +17,6 @@ health --> 0 kills units
 win/loss conditions
 
 new mouse tools - ??
-
-wasd movement
 
 interface showing number of units
 interface showing unit abilities
@@ -127,7 +109,7 @@ gameplay ideas:
 to function, buildings must be significantly pollution free
 individual actor units can clean pollution, but better to automate
 
-
+-idea - underground "streams" of pollution?  cause pollution to pop up under your stuff?
 -idea - different types of pollution.  e.g., appliances, sludge, nuclear stuff.  different ways to clean it up
 
 - again, get core game down first.

@@ -11,7 +11,7 @@ public class OperateAction : UnitActionWithTarget<BuildingComponentOperator>, IO
 
     public override bool CanDo()
     {
-        throw new System.NotImplementedException();
+        return !targetBuilding.GetComponent<GridTransform>().AtLeastOneCellIsOccupiedBy(MapLayer.pollution);
     }
 
     public override void Initialize(GameObject inGameObject, BuildingComponentOperator inBuildingComponentOperator)
@@ -31,11 +31,14 @@ public class OperateAction : UnitActionWithTarget<BuildingComponentOperator>, IO
 
     public override bool AdvanceAction(float dt)
     {
-        if(cancel)
+        if(cancel || !CanDo())
         {
             return false;
         }
-        return buildingComponentOperator.Operate(dt);
+        else
+        {
+            return buildingComponentOperator.Operate(dt);
+        }        
     }
 
     public OperateAction()

@@ -37,3 +37,19 @@ MonoBehaviour:
       keyCode: 27
       keyPressType: 1
     inputActionType: 6
+  - keyPress:
+      keyCode: 97
+      keyPressType: 2
+    inputActionType: 1
+  - keyPress:
+      keyCode: 100
+      keyPressType: 2
+    inputActionType: 2
+  - keyPress:
+      keyCode: 119
+      keyPressType: 2
+    inputActionType: 3
+  - keyPress:
+      keyCode: 115
+      keyPressType: 2
+    inputActionType: 4

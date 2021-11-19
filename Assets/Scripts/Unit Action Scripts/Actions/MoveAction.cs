@@ -64,7 +64,6 @@ public class MoveAction : UnitAction, IObjectPoolInterface
 
     public override void Cancel()
     {
-        Debug.Log("cancel");
         cancel = true;
     }
 
@@ -80,10 +79,11 @@ public class MoveAction : UnitAction, IObjectPoolInterface
          * if no such cell dest, then return false
          * then perform the dt movement, which sets the bool vars
          */
-        if (cancel) Debug.Log("cancel is set");
+        //if (cancel) Debug.Log("cancel is set");
+        if (currentPath == null) return false;
         if(cancel && currentPath.Count > 1)
         {
-            Debug.Log("removing nodes");
+            //Debug.Log("removing nodes");
             currentPath.RemoveRange(1, currentPath.Count-1);
         }
         Vector2Int target;

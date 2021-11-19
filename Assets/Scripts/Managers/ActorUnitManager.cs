@@ -86,7 +86,7 @@ public class ActorUnitManager : MonoBehaviour
     public void KillActorUnit(ActorUnit actorUnit)
     {
         actorUnit.gameObject.SetActive(false);
-        actorUnit.Kill();
+        actorUnit.ResetWhenKilled();
         DeRegisterActorUnit(actorUnit);
         actorUnitPool.RecycleObject(actorUnit.gameObject);
     }

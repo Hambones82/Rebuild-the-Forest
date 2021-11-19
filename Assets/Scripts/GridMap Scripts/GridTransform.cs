@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 
-[DefaultExecutionOrder(-9)] 
+[DefaultExecutionOrder(-9)]
 public class GridTransform : MonoBehaviour, IGridMapable
 {
     public delegate void ChangeMapPosDelegate(Vector2Int amountMoved);
@@ -14,9 +14,9 @@ public class GridTransform : MonoBehaviour, IGridMapable
     private bool snapToGrid = true;
 
     public MapLayer mapLayer; //higher means higher priority, just like order in layer on sprite renderer
-    public Color MiniMapColor; 
+    public Color MiniMapColor;
 
-    
+
     public bool useParentGrid = true;//must mean -- upon awake, assign parent as the grid...  shrug...
 
     //parent grid
@@ -38,13 +38,13 @@ public class GridTransform : MonoBehaviour, IGridMapable
 
     //these are correct
     [SerializeField]
-    private float worldHeight; 
+    private float worldHeight;
     [SerializeField]
     private float worldWidth;
 
     //MAP COORDINATES
-    public Vector2Int topLeftPosMap = new Vector2Int (0,0); //position in coordinates of the map, not the grid coordaintes, which can be negative
-    
+    public Vector2Int topLeftPosMap = new Vector2Int(0, 0); //position in coordinates of the map, not the grid coordaintes, which can be negative
+
     //WORLD COORDINATES
     private Vector3 topLeftWorldPos = new Vector3(0, 0, 0);
 
@@ -54,27 +54,10 @@ public class GridTransform : MonoBehaviour, IGridMapable
 
     //WHETHER THIS IS REGISTERED TO THE GRIDMAP
     public bool registeredInMap = true;
-    
-    public int ManhattanDistanceTo(GridTransform other)
-    {
-        int thisX = topLeftPosMap.x;
-        int otherX = other.topLeftPosMap.x;
-        int thisY = topLeftPosMap.y;
-        int otherY = other.topLeftPosMap.y;
 
-        int verticalTLPDifference = Mathf.Abs(otherY - thisY);
-        int horizontalTLPDifference = Mathf.Abs(otherX - thisX);
-        
-        int widthToSubtract = thisX < otherX ? Width : other.Width;
-        int heightToSubtract = thisY > otherY ? Height : other.Height;
-        int xDisatnce = horizontalTLPDifference - widthToSubtract; 
-        int yDistance = verticalTLPDifference - heightToSubtract; 
-        return xDisatnce + yDistance + 2; 
-    }
-    
     public void DisableGridTransform()//?
     {
-        if(registeredInMap)
+        if (registeredInMap)
         {
             DeRegisterFromMap();
         }
@@ -82,12 +65,12 @@ public class GridTransform : MonoBehaviour, IGridMapable
 
     public void EnableGridTransform()
     {
-        if(registeredInMap)
+        if (registeredInMap)
         {
             RegisterToMap();
         }
     }
-    
+
     public void SetSize(Vector2Int size)
     {
         width = size.x;
@@ -105,8 +88,8 @@ public class GridTransform : MonoBehaviour, IGridMapable
     //the move to stuff... 
     public void MoveToMapCoords(Vector2Int mapCoords)
     {
-        
-        if(mapCoords == topLeftPosMap)
+
+        if (mapCoords == topLeftPosMap)
         {
             return;
         }
@@ -116,15 +99,15 @@ public class GridTransform : MonoBehaviour, IGridMapable
 
     public void MoveToWorldCoords(Vector3 worldCoords)
     {
-        
+
         Vector3 worldDestination;
         //snapping here is unnecessary, since we do it in "align in map" -- though that should probably be broken up?
-        if(snapToGrid)
+        if (snapToGrid)
         {
             Vector2Int newMapCoords = WorldCenterToMapTopLeft(worldCoords);
             worldDestination = TopLeftMapToWorldCenter(newMapCoords);
         }
-        
+
         else
         {
             worldDestination = worldCoords;
@@ -161,7 +144,7 @@ public class GridTransform : MonoBehaviour, IGridMapable
         //OK -- I have an idea. use distance moved.  call if distance moved is not 0.  this is a good idea becasuse the distance moved can be used to calculate
         //whatever you want.  
         Vector2Int amountMoved = topLeftPosMap - oldMapCoords;
-        if(amountMoved != Vector2Int.zero)
+        if (amountMoved != Vector2Int.zero)
         {
             OnChangeMapPos?.Invoke(amountMoved);
             //Debug.Log("transform is moving cells");
@@ -172,33 +155,33 @@ public class GridTransform : MonoBehaviour, IGridMapable
     {
         List<Vector2Int> retVal = new List<Vector2Int>();
         //two rows plus two truncated columns
-        for(int i = topLeftPosMap.x-1; i <= topLeftPosMap.x + width; i++)
+        for (int i = topLeftPosMap.x - 1; i <= topLeftPosMap.x + width; i++)
         {
             Vector2Int topCell = new Vector2Int(i, topLeftPosMap.y + 1);
             Vector2Int bottomCell = new Vector2Int(i, topLeftPosMap.y - height);
-            if(gridMap.IsWithinBounds(topCell))
+            if (gridMap.IsWithinBounds(topCell))
             {
                 retVal.Add(topCell);
             }
-            if(gridMap.IsWithinBounds(bottomCell))
+            if (gridMap.IsWithinBounds(bottomCell))
             {
                 retVal.Add(bottomCell);
             }
         }
-        for(int i = topLeftPosMap.y - height + 1; i <= topLeftPosMap.y; i++)
+        for (int i = topLeftPosMap.y - height + 1; i <= topLeftPosMap.y; i++)
         {
             Vector2Int leftCell = new Vector2Int(topLeftPosMap.x - 1, i);
             Vector2Int rightCell = new Vector2Int(topLeftPosMap.x + width, i);
-            if(gridMap.IsWithinBounds(leftCell))
+            if (gridMap.IsWithinBounds(leftCell))
             {
                 retVal.Add(leftCell);
             }
-            if(gridMap.IsWithinBounds(rightCell))
+            if (gridMap.IsWithinBounds(rightCell))
             {
                 retVal.Add(rightCell);
             }
         }
-        
+
         return retVal;
     }
 
@@ -223,7 +206,7 @@ public class GridTransform : MonoBehaviour, IGridMapable
         GetComponent<SpriteRenderer>().sortingOrder = MLayerToSortingOrder.defs[mapLayer];
         gridMap = gameObject.GetComponentInParent(typeof(GridMap)) as GridMap;
         CalculateTopLeftToCenterDistance();
-        if(snapToGrid)
+        if (snapToGrid)
         {
             SnapAndConstrainToBounds();//is this snapping functionality?
         }
@@ -231,7 +214,7 @@ public class GridTransform : MonoBehaviour, IGridMapable
         {
             ConstrainToBoundsWithoutSnap();
         }
-        
+
         worldWidth = gridMap.mapCellToCellDistance.x * width;
         worldHeight = gridMap.mapCellToCellDistance.y * height;
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
@@ -259,7 +242,7 @@ public class GridTransform : MonoBehaviour, IGridMapable
     }
 
     //public Rect mapExtents;
-    
+
     //set world pos, constrain, snap, set map pos
     private void ConstrainToBoundsWithoutSnap()
     {
@@ -283,31 +266,31 @@ public class GridTransform : MonoBehaviour, IGridMapable
         {
             leftOutside = true;
         }
-        if(maxX > mapExtents.xMax)
+        if (maxX > mapExtents.xMax)
         {
             rightOutside = true;
         }
-        if(minY < mapExtents.yMin)
+        if (minY < mapExtents.yMin)
         {
             bottomOutside = true;
         }
-        if(maxY > mapExtents.yMax)
+        if (maxY > mapExtents.yMax)
         {
             topOutside = true;
         }
-        if(leftOutside)
+        if (leftOutside)
         {
             boundedPosition.x = mapExtents.xMin + wD2;
         }
-        if(rightOutside)
+        if (rightOutside)
         {
             boundedPosition.x = mapExtents.xMax - wD2;
         }
-        if(topOutside)
+        if (topOutside)
         {
             boundedPosition.y = mapExtents.yMax - hD2;
         }
-        if(bottomOutside)
+        if (bottomOutside)
         {
             boundedPosition.y = mapExtents.yMin + hD2;
         }
@@ -319,7 +302,7 @@ public class GridTransform : MonoBehaviour, IGridMapable
     private Vector2Int WorldCenterToMapTopLeft(Vector3 WorldCenterPos)
     {
         Assert.IsNotNull(gridMap);
-        
+
         Vector3 topLeftWorld = new Vector3(0, 0, 0);
         topLeftWorld.x = WorldCenterPos.x - topLeftToCenterDistance.x;
         topLeftWorld.y = WorldCenterPos.y + topLeftToCenterDistance.y;
@@ -360,29 +343,29 @@ public class GridTransform : MonoBehaviour, IGridMapable
         bool rightOutside = false;
         bool topOutside = false;
         bool bottomOutside = false;
-        
+
         if (topLeftPosMap.x < 0) leftOutside = true;
-        if (topLeftPosMap.y > gridMap.height-1) topOutside = true;
+        if (topLeftPosMap.y > gridMap.height - 1) topOutside = true;
         if (topLeftPosMap.y - height + 1 < 0) bottomOutside = true;
         if (topLeftPosMap.x + width > gridMap.width) rightOutside = true;
 
-        if(rightOutside)
+        if (rightOutside)
         {
             topLeftPosMap.x = gridMap.width - width;
         }
-        if(bottomOutside)
+        if (bottomOutside)
         {
             topLeftPosMap.y = height - 1;
         }
-        if(leftOutside)
+        if (leftOutside)
         {
             topLeftPosMap.x = 0;
         }
-        if(topOutside)
+        if (topOutside)
         {
-            topLeftPosMap.y = gridMap.height-1;
+            topLeftPosMap.y = gridMap.height - 1;
         }
-        
+
         Vector3 snappedTopLeftWorld = gridMap.MapToWorld(topLeftPosMap);
         transform.position = new Vector3(snappedTopLeftWorld.x + topLeftToCenterDistance.x, snappedTopLeftWorld.y - topLeftToCenterDistance.y, 0);
     }
@@ -390,7 +373,7 @@ public class GridTransform : MonoBehaviour, IGridMapable
     //i think this returns a rect of the transform's grid coords
     public RectInt GetRect()
     {
-        return new RectInt(new Vector2Int(topLeftPosMap.x, topLeftPosMap.y-(height-1)), new Vector2Int(width, height));
+        return new RectInt(new Vector2Int(topLeftPosMap.x, topLeftPosMap.y - (height - 1)), new Vector2Int(width, height));
     }
 
     public Color GetMinimapColor()
@@ -403,4 +386,33 @@ public class GridTransform : MonoBehaviour, IGridMapable
         return MLayerToSortingOrder.defs[mapLayer];//???  i guess ok?
     }
 
+    //works on an already-placed gridTransform
+    public bool AtLeastOneCellIsOccupiedBy(MapLayer mapLayer)
+    {
+        Vector2Int mapCoords = topLeftPosMap;
+        foreach (Vector2Int coords in GetRect().allPositionsWithin)
+        {
+            if (GridMap.Current.IsCellOccupied(coords, mapLayer))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool WouldBeOccupiedAtPosition(Vector2Int mapCoords, MapLayer mapLayer)
+    {
+        for (int x = mapCoords.x; x < mapCoords.x + Width; x++)
+        {
+            for (int y = mapCoords.y; y > mapCoords.y - Height; y--)
+            {
+                Vector2Int coords = new Vector2Int(x, y);
+                if (GridMap.Current.IsCellOccupied(coords, mapLayer))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
