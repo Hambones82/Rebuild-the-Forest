@@ -17,6 +17,8 @@ public class MoveAction : UnitAction, IObjectPoolInterface
     private StatLine speedStat;
     private Transform transform;
 
+    private bool adjacent = false;
+
     private bool arrivedAtWorldCoords = false;
     private bool arrivedAtMapCoords = false;
 
@@ -52,13 +54,14 @@ public class MoveAction : UnitAction, IObjectPoolInterface
         currentTravelDistance = 0;
         totalTravelDistance = 0;
         cancel = false;
+        adjacent = false;
     }
 
     public override void StartAction()
     {
         startWorldPos = transform.position;
         totalTravelDistance = Vector3.Distance(startWorldPos, targetWorldPos);
-        currentPath = PathFinder.GetPath(gridTransform.topLeftPosMap, targetMapPos);
+        currentPath = PathFinder.GetPath(gridTransform.topLeftPosMap, targetMapPos, adjacent);
         currentPathIndex = 0;
     }
 
@@ -150,11 +153,12 @@ public class MoveAction : UnitAction, IObjectPoolInterface
         return continueMovement;
     }
 
-    public void SetMapDestination(Vector2Int mapDestination)
+    public void SetMapDestination(Vector2Int mapDestination, bool inAdjacent = false)
     {
         targetMapPos = mapDestination;
         targetWorldPos = gridTransform.gridMap.MapToWorld(targetMapPos);
         currentTravelDistance = 0;
+        adjacent = inAdjacent;
     }
     
     public void Reset()

@@ -40,8 +40,7 @@ public static class PathFinder
             this.height = height;
         }
     }
-
-    //initialize
+    
     public static void Initialize(int width, int height, bool[,] passableMap)
     {
         grid = new PFGrid(width, height);
@@ -73,7 +72,7 @@ public static class PathFinder
 
 
     //getpath
-    public static List<Vector2Int> GetPath(Vector2Int start, Vector2Int end)
+    public static List<Vector2Int> GetPath(Vector2Int start, Vector2Int end, bool adjacent = false)
     {
         Reset();
         List<Vector2Int> result = null;
@@ -114,16 +113,6 @@ public static class PathFinder
                             openTiles.Add(node);
                         }
                     }
-                    /*
-                    if(!openTiles.Contains(node))
-                    {
-                        node.previous = currentTile;
-                        node.h_score = DistanceToTarget(node.position, end);
-                        node.g_score = CalculateGScore(currentTile, node);
-                        node.f_score = node.h_score + node.g_score;
-                        openTiles.Add(node);
-                    }
-                    */
                 }
             }
         }
@@ -144,6 +133,10 @@ public static class PathFinder
             temp = temp.previous;
         }
         result.Reverse();
+        if(adjacent)
+        {
+            result.RemoveAt(result.Count - 1);
+        }
         //construct the end path.
         return result;
     }

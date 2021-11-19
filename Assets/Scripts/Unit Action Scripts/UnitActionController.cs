@@ -20,6 +20,12 @@ public class UnitActionController : MonoBehaviour
             throw new InvalidOperationException("no learning stat present");
     }
 
+    private void OnEnable()
+    {
+        EndAllActions();
+        currentAction = IdleAction.Instance;
+    }
+
     //this class needs to return the action objects to the pool
     private void Update()
     {
@@ -44,6 +50,17 @@ public class UnitActionController : MonoBehaviour
             }
             
         }
+    }
+
+    public void EndAllActions()
+    {
+        currentAction.EndAction();
+        currentAction = null;
+        foreach(UnitAction action in unitActionQueue)
+        {
+            action.EndAction();
+        }
+        unitActionQueue.Clear();
     }
 
     public void CancelAllActions()

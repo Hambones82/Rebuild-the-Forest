@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 538022502}
   - component: {fileID: 3148813566434386222}
   - component: {fileID: 1918467423}
+  - component: {fileID: 1665845455}
+  - component: {fileID: 1665845456}
   m_Layer: 0
   m_Name: ActorUnitPrefab
   m_TagString: Untagged
@@ -146,6 +148,7 @@ MonoBehaviour:
   moveAction: {fileID: 11400000, guid: ce53250f5078d184a91f369e2ab465cb, type: 2}
   cleanPollutionAction: {fileID: 11400000, guid: 1465117ba8bbc7345a036cef78321bb7, type: 2}
   operateBuildingAction: {fileID: 11400000, guid: 8fb0aae3cc38a1c409749e71f3948f59, type: 2}
+  healAction: {fileID: 11400000, guid: d61df38b4db6d4f44aef603083a38523, type: 2}
 --- !u!114 &2006731454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,3 +219,32 @@ MonoBehaviour:
     _effect:
       _effectType: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
       _amount: 1
+--- !u!114 &1665845455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3504962035391567874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f662cf3d0de46e243a01ff962254172a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tickPeriod: 0.1
+  _pollutionVulnerability: 1
+--- !u!114 &1665845456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3504962035391567874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7318fef87897f3344973a787cc732f5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minHealth: 0
+  _maxHealth: 100
+  _health: 100

@@ -16,6 +16,11 @@ public class ActorUnitHealthComponent : MonoBehaviour
         get => _health;
     }
 
+    private void OnEnable()
+    {
+        _health = _maxHealth;
+    }
+
     public void TakeDamage(float damage)
     {
         AdjustHealth(0 - damage);

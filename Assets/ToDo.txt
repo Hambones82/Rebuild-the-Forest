@@ -1,19 +1,65 @@
-healing action.
+implement this: re pollution growth: when you spawn a new pollution, add the position of their adjacents to the list if the list doesn't already contain it and 
+if those spots are  not occupied.  then, when you grow, select one of those.
+
+bugs: various bugs with actor unit components not resetting state when new object pool is obtainedtry to figure thi sout... 
+we might just want to not do object pooling for this since creation and deletion of actor units is pretty rare, relatively speaking
+we could do hard cancel all actions...  shrug.  that would stop unit movement.
+
+need a health visualizer (can just do numbers for now i guess -- maybe even numbers with colors).
+idea: healing building
+idea: block pollution building only slows it, not totally blocks it.
+idea: something with water -- build bridges (how?).  walk on water?  clean pollution on water?
+idea: rather than just a general map with pollution, etc., how about pollution sources?  --> can clean them?
+	sub-idea: some pollution sources are just normal ones.  others are maybe sources from like human buildings or w/e
+idea: underground "streams" of pollution?  cause pollution to pop up under your stuff?
+idea: different types of pollution.  e.g., appliances, sludge, nuclear stuff.  different ways to clean it up
+idea: harvested units have randomized stats
+idea: trees can have pollution of varying severity/difficulty to clean up.  better units are harvested from more polluted trees.
+idea: pollution is of different kids, different stat values, so that dealing with it requires some thought.
+idea: improved blocker ability (increased range).
+idea: mycorrhizal networks
+idea: mycorrhizal filament
+idea: pipe to send pollution out to human settlements
+idea: mobile enemies?  loggers?  exterminators?
+idea: spawn things like mosquitos to fend off humans.  maybe can be done by creating a pool of standing water.
+idea: spawn animals to create diseases to fend off humans.
+--> not sure about the whole "fighting humans" thing.  might be better if we just forego that type of conflict altogether.
+problem: healing and getting damaged is kind of boring, can become really annoying after playing for a little while.  
+problem: automate a lot of things?
+
+
+
+what do the above do?  maybe growing networks result in better research.  they function as the "brain" of the forest.  i like this idea.
+maybe trees grow their roots over time.  can have roots get close to roots of other trees, and maybe you can connect them or maybe they do that automatically?
+i think growing roots should be a user action -- like operate.  
+when you get to a certain growth, you can choose a technology.  
+
+need a number of threats.  of course encroaching pollution is a constant threat.  other threats would be good.
+need other actions besides growing trees, cleaning pollution.  
+
+
+
+
+
+controlling units that are healing is counterintuitive since it functions in conjunction with queueing actions.  either stop queueing actions (probably good) or 
+have a special case for when you are healing...  
+
+special case might be best.  if current action is healing, don't add a queue...  
+
+
+if you can make a heal building... why not just make a blocking building?  healing building has a fixed range but you need an extra actor unit.
+well, partly... you can bring the actor unit back...  but still why have to do it all actively when you can do it passively...
 
 have a text effects static class that just spawns floating/moving text effects for feedback (e.g., skill gains).
-
-healing and damage
 
 heal tree w heal aura
 
 visual guide for blocker area of effect
 
-don't spawn actor on untraversable tiles
+
 idea: threat meter, warning meter.  more you do, higher it goes, threats get worse.
 add: error/status messages in game.
 
-pollution hurts units
-health --> 0 kills units
 win/loss conditions
 
 new mouse tools - ??
@@ -21,20 +67,8 @@ new mouse tools - ??
 interface showing number of units
 interface showing unit abilities
 
-idea: harvested units have randomized states
 
-idea: trees can have pollution of varying severity/difficulty to clean up.  better units are harvested from more polluted trees.
 
-idea: pollution is of different kids, different stat values, so that dealing with it requires some thought.
-
-idea: improved blocker ability (increased range).
-
-BUG: need to check action validity on startup.  maybe make the action have its own isvalid thing.  that way we don't have to implement this stuff in an ad hoc basis.
-cleaning pollution, whatever, all those things need to check if the actor unit is in the appropriate square.
-
-mycorrhizal networks
-
-mycorrhizal filament
 
 abilities with cooldowns.  e.g., prevent pollution pain, prevent pollution spread.  maybe clear all pollution in a certain area...  
 
@@ -52,23 +86,10 @@ to subsequently set orders.
 
 IDEA: you have to search for pollution sources to uncover them.
 
-
-BUG: buildings can end up overlapping, probably if you ask two actors to build the buildings.  the transform into building function needs a check when it's about to happen.
-
-
-
 ok it's annoying that i can't clean the pollution on water... but maybe i can use that as a motivation...
 upgrade: unit prevent pollution spawn aura
 
 then i need to implement map changes (traversible) on build buildings and on change terrain (terrain can be deferred)
-
-
-can't operate buildings covered in pollution.
-
-
-
-elements: 
-5) research? - ???
 
 idea: 
 
@@ -80,9 +101,6 @@ eventually, add higher level of pollution.  maybe this spreads more slowly but i
 change color as they become more experienced (to prevent people from turning their really good ones into buildings)
 
 go/build on water (to clean pollution)...
-do a research thing.  that'll be a lot of work
-
-but first let's do canceling unit actions
 
 gameplay: cleaning up pollution gives a block pollution ability.  choice is whether to focus all cleaning on one guy, thus improving stat or let all guys clean.  
 
@@ -106,15 +124,8 @@ so you win if there is no pollution left in the whole level.
 
 
 gameplay ideas:
-to function, buildings must be significantly pollution free
 individual actor units can clean pollution, but better to automate
 
--idea - underground "streams" of pollution?  cause pollution to pop up under your stuff?
--idea - different types of pollution.  e.g., appliances, sludge, nuclear stuff.  different ways to clean it up
-
-- again, get core game down first.
-
-- gameplay - human units come in, need to deal with them in different ways
 
 - in addition to cleaning pollution, need to terraform (e.g., remove water/whatever...) (???) --> i don't' think this meshes with the flavor of "cleaning" the forest.  except maybe something like restoring bodies of water.
 
