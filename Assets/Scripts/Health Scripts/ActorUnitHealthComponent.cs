@@ -6,8 +6,13 @@ public class ActorUnitHealthComponent : MonoBehaviour
 {
     [SerializeField]
     private float _minHealth;
+
     [SerializeField]
     private float _maxHealth;
+    public float MaxHealth
+    {
+        get => _maxHealth;
+    }
 
     [SerializeField]
     private float _health;
@@ -15,7 +20,7 @@ public class ActorUnitHealthComponent : MonoBehaviour
     {
         get => _health;
     }
-
+    
     private void OnEnable()
     {
         _health = _maxHealth;

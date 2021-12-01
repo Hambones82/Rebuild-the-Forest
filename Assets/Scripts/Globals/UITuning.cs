@@ -4,5 +4,5 @@ using UnityEngine;
 
 public static class UITuning 
 {
-    public static float refreshRate = 1;
+    public static float refreshRate = .2f;
 }

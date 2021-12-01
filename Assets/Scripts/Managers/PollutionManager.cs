@@ -38,24 +38,90 @@ public class PollutionManager : MonoBehaviour
         
         freePositions = new List<Vector2Int>();
 
-        for (int x = 0; x < gridMap.width; x++)
-        {
-            for (int y = 0; y < gridMap.height; y++)
-            {
-                freePositions.Add(new Vector2Int(x, y));
-            }
-        }
+        bool initialMapHasPollution = false;
 
         foreach (GridTransform gt in pollutionMap.GetAllObjects())
         {
+            initialMapHasPollution = true;
             Pollution pToAdd = gt.GetComponent<Pollution>();
             pToAdd.PollutionManager = this;
             pollutionObjects.Add(pToAdd);
-            freePositions.Remove(pToAdd.GetComponent<GridTransform>().topLeftPosMap);
+            UpdateFreePositionsForAddition(pToAdd.GetComponent<GridTransform>().topLeftPosMap);
+            //Debug.Log($"free positions count after considering static objects: {freePositions.Count}");
         }
 
+        if(!initialMapHasPollution)
+        {
+            for(int x = 0; x < gridMap.width; x++)
+            {
+                AddFreePosition(new Vector2Int(x, 0));
+                AddFreePosition(new Vector2Int(x, gridMap.height - 1));
+            }
+            for(int y = 1; y < gridMap.height - 1; y++)
+            {
+                AddFreePosition(new Vector2Int(0, y));
+                AddFreePosition(new Vector2Int(gridMap.width - 1, y));
+            }
+        }
+        //next --> ???
         PopulateInitialPollution();
-        
+    }
+
+    private void UpdateFreePositionsForAddition(Vector2Int cell)
+    {
+        if(freePositions.Contains(cell))
+        {
+            RemoveFreePosition(cell);
+        }
+
+        List<Vector2Int> positions = cell.GetNeighbors();
+
+        foreach(Vector2Int position in positions)
+        {
+            if (!freePositions.Contains(position) && gridMap.IsWithinBounds(position) && !pollutionMap.IsCellOccupied(position))
+            {
+                AddFreePosition(position);
+            }
+        }
+
+        Debug.Log($"after addition: {freePositions.Count} # of free positions");
+    }
+
+    private void UpdateFreePositionsForRemoval(Vector2Int cell)
+    {
+        //get all neighbors
+        //check whether they still neighbor any pollution
+        //remove if not
+        List<Vector2Int> positions = cell.GetNeighbors();
+        bool neighborsPollution = false;
+        foreach(Vector2Int position in positions)
+        {
+            if(pollutionMap.IsCellOccupied(position))
+            {
+                neighborsPollution = true;
+            }
+            List<Vector2Int> subPositions = position.GetNeighbors();
+            bool subNeighborsPollution = false;
+            if(freePositions.Contains(position))
+            {
+                foreach (Vector2Int subPosition in subPositions)
+                {
+                    if (pollutionMap.IsCellOccupied(subPosition))
+                    {
+                        subNeighborsPollution = true;
+                    }
+                }
+                if (subNeighborsPollution == false)
+                {
+                    RemoveFreePosition(position);
+                }
+            }
+        }
+        if(neighborsPollution)
+        {
+            AddFreePosition(cell);
+        }
+        Debug.Log($"after removal: {freePositions.Count} # of free positions");
     }
 
     [SerializeField]
@@ -85,7 +151,7 @@ public class PollutionManager : MonoBehaviour
             }
         }
     }
-
+    
     private void Update()
     {
         spreadTimer += Time.deltaTime;
@@ -107,12 +173,10 @@ public class PollutionManager : MonoBehaviour
     {
         if(freePositions.Count > 0)
         {
+            //Debug.Log($"free position count: {freePositions.Count}");
             int position = UnityEngine.Random.Range(0, freePositions.Count);
             AddPollution(freePositions[position]);
         }
-        
-
-       
     }
     
     //this needs the checker -- whether there's a block pollution effect...
@@ -141,8 +205,9 @@ public class PollutionManager : MonoBehaviour
             Pollution newPollution = newGO.GetComponent<Pollution>();
             pollutionObjects.Add(newPollution);
             newPollution.PollutionManager = this;
-            freePositions.Remove(cell);
+            //freePositions.Remove(cell);
             newPollution.SetAmount(newPollution.MaxAmount);
+            UpdateFreePositionsForAddition(cell);
             return newPollution;
         }
         else
@@ -154,9 +219,23 @@ public class PollutionManager : MonoBehaviour
     public void RemovePollution(Pollution pollution)
     {
         Vector2Int pollutionPosition = pollution.GetComponent<GridTransform>().topLeftPosMap;
-        freePositions.Add(pollutionPosition);
         pollutionObjects.Remove(pollution);
         pollutionPool.RecycleObject(pollution.gameObject);
+        //freePositions.Add(pollutionPosition);
+        UpdateFreePositionsForRemoval(pollutionPosition);
+    }
+
+
+    private void AddFreePosition(Vector2Int cell)
+    {
+        freePositions.Add(cell);
+        DebugTilemap.Instance.AddTile(cell);
+    }
+
+    private void RemoveFreePosition(Vector2Int cell)
+    {
+        freePositions.Remove(cell);
+        DebugTilemap.Instance.RemoveTile(cell);
     }
    
 }

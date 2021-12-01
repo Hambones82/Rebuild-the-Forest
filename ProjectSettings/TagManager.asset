@@ -53,3 +53,6 @@ TagManager:
   - name: Overlay
     uniqueID: 2682977237
     locked: 0
+  - name: Debug Overlay
+    uniqueID: 2254698047
+    locked: 0
