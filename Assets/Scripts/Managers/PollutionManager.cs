@@ -84,7 +84,7 @@ public class PollutionManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"after addition: {freePositions.Count} # of free positions");
+        //Debug.Log($"after addition: {freePositions.Count} # of free positions");
     }
 
     private void UpdateFreePositionsForRemoval(Vector2Int cell)

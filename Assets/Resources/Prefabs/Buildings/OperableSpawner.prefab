@@ -168,6 +168,9 @@ MonoBehaviour:
   buildingManager: {fileID: 0}
   statRequirements:
     setElements: []
+  _killActorUnit: 1
+  _itemRequiredToBuild: 0
+  _requiredItem: {fileID: 0}
 --- !u!114 &4601632972376416442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,5 +185,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _operateTimer: 0
   _operateTimerTrigger: 2
+  _continuous: 0
   _exhausted: 0
   exhaustedSprite: {fileID: 21300000, guid: 9c73eef44eac8b644b04a6c926a34b09, type: 3}

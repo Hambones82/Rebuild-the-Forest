@@ -33,6 +33,7 @@ public class PlaceBuildingTool : MouseTool
         PlacementCursor cursor = uiManager.PlacementCursor;
         Vector2Int mapCoords = cursor.GetComponent<GridTransform>().topLeftPosMap;
 
+        //not just can place building at, must also check inventory
         if (buildingManager.CanPlaceBuildingAt(buildingToPlacePrefab, mapCoords))
         {
             //set the unit action controll with two actions -- a move and a build.  define the build action.

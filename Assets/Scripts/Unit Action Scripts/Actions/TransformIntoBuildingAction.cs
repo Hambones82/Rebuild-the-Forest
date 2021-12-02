@@ -29,7 +29,11 @@ public class TransformIntoBuildingAction : UnitActionWithTarget<Building>, IObje
 
     public override bool CanDo()
     {
-        return BuildingManager.Instance.CanPlaceBuildingAt(building, mapBuildLocation);
+        //need to check for stat and inventory requirements.
+        bool mapCanHaveBuilding = BuildingManager.Instance.CanPlaceBuildingAt(building, mapBuildLocation);
+        bool actorUnitHasInventory =
+            (building.ItemRequiredToBuild && actorUnit.GetComponent<Inventory>().HasItem(building.RequiredItem));
+        return mapCanHaveBuilding && actorUnitHasInventory;
     }
 
     public override bool AdvanceAction(float dt)
@@ -45,7 +49,14 @@ public class TransformIntoBuildingAction : UnitActionWithTarget<Building>, IObje
             if(CanDo())
             {
                 BuildingManager.Instance.SpawnBuildingAt(building, worldBuildLocation);
-                ActorUnitManager.Instance.KillActorUnit(actorUnit);
+                if(building.KillActorUnit)
+                {
+                    ActorUnitManager.Instance.KillActorUnit(actorUnit);
+                }
+                if(building.RequiredItem)
+                {
+                    actorUnit.GetComponent<Inventory>().RemoveItem(building.RequiredItem);
+                }
             }
             return false;
         }

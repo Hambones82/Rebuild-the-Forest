@@ -89,4 +89,9 @@ public class BuildingManager : MonoBehaviour {
         }
         return retval;
     }
+
+    public void DestroyBuilding(Building buildingToDestroy)
+    {
+        UnityEngine.Object.Destroy(buildingToDestroy.gameObject);
+    }
 }

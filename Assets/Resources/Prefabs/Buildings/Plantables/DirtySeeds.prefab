@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 114903671657060870}
   - component: {fileID: 114603623875108166}
   - component: {fileID: 114058856135367282}
-  - component: {fileID: 1739411717824330081}
+  - component: {fileID: 1506528807958607395}
   m_Layer: 0
-  m_Name: Blocker
+  m_Name: DirtySeeds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7a32d3530dc972747853d5eeb99a8d6a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c53e2f452539a6843a3e4292f46ae4bf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -103,8 +103,8 @@ MonoBehaviour:
   MiniMapColor: {r: 0.74509805, g: 0.72587705, b: 0.23529412, a: 1}
   useParentGrid: 1
   gridMap: {fileID: 0}
-  width: 2
-  height: 2
+  width: 1
+  height: 1
   worldHeight: 0
   worldWidth: 0
   topLeftPosMap: {x: 4, y: 8}
@@ -164,14 +164,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703e85e645a5211489b4e380a426a873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingName: Blocker
+  buildingName: Dirty Seeds
   buildingManager: {fileID: 0}
   statRequirements:
     setElements: []
-  _killActorUnit: 1
-  _itemRequiredToBuild: 0
-  _requiredItem: {fileID: 0}
---- !u!114 &1739411717824330081
+--- !u!114 &1506528807958607395
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,12 +177,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1030047143314608}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8060cf872d0245144869b6c921bb907b, type: 3}
+  m_Script: {fileID: 11500000, guid: 3abd655b28d93f34b92cb74809e39034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mapEffects:
-  - _range: 1
-    _enabled: 1
-    _effect:
-      _effectType: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
-      _amount: 1
+  _operateTimer: 0
+  _operateTimerTrigger: 2
+  _continuous: 0
+  inventoryItemType: {fileID: 11400000, guid: 7b06f54f7e944094e99c2987554ba8ec, type: 2}

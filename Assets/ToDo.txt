@@ -1,3 +1,10 @@
+best... just don't have the button if can't do it.
+
+
+
+
+idea: cleaning pollution stat brings you a building for cleaning pollution off things (seeds)
+
 idea: cleaning pollution stat --> pollution blocking radius on buildings.
 idea: when you clean pollution, you can pick up items.  why don't we implement pickupable items?
 idea: the items can be seeds.  seeds will make small plants.  planting can lead to a building that spawns plants by itself.

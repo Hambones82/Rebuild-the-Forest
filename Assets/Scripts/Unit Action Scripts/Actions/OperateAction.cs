@@ -37,7 +37,7 @@ public class OperateAction : UnitActionWithTarget<BuildingComponentOperator>, IO
         }
         else
         {
-            return buildingComponentOperator.Operate(dt);
+            return buildingComponentOperator.Operate(dt, gameObject);
         }        
     }
 

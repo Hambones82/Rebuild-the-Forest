@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 847a42e8593c82d4283a037c92ea238f, type: 3}
+  m_Name: Clean Seed 1
+  m_EditorClassIdentifier: 
+  name: Clean Seed 1
+  _buildable: 1
+  _buildingPrefab: {fileID: 114058856135367282, guid: a6c5f56ce7f30584eb54d09995088062, type: 3}
+  _cleanable: 0
+  _cleanedItemType: {fileID: 0}

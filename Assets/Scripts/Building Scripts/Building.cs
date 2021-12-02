@@ -22,6 +22,18 @@ public class Building : MonoBehaviour
     private StatLineSet statRequirements;
     public StatLineSet StatRequirements { get => statRequirements; }
 
+    [SerializeField]
+    private bool _killActorUnit;
+    public bool KillActorUnit { get => _killActorUnit; }
+
+    [SerializeField]
+    private bool _itemRequiredToBuild;
+    public bool ItemRequiredToBuild { get => _itemRequiredToBuild; }
+
+    [SerializeField]
+    private InventoryItemType _requiredItem;
+    public InventoryItemType RequiredItem { get => _requiredItem; }
+    
     private void OnDisable()
     {
         onBuildingDeathEvent?.Invoke(this);

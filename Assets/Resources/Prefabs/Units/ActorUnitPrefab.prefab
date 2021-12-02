@@ -201,6 +201,7 @@ GameObject:
   - component: {fileID: 1918467423}
   - component: {fileID: 1665845455}
   - component: {fileID: 1665845456}
+  - component: {fileID: 1395109217}
   m_Layer: 0
   m_Name: ActorUnitPrefab
   m_TagString: Untagged
@@ -431,3 +432,16 @@ MonoBehaviour:
   _minHealth: 0
   _maxHealth: 100
   _health: 100
+--- !u!114 &1395109217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3504962035391567874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be77865c8110c2345b53f0fdc40cf6e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryItems: []
