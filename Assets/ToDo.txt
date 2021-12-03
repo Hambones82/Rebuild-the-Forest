@@ -1,3 +1,19 @@
+show inventory
+
+better visuals to explain everything going on.
+
+need the root system and stat spreading system.
+
+need the multiple pollution block system w/ three diff types blocking diff pollution.  tree, plant, fungus.
+
+need terrain generation
+
+maybe units auto-heal when away from pollution. i think this would make it much less annoying to deal w the pollution
+instead of dying right away, units get debilitated and can limp back but if in that state too long, will die.
+
+
+i think once we have the above, things will be looking fairly decent.  you pick up seeeds, do things, turn into trees, rescue spirits, block pollution.
+
 best... just don't have the button if can't do it.
 
 
