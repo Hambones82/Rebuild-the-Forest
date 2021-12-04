@@ -1,31 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class InventoryPanel : MonoBehaviour
+public class InventoryPanel : ScrollableContentPanel
 {
-    private GameObject _content;
-    private Inventory selectedInventory;
+    private Inventory _inventory;
 
-
-    private void Awake()
+    protected override void UpdateContents()
     {
-        UIManager.Instance.OnSelectEvent.AddListener(GTSelected);
-        UIManager.Instance.OnDeselectEvent.AddListener(GTDeselected);
+        if(_inventory != null )
+        {
+            ClearButtons();
+            foreach (InventoryItem item in _inventory.GetAllInventoryItems())
+            {
+                AddButton(item);
+            }
+        }
     }
 
-    private void GTSelected()
+    private void AddButton(InventoryItem item)
     {
-
+        GameObject newItem = contentObjectPool.GetGameObject();
+        contentObjects.Add(newItem);
+        newItem.transform.GetChild(0).GetComponent<Image>().sprite = item.ItemType.InventoryImage;
+        newItem.SetActive(true);
     }
 
-    private void GTDeselected()
+    protected override void ProcessSelectionEvent()
     {
-
+        base.ProcessSelectionEvent();
+        _inventory = currentActorUnit.GetComponent<Inventory>();
     }
 
-    private void UpdateContents()
+    protected override void ProcessDeselectionEvent()
     {
-
+        base.ProcessDeselectionEvent();
+        _inventory = null;
     }
+
+
+
 }

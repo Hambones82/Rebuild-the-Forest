@@ -13,6 +13,11 @@ public class Inventory : MonoBehaviour
         inventoryItems.Add(newItem);
     }
 
+    public List<InventoryItem> GetAllInventoryItems()
+    {
+        return new List<InventoryItem>(inventoryItems);
+    }
+
     public bool RemoveItem(InventoryItemType inventoryItemType)
     {
         foreach(InventoryItem item in inventoryItems)

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 847a42e8593c82d4283a037c92ea238f, type: 3}
   m_Name: Dirty Seed 1
   m_EditorClassIdentifier: 
-  name: Dirty Seed 1
+  inventoryImage: {fileID: 21300000, guid: 2602c0cffff15fe418ab8aead23a35a8, type: 3}
+  itemName: Dirty Seed
   _buildable: 0
   _buildingPrefab: {fileID: 0}
   _cleanable: 1

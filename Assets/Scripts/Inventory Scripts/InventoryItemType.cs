@@ -6,7 +6,18 @@ using UnityEngine;
 public class InventoryItemType : SOType
 {
     [SerializeField]
-    protected string name;
+    protected Sprite inventoryImage;
+    public Sprite InventoryImage
+    {
+        get => inventoryImage;
+    }
+
+    [SerializeField]
+    protected string itemName;
+    public string ItemName
+    {
+        get => itemName;
+    }
 
     [SerializeField]
     protected bool _buildable;

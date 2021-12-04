@@ -32,6 +32,15 @@ public class UnitActionController : MonoBehaviour
         bool continueCurrentAction = true;
         continueCurrentAction = currentAction.AdvanceAction(Time.deltaTime);
         currentAction.ImproveStat(Time.deltaTime * learning.Amount);
+        /*
+        foreach (UnitAction ua in unitActionQueue)
+        {
+            if(!ua.CanDo())
+            {
+                Debug.Log($"cannot do {ua.ActionName}");
+                CancelAllActions();
+            }
+        }*/
         if(continueCurrentAction == false)
         {
             //end current action

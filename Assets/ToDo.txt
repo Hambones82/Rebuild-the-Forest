@@ -1,10 +1,11 @@
-show inventory
-
-better visuals to explain everything going on.
+bug: should refuse to do an action if there is one that cannot be done...  some complexity required here, come back and think abotu it.
 
 need the root system and stat spreading system.
 
 need the multiple pollution block system w/ three diff types blocking diff pollution.  tree, plant, fungus.
+
+
+
 
 need terrain generation
 

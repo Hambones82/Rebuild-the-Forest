@@ -32,14 +32,16 @@ public class TransformIntoBuildingAction : UnitActionWithTarget<Building>, IObje
         //need to check for stat and inventory requirements.
         bool mapCanHaveBuilding = BuildingManager.Instance.CanPlaceBuildingAt(building, mapBuildLocation);
         bool actorUnitHasInventory =
-            (building.ItemRequiredToBuild && actorUnit.GetComponent<Inventory>().HasItem(building.RequiredItem));
+            (!building.ItemRequiredToBuild || actorUnit.GetComponent<Inventory>().HasItem(building.RequiredItem));
         return mapCanHaveBuilding && actorUnitHasInventory;
     }
 
     public override bool AdvanceAction(float dt)
     {
+        //Debug.Log("building a building");
         if(cancel)
         {
+            //Debug.Log("canceling build");
             return false;
         }
         timerValue += dt;
