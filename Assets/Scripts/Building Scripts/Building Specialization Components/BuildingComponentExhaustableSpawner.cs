@@ -15,7 +15,7 @@ public class BuildingComponentExhaustableSpawner : BuildingComponentOperator
     {
         if (!ActorUnitManager.Instance.ActorUnitsFull)
         {
-            Debug.Log("executing trigger");
+            //Debug.Log("executing trigger");
             Vector2Int cellToSpawnAt;
             List<Vector2Int> candidateCells = GetComponent<GridTransform>().GetAdjacentTiles();
             cellToSpawnAt = candidateCells[Random.Range(0, candidateCells.Count)];

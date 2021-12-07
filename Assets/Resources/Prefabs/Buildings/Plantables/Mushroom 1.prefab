@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 114058856135367282}
   - component: {fileID: -1213417458061069597}
   m_Layer: 0
-  m_Name: Plant 1
+  m_Name: Mushroom 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9a68fe79a8c7bbb4695183424c97c8e4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 277df9cb4127e474f81392c2dba653c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -164,13 +164,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703e85e645a5211489b4e380a426a873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingName: Plant 1
+  buildingName: Mushroom 1
   buildingManager: {fileID: 0}
   statRequirements:
     setElements: []
   _killActorUnit: 0
   _itemRequiredToBuild: 1
-  _requiredItem: {fileID: 11400000, guid: 076f48fd2b3627a4fadd3c711cfda7ff, type: 2}
+  _requiredItem: {fileID: 11400000, guid: 87b657dc00d93ba4788b01acdfe95166, type: 2}
 --- !u!114 &-1213417458061069597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,5 +187,5 @@ MonoBehaviour:
   - _range: 1
     _enabled: 1
     _effect:
-      _effectType: {fileID: 11400000, guid: 4b0e8e8d5b7e9ea4fb191490c8eed54c, type: 2}
+      _effectType: {fileID: 11400000, guid: d3a20ae1d30cc0f458d78972d0fa3842, type: 2}
       _amount: 1

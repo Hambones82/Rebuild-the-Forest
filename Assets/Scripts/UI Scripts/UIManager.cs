@@ -93,6 +93,10 @@ public class UIManager : MonoBehaviour {
         }
         else
         {
+            if(selectedGridTransform!=null)
+            {
+                OnDeselectEvent.Invoke();
+            }
             clickedGridTransform.GetComponent<MouseSelector>().Select(); 
             selectedGridTransform = clickedGridTransform; 
             OnSelectEvent.Invoke();

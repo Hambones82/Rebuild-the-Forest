@@ -16,7 +16,11 @@ public class PollutionManager : MonoBehaviour
     private List<Pollution> pollutionObjects = new List<Pollution>();
 
     [SerializeField]
-    private MapEffectType pollutionBlockEffect;
+    private MapEffectType treeBlockEffect;
+    [SerializeField]
+    private MapEffectType plantBlockEffect;
+    [SerializeField]
+    private MapEffectType mushroomBlockEffect;
 
     //this is a helper buffer to assist with another function.  maybe scope it to that function only
     private List<Pollution> workingPollutionObjects;
@@ -121,7 +125,7 @@ public class PollutionManager : MonoBehaviour
         {
             AddFreePosition(cell);
         }
-        Debug.Log($"after removal: {freePositions.Count} # of free positions");
+        //Debug.Log($"after removal: {freePositions.Count} # of free positions");
     }
 
     [SerializeField]
@@ -187,14 +191,25 @@ public class PollutionManager : MonoBehaviour
         //could put the code below into a function in mapeffectsmanager.
         if (effectsAtCell != null)
         {
+            bool mush = false;
+            bool plant = false;
+            bool tree = false;
             foreach (MapEffectObject effectObject in effectsAtCell)
             {
-                if (effectObject.EffectType == pollutionBlockEffect)
+                if (effectObject.EffectType == treeBlockEffect)
                 {
-                    addPollution = false;
-                    break;
+                    tree = true;
+                }
+                else if (effectObject.EffectType == mushroomBlockEffect)
+                {
+                    mush = true;
+                }
+                else if (effectObject.EffectType == plantBlockEffect)
+                {
+                    plant = true;
                 }
             }
+            addPollution = !(mush && plant && tree);
         }
 
         if(addPollution)

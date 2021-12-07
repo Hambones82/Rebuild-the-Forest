@@ -23,6 +23,7 @@ public class InventoryPanel : ScrollableContentPanel
     {
         GameObject newItem = contentObjectPool.GetGameObject();
         contentObjects.Add(newItem);
+        newItem.transform.SetAsLastSibling();
         newItem.transform.GetChild(0).GetComponent<Image>().sprite = item.ItemType.InventoryImage;
         newItem.SetActive(true);
     }
@@ -30,6 +31,11 @@ public class InventoryPanel : ScrollableContentPanel
     protected override void ProcessSelectionEvent()
     {
         base.ProcessSelectionEvent();
+    }
+
+    protected override void SetCachedReferences()
+    {
+        base.SetCachedReferences();
         _inventory = currentActorUnit.GetComponent<Inventory>();
     }
 
@@ -38,7 +44,4 @@ public class InventoryPanel : ScrollableContentPanel
         base.ProcessDeselectionEvent();
         _inventory = null;
     }
-
-
-
 }

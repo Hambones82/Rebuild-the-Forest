@@ -37,6 +37,7 @@ public class ScrollableContentPanel : MonoBehaviour
     protected virtual void ProcessSelectionEvent()
     {
         CurrentActorUnit = uIManager.SelectedGridTransform.GetComponent<ActorUnit>();
+        SetCachedReferences();
         if (currentActorUnit != null)
         {
             currentActorUnit.OnDeath.AddListener(ActorUnitDies);
@@ -44,8 +45,11 @@ public class ScrollableContentPanel : MonoBehaviour
         }
     }
 
+    protected virtual void SetCachedReferences() { }
+
     protected virtual void ProcessDeselectionEvent()
     {
+        ClearButtons();
         if (currentActorUnit != null)
         {
             currentActorUnit.OnDeath.RemoveListener(ActorUnitDies);

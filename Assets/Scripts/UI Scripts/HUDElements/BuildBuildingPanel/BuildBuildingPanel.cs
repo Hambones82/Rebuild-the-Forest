@@ -8,8 +8,6 @@ using UnityEngine.UI;
 
 public class BuildBuildingPanel : ScrollableContentPanel
 {
-
-    //a lot of this update contents stuff should go into the child.
     private List<BuildingType> permittedBuildingTypes = new List<BuildingType>();
     private List<BuildingType> cachedPermittedBuildingTypes = new List<BuildingType>();
     protected override void UpdateContents()
@@ -49,7 +47,14 @@ public class BuildBuildingPanel : ScrollableContentPanel
             }
         }
     }
-    
+
+    protected override void ClearButtons()
+    {
+        base.ClearButtons();
+        permittedBuildingTypes.Clear();
+        cachedPermittedBuildingTypes.Clear();
+    }
+
     private BuildBuildingButton AddButton(BuildingType bType)
     {
         BuildBuildingButton button = contentObjectPool.GetGameObject().GetComponent<BuildBuildingButton>();
@@ -57,6 +62,7 @@ public class BuildBuildingPanel : ScrollableContentPanel
         button.ActorUnit = currentActorUnit;
         button.Text.text = bType.BuildingPrefab.BuildingName;
         button.gameObject.SetActive(true);
+        button.transform.SetAsFirstSibling();
         contentObjects.Add(button.gameObject);
         return button;
     }
