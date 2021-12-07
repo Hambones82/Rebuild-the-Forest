@@ -37,9 +37,9 @@ public class ScrollableContentPanel : MonoBehaviour
     protected virtual void ProcessSelectionEvent()
     {
         CurrentActorUnit = uIManager.SelectedGridTransform.GetComponent<ActorUnit>();
-        SetCachedReferences();
         if (currentActorUnit != null)
         {
+            SetCachedReferences();
             currentActorUnit.OnDeath.AddListener(ActorUnitDies);
             UpdateContents();
         }

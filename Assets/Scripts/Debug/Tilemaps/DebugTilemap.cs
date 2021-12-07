@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
 
+[DefaultExecutionOrder(-4)]
 public class DebugTilemap : MonoBehaviour
 {
     [SerializeField]

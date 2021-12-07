@@ -1,6 +1,14 @@
+zoom --> do this.
+
+fix the tile map thing for the pollution block overlay.  the editor made default types of tile but i want the more specific ui overlay whatever type.
+
 add the "attach mushroom" --> 
 maybe... it's a build action... needs a canDo checking if adjacent?
 
+pollution disables buildings --> even buildings that block pollution.  so need to clean them off
+definitely thinking that health regen is better than the heal ability.  maybe we could use the heal ability at some point but not now
+add pausing.
+visualize current actions for units.
 
 this next:
 pollution block visualizer, tile set -- toggle to turn it on/off.  keep the script on for update, just disable the visualizer.
@@ -27,7 +35,7 @@ need the root system and stat spreading system.
 
 
 
-
+asperite sprite editor
 
 need terrain generation
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
 
+[DefaultExecutionOrder(-5)]
 [RequireComponent(typeof(Tilemap))]
 public class TileDataMap : MonoBehaviour
 {

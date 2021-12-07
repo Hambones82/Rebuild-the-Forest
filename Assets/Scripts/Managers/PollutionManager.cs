@@ -159,9 +159,9 @@ public class PollutionManager : MonoBehaviour
     private void Update()
     {
         spreadTimer += Time.deltaTime;
-        while(spreadTimer >= spreadPeriod)
+        if(spreadTimer >= spreadPeriod)
         {
-            spreadTimer -= spreadPeriod;
+            spreadTimer = 0;
             UpdatePollutionState();
         }
 
@@ -244,6 +244,7 @@ public class PollutionManager : MonoBehaviour
     private void AddFreePosition(Vector2Int cell)
     {
         freePositions.Add(cell);
+        //if (DebugTilemap.Instance == null) Debug.Log("there is a problem!");
         DebugTilemap.Instance.AddTile(cell);
     }
 

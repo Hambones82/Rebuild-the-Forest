@@ -1,18 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
-public class UIOverlayTile : MonoBehaviour
+[CreateAssetMenu(fileName = "UIOverlayTile", menuName = "Tiles/UI/Overlay Tile")]
+public class UIOverlayTile : Tile
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }
