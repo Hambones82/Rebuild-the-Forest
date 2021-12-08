@@ -72,5 +72,19 @@ public class MouseManager : MonoBehaviour {
                 uIManager.rightClickAt(mouseWorldPosition);
             }
         }
+        if(Input.mouseScrollDelta.y > 0)
+        {
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                uIManager.ZoomIn();
+            }
+        }
+        if(Input.mouseScrollDelta.y < 0)
+        {
+            if(!EventSystem.current.IsPointerOverGameObject())
+            {
+                uIManager.ZoomOut();
+            }
+        }
     }
 }

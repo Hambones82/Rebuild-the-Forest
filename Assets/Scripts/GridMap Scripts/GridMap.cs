@@ -137,9 +137,6 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
         GridSubMap gridSubMap = GetMapOfType(mapObject.mapLayer);
         gridSubMap.RemoveMapObject(mapObject);
     }
-
-
-
     //pretty cool -- lets you check if grid has a mapable at a given cell - useful for player logic
     public bool IsCellOccupied(Vector2Int cellToCheck, MapLayer mapLayer) 
     {
@@ -182,6 +179,8 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
     {
         return new RectInt(MapToGrid(new Vector2Int(0, 0)), GetSize()); // extents in grid coordinates
     }
+
+    public RectInt GetMapRect() => new RectInt(new Vector2Int(0, 0), GetSize());
 
     public Rect GetCellCenterWorldRect()
     {

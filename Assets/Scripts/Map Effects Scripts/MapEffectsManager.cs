@@ -8,8 +8,13 @@ using System;
 [DefaultExecutionOrder(-7)]
 public class MapEffectsManager : MonoBehaviour
 {
-    //have a ref to building manager, add some functions to on buildbuilding and on remove building
 
+    //need on effect add and remove callbacks
+
+    //have a ref to building manager, add some functions to on buildbuilding and on remove building
+    public delegate void MapEffectChangeDelegate(Vector2Int cell);
+    public event MapEffectChangeDelegate OnMapEffectChange;
+    
     [SerializeField]
     private GridMap gridMap;
 
@@ -30,19 +35,15 @@ public class MapEffectsManager : MonoBehaviour
     
     public void AddEffect(MapEffectObject mapEffect, Vector2Int mapCoords)
     {
-        //Debug.Log($"adding effect to coords {mapCoords.ToString()}");
-        //Debug.Log($"extents: {extents.ToString()}");
         if (!extents.Contains(mapCoords))
         {
-            //Debug.Log("map effect not contained within map.");
             return;
         }
-        //Debug.Log("map coords to add effect: " + mapCoords.ToString());
+        
         List<MapEffectObject> effectsAtCell = mapEffects[mapCoords.x, mapCoords.y];
         
         if(effectsAtCell == null)
         {
-            //Debug.Log("adding effect");
             effectsAtCell = new List<MapEffectObject>();
             mapEffects[mapCoords.x, mapCoords.y] = effectsAtCell;
         }
@@ -51,6 +52,7 @@ public class MapEffectsManager : MonoBehaviour
         {
             effectsAtCell.Add(mapEffect);
         }
+        OnMapEffectChange?.Invoke(mapCoords);
     }
     
     public bool RemoveEffect(MapEffectObject mapEffect, Vector2Int mapCoords)
@@ -66,6 +68,7 @@ public class MapEffectsManager : MonoBehaviour
             if(effect == mapEffect)
             {
                 effectsAtCell.Remove(effect);
+                OnMapEffectChange?.Invoke(mapCoords);
                 return true;
             }
         }

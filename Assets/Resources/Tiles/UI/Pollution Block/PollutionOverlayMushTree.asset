@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
+  m_Script: {fileID: 11500000, guid: 29a0faffb0a56e54f819e89f55d0eeb1, type: 3}
   m_Name: PollutionOverlayMushTree
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 21300000, guid: 5d2f48c14805d724fbd76f1d5215ff73, type: 3}

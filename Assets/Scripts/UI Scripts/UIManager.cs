@@ -8,6 +8,7 @@ public delegate void SelectBuildingDelegate(Building selectedBuilding);
 
 [DefaultExecutionOrder(-5)]
 public class UIManager : MonoBehaviour {
+    public CameraMover cameraMover;
     public bool forcePlacement = false; 
     public GridMap gridMap;
     public MouseManager mouseManager;
@@ -111,6 +112,16 @@ public class UIManager : MonoBehaviour {
             currentMouseTool.Cancel();
             currentMouseTool = BaseTool.Instance;
         }
+    }
+
+    public void ZoomIn()
+    {
+        cameraMover.zoomIn();
+    }
+
+    public void ZoomOut()
+    {
+        cameraMover.zoomOut();
     }
 }
 

@@ -11,23 +11,20 @@ public class CameraMover : MonoBehaviour {
     public GridMap gridMap; //the grid map that the camera is moving across
     Transform cameraTransform; // transform of the camera
     Camera attachedCamera; //the attached camera
-
-	// Use this for initialization
+    public float zoomSpeed;
+    public float maxZoom;
+    public float minZoom;
+    
 	void Start () {
         attachedCamera = GetComponent<Camera>();
         cameraTransform = GetComponent<Transform>();
         ConstrainToMap();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void moveCamera(Vector2 direction)
     {
         Vector3 v3Direction = new Vector3(direction.x, direction.y);
-        cameraTransform.position = cameraTransform.position + v3Direction * moveSpeed * Time.deltaTime;
+        cameraTransform.position = cameraTransform.position + v3Direction * moveSpeed * Time.deltaTime * attachedCamera.orthographicSize;
         ConstrainToMap();
 
     }
@@ -42,6 +39,19 @@ public class CameraMover : MonoBehaviour {
     public void moveCameraDown() { moveCamera(Vector2.down); }
     public void moveCameraLeft() { moveCamera(Vector2.left); }
     public void moveCameraRight() { moveCamera(Vector2.right); }
+    public void zoomIn()
+    {
+        float rawNewCameraSize = attachedCamera.orthographicSize / zoomSpeed;
+        float newCameraSize = Mathf.Clamp(rawNewCameraSize, minZoom, maxZoom);
+        attachedCamera.orthographicSize = newCameraSize;
+    }
+
+    public void zoomOut()
+    {
+        float rawNewCameraSize = attachedCamera.orthographicSize * zoomSpeed;
+        float newCameraSize = Mathf.Clamp(rawNewCameraSize, minZoom, maxZoom);
+        attachedCamera.orthographicSize = newCameraSize; 
+    }
 
     public void ConstrainToMap()
     {

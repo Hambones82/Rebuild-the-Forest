@@ -1,9 +1,17 @@
-zoom --> do this.
+delay when pollution is cleaned, for coming back.  could easily implement with a float array in pollutionmanager
 
-fix the tile map thing for the pollution block overlay.  the editor made default types of tile but i want the more specific ui overlay whatever type.
+??make some set of spawning buildings.  healer(maybe), pollution blocker, cleaner, planter.  
+
+
+
+
+THEN, do the root system and stat spreading system.  maybe do it simply first -- on/off, then can work on math.  so trees have certain ability, can spread thru roots
+
+need the root system and stat spreading system.
+
+
 
 add the "attach mushroom" --> 
-maybe... it's a build action... needs a canDo checking if adjacent?
 
 pollution disables buildings --> even buildings that block pollution.  so need to clean them off
 definitely thinking that health regen is better than the heal ability.  maybe we could use the heal ability at some point but not now
@@ -25,12 +33,6 @@ need a good visualizer for this.
 
 third thing is -- mushroom attached to a tree.  it'll make the aura from tree "full."  could have the mushroom aura size grow over time (?)
 
-HERE, DO:
-make some set of spawning buildings.  healer(maybe), pollution blocker, cleaner, planter.  
-
-THEN, do the root system and stat spreading system.  maybe do it simply first -- on/off, then can work on math.  so trees have certain ability, can spread thru roots
-
-need the root system and stat spreading system.
 
 
 
@@ -185,19 +187,13 @@ pollution stoppage skill while doing this.
 if the pollution starts out covering the entire field (or most of it), then it makes sense to try to get multiple units in -- some cleaning and some keeping the pollution at bay, and then having one of them make a "stay at bay" building and one make a "spawn" building.
 - do the above as a base, core mechanic.  goal is to clear the field.
 
---> ok, above makes sense.
-
 idea--> level 2 pollution -- maybe slower spreading... but need to upgrade yourselves to clean it/keep it at bay.
-
-so part of the progression/constant danger is that the pollution is constantly spreading.
 
 idea--> you can build an area -- the area defines how many units you can have.  
 
 so you win if there is no pollution left in the whole level.
 
 
-gameplay ideas:
-individual actor units can clean pollution, but better to automate
 
 
 - in addition to cleaning pollution, need to terraform (e.g., remove water/whatever...) (???) --> i don't' think this meshes with the flavor of "cleaning" the forest.  except maybe something like restoring bodies of water.
