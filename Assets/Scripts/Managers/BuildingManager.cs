@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 //fix the... dict thing... make it more generic so we can use it here...
 
@@ -11,7 +12,7 @@ public class BuildingManager : MonoBehaviour {
     public delegate void BuildingSpawnEventHandler(Building building);
 
     public event BuildingSpawnEventHandler OnBuildingSpawn;
-    //public event BuildingSpawnEventHandler onBuildingDelete;
+    public event BuildingSpawnEventHandler OnBuildingDelete;
 
     private static BuildingManager _instance;
     public static BuildingManager Instance
@@ -26,6 +27,7 @@ public class BuildingManager : MonoBehaviour {
             throw new InvalidOperationException("cannot instantiate more than one BuildingManager");
         }
         _instance = this;
+        _buildings = FindObjectsOfType<Building>().ToList();
     }
 
     [SerializeField]
@@ -37,6 +39,7 @@ public class BuildingManager : MonoBehaviour {
     [SerializeField]
     public Vector2Int defaultSpawnCoords;
 
+    [SerializeField]
     private List<Building> _buildings = new List<Building>();
     
     public Building SpawnBuildingAt(Building buildingPrefab, Vector3 worldCoords)
@@ -92,6 +95,7 @@ public class BuildingManager : MonoBehaviour {
 
     public void DestroyBuilding(Building buildingToDestroy)
     {
+        OnBuildingDelete?.Invoke(buildingToDestroy);
         UnityEngine.Object.Destroy(buildingToDestroy.gameObject);
     }
 }

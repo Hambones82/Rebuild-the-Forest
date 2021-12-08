@@ -202,6 +202,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4600485390185112, guid: f00a15c77ae83f740a20bbcf69ab4028, type: 3}
   m_PrefabInstance: {fileID: 862405613}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &374650265
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 374650267}
+  - component: {fileID: 374650266}
+  m_Layer: 0
+  m_Name: GameStateManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &374650266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374650265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e26fe91b2a61af4db8d562fb3a6c7a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pollutionSources: []
+--- !u!4 &374650267
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374650265}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &392665347
 GameObject:
   m_ObjectHideFlags: 0
@@ -26694,6 +26738,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4600485390185112, guid: 2a1d7ef040ac7d546a247ec089bd6b3d, type: 3}
   m_PrefabInstance: {fileID: 2034395471}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1139629710 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4600485390185112, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
+  m_PrefabInstance: {fileID: 1501808539}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1148139247
 GameObject:
   m_ObjectHideFlags: 0
@@ -26988,6 +27037,63 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7697494356099079861, guid: 73025696be352bd40868c907001b9fa6, type: 3}
   m_PrefabInstance: {fileID: 7697494354816639725}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1501808539
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1990238064}
+    m_Modifications:
+    - target: {fileID: 1030047143314608, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
+      propertyPath: m_Name
+      value: PollutionSource
+      objectReference: {fileID: 0}
+    - target: {fileID: 4600485390185112, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
+      propertyPath: m_RootOrder
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4600485390185112, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4600485390185112, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4600485390185112, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4600485390185112, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4600485390185112, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4600485390185112, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4600485390185112, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4600485390185112, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4600485390185112, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4600485390185112, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
 --- !u!1001 &1504027789
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27554,6 +27660,7 @@ Transform:
   - {fileID: 817590418}
   - {fileID: 320552915}
   - {fileID: 860028998}
+  - {fileID: 1139629710}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -27717,7 +27824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 385979971367115615, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3.3599837
+      value: 3.3609169
       objectReference: {fileID: 0}
     - target: {fileID: 1912259540184846535, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchorMax.y
@@ -27906,6 +28013,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1dc425665b8186f438095af3537f2a7f, type: 2}
   gridMap: {fileID: 1990238066}
   defaultSpawnCoords: {x: 0, y: 0}
+  _buildings: []
 --- !u!4 &2096301398
 Transform:
   m_ObjectHideFlags: 0
@@ -28363,7 +28471,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7697494355386919041, guid: 73025696be352bd40868c907001b9fa6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 7.839993
+      value: 7.83999
       objectReference: {fileID: 0}
     - target: {fileID: 7697494355879360040, guid: 73025696be352bd40868c907001b9fa6, type: 3}
       propertyPath: m_AnchorMax.x

@@ -1,8 +1,23 @@
+let's try the basic version of a win condition now: there are three pollution sources out there.  clean them all -> win.  --> ok, i like it.  don't even need to 
+		have them do anything, just need to clean them.
+just implement the above right now.
+also, add the fact that the buildings require states
+have a stats panel for the units
+need a progress bar for EVERYTHING.  
+
+- need to make the pollution sources as buildings.
+- pollution source manager
+- game state manager w/ win/loss
+- game state manager checks pollution source manager
+
+- probably, should figure out how to have actors interact with objects in an adjacent tile
+- don't allow right-click interaction with yourself
+
 delay when pollution is cleaned, for coming back.  could easily implement with a float array in pollutionmanager
 
 ??make some set of spawning buildings.  healer(maybe), pollution blocker, cleaner, planter.  
 
-
+??links between trees can improve the total number you can build.  
 
 
 THEN, do the root system and stat spreading system.  maybe do it simply first -- on/off, then can work on math.  so trees have certain ability, can spread thru roots
@@ -114,22 +129,12 @@ need other actions besides growing trees, cleaning pollution.
 
 
 
-
-
-controlling units that are healing is counterintuitive since it functions in conjunction with queueing actions.  either stop queueing actions (probably good) or 
-have a special case for when you are healing...  
-
-special case might be best.  if current action is healing, don't add a queue...  
-
-
 if you can make a heal building... why not just make a blocking building?  healing building has a fixed range but you need an extra actor unit.
 well, partly... you can bring the actor unit back...  but still why have to do it all actively when you can do it passively...
 
 have a text effects static class that just spawns floating/moving text effects for feedback (e.g., skill gains).
 
 heal tree w heal aura
-
-visual guide for blocker area of effect
 
 
 idea: threat meter, warning meter.  more you do, higher it goes, threats get worse.
@@ -141,16 +146,7 @@ new mouse tools - ??
 
 interface showing number of units
 interface showing unit abilities
-
-
-
-
 abilities with cooldowns.  e.g., prevent pollution pain, prevent pollution spread.  maybe clear all pollution in a certain area...  
-
-pollution hurts you.
-
-links between trees can improve the total number you can build.  
-
 since cleaning pollution will be such a big part of the game, i think we need to reduce the number of clicks necessary.  we can go with the "Traditional" method of 
 removing control of individual units and just designating orders for parts of the map.  but i think an intermediate method of allowing dragged rectangles for cleaning would be best.  try it out and see if not.
 

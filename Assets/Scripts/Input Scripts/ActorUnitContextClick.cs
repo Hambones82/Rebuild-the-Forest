@@ -6,7 +6,8 @@ using System;
 [RequireComponent(typeof(UnitActionController))]
 public class ActorUnitContextClick : ContextClickComponent
 {
-    UnitActionController actorUnit;
+    ActorUnit actorUnit;
+    UnitActionController actorUnitController;
     GridMap gridMap;
 
     [SerializeField]
@@ -20,8 +21,9 @@ public class ActorUnitContextClick : ContextClickComponent
 
     public override void Awake()
     {
-        actorUnit = GetComponent<UnitActionController>();
-        if (actorUnit == null)
+        actorUnit = GetComponent<ActorUnit>();
+        actorUnitController = GetComponent<UnitActionController>();
+        if (actorUnitController == null)
             throw new InvalidOperationException("ActorUnitContextClick cannot find a correcponding ActorUnit - this should not happen");
         gridMap = GetComponent<GridTransform>().gridMap;
     }
@@ -30,7 +32,7 @@ public class ActorUnitContextClick : ContextClickComponent
     {
         ActorUnit targetActorUnit = gridMap.GetObjectAtCell<ActorUnit>(mapPosition, MapLayer.playerUnits);
         List<UnitAction> actionsToAdd = new List<UnitAction>();
-        if (targetActorUnit != null)
+        if (targetActorUnit != null && targetActorUnit != actorUnit)
         {
             MoveAction action = (MoveAction)moveAction.GetObject();
             action.Initialize(gameObject);
@@ -65,15 +67,14 @@ public class ActorUnitContextClick : ContextClickComponent
                 OperateAction obAction = (OperateAction)operateBuildingAction.GetObject();
                 obAction.Initialize(gameObject, targetBuilding);
                 actionsToAdd.Add(obAction);
-                //actorUnit.DoAction(obAction);
             }
         }
         if(actionsToAdd.Count >0)
         {
-            actorUnit.CancelAllActions();
+            actorUnitController.CancelAllActions();
             foreach(UnitAction action in actionsToAdd)
             {
-                actorUnit.DoAction(action);
+                actorUnitController.DoAction(action);
             }
         }
     }

@@ -16,7 +16,6 @@ public static class TransformExtensionMethods
         for(int i = 0; i < transform.childCount; i++)
         {
             transforms[i].SetSiblingIndex(i);
-            //Debug.Log($"sibling {i}: {transforms[i].name}");
         }
     }
 }
