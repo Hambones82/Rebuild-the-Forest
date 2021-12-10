@@ -36,37 +36,45 @@ public class ActorUnitContextClick : ContextClickComponent
         {
             MoveAction action = (MoveAction)moveAction.GetObject();
             action.Initialize(gameObject);
-            action.SetMapDestination(mapPosition, true);
+            bool adjacent = healAction.PerformInAdjacentSquare;
+            action.SetMapDestination(mapPosition, adjacent);
             actionsToAdd.Add(action);
-            //actorUnit.DoAction(action);
             HealAction hAction = (HealAction)healAction.GetObject();
             hAction.Initialize(gameObject);
             hAction.SetTargetActor(targetActorUnit);
-            actionsToAdd.Add(hAction);
-            //actorUnit.DoAction(hAction);            
+            //actionsToAdd.Add(hAction);
         }
         else
         {
-            MoveAction action = (MoveAction)moveAction.GetObject();
-            action.Initialize(gameObject);
-            action.SetMapDestination(mapPosition);
-            actionsToAdd.Add(action);
-            //actorUnit.DoAction(action);
             BuildingComponentOperator targetBuilding = gridMap.GetObjectAtCell<BuildingComponentOperator>(mapPosition, MapLayer.buildings);
             Pollution targetPollution = gridMap.GetObjectAtCell<Pollution>(mapPosition, MapLayer.pollution);
-
-            if (targetPollution != null)
+            MoveAction action = (MoveAction)moveAction.GetObject();
+            action.Initialize(gameObject);
+            if(targetPollution == null && targetBuilding == null)
             {
-                CleanPollutionAction cpAction = (CleanPollutionAction)cleanPollutionAction.GetObject();
-                cpAction.Initialize(gameObject, targetPollution);
-                actionsToAdd.Add(cpAction);
-                //actorUnit.DoAction(cpAction);
+                action.SetMapDestination(mapPosition);
+                actionsToAdd.Add(action);
             }
-            else if (targetBuilding != null)
+            else
             {
-                OperateAction obAction = (OperateAction)operateBuildingAction.GetObject();
-                obAction.Initialize(gameObject, targetBuilding);
-                actionsToAdd.Add(obAction);
+                if (targetPollution != null)
+                {
+                    bool adjacent = cleanPollutionAction.PerformInAdjacentSquare;
+                    action.SetMapDestination(mapPosition, adjacent);
+                    actionsToAdd.Add(action);
+                    CleanPollutionAction cpAction = (CleanPollutionAction)cleanPollutionAction.GetObject();
+                    cpAction.Initialize(gameObject, targetPollution);
+                    actionsToAdd.Add(cpAction);
+                }
+                else if (targetBuilding != null)
+                {
+                    bool adjacent = operateBuildingAction.PerformInAdjacentSquare;
+                    action.SetMapDestination(mapPosition, adjacent);
+                    actionsToAdd.Add(action);
+                    OperateAction obAction = (OperateAction)operateBuildingAction.GetObject();
+                    obAction.Initialize(gameObject, targetBuilding);
+                    actionsToAdd.Add(obAction);
+                }
             }
         }
         if(actionsToAdd.Count >0)

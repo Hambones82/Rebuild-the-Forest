@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26ff95a500b76354da251034d51af2d0, type: 3}
   m_Name: Clean Pollution Action Type
   m_EditorClassIdentifier: 
+  _performInAdjacentSquare: 1

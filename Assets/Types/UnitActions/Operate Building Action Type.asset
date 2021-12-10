@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e427b993c87970a4a9b96b4d46904700, type: 3}
   m_Name: Operate Building Action Type
   m_EditorClassIdentifier: 
+  _performInAdjacentSquare: 1

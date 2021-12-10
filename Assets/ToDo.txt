@@ -1,7 +1,37 @@
-let's try the basic version of a win condition now: there are three pollution sources out there.  clean them all -> win.  --> ok, i like it.  don't even need to 
-		have them do anything, just need to clean them.
-just implement the above right now.
-also, add the fact that the buildings require states
+-pollution cleaning happens from adjacent square.
+"digging through the pollution" seems like it could actualy be fun.  however, it seems too easy.  ESPECIALLY with the heal mechanic.  let's delete it.
+even without heal mechanic, it's too easy to dig through the pollution.
+- need to refactor the unitactioncontextclick
+- the guys can be at the same spot -- probably want to avoid that (reserve the spot)
+- ok even with a greatly slowed pollution cleaning speed, this isn't that hard.  although tbh, this is likely bc i changed it to where they don't have to clean from
+the pollution square.
+- now the threat is that the pollution closes in on them.  but given enuogh free space, this is pretty unlikely to happen while they are cleaning enough pollution to get
+to the goal.
+- pollution spawning on top of you feels randomly bad.  it would be nice to have a warning.  i think this is easy to implement -- when we decide to spawn the pollution in, 
+just do it with a delay, add a visual component that indicates it's coming in.  maybe it blinks, blink speed increases as pollution is more imminent.
+-maybe change the pollution free spots debug thing into a real thing. make the normal "free" squares yellow, but add a red one for when pollution is imminent.
+
+so once we work out this cleaning thing, i think we can think about trying to establish a perimeter.  in addition, we can have the effects we've already talked 
+about spawn in.
+
+- need to fix the movement/adjacency stuff.  units shouldn't be able to stand on each other.  this is kind of a complicated thing to fix -- need to create a reserved tile
+list and then add all reserved tiles into the pathfinder obstacles
+
+so again the problem is making cleaning the pollution a challenge, but a surmountable one.
+
+- might need to fix movement in general.  take it out of the "actions" class and make it its own thing.   this will be a pretty big refactor.  considering it's not necessary
+(now) for gameplay, let's wait to do this until later
+
+possible solutions:
+- make the pollution hurt more
+- make cleaned pollution respawn faster
+- make cleaning much weaker --> this might be a pretty good answer
+
+
+place mushroom on dead tree --> grow more mushrooms.
+can then harvest them and re plant them
+
+also, add the fact that the buildings require stats
 have a stats panel for the units
 need a progress bar for EVERYTHING.  
 

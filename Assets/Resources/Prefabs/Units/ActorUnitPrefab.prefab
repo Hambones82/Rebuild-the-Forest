@@ -397,12 +397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8060cf872d0245144869b6c921bb907b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mapEffects:
-  - _range: 1
-    _enabled: 1
-    _effect:
-      _effectType: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
-      _amount: 1
+  _mapEffects: []
 --- !u!114 &1665845455
 MonoBehaviour:
   m_ObjectHideFlags: 0
