@@ -1,3 +1,6 @@
+code improvement: make the gridmap stuff reparentable...  meaning like i can put a gridmap 2 or 3 down from the actual gridmap and it'll still get the correct ref.  
+- allows them all to be organized in a hierarchy
+
 DO THESE:
 ---------
 

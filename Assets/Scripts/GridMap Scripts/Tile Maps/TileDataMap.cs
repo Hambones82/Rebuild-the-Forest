@@ -6,6 +6,7 @@ using System;
 
 [DefaultExecutionOrder(-5)]
 [RequireComponent(typeof(Tilemap))]
+[RequireComponent(typeof(TilemapRenderer))]
 public class TileDataMap : MonoBehaviour
 {
     [SerializeField]

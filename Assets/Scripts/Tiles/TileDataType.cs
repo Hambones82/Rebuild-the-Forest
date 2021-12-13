@@ -9,7 +9,8 @@ public enum TileDataType
     pollution,
     debug_BuildingRangeOverlay,
     debug_general,
-    pollution_block_overlay
+    pollution_block_overlay,
+    pollution_discoverable_overlay
 }
 
 public static class TileDataTypes
@@ -20,6 +21,7 @@ public static class TileDataTypes
         {TileDataType.encroachment, typeof(EncroachmentTile) },
         {TileDataType.debug_BuildingRangeOverlay, typeof(Tile) }, //just the base tile -- this is just a graphical layer
         {TileDataType.debug_general, typeof(Tile) },
-        {TileDataType.pollution_block_overlay, typeof(UIOverlayTile) }
+        {TileDataType.pollution_block_overlay, typeof(UIOverlayTile) },
+        {TileDataType.pollution_discoverable_overlay, typeof(UIOverlayTile) }
     };
 }

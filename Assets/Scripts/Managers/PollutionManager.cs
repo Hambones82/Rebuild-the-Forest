@@ -4,8 +4,19 @@ using UnityEngine;
 using System;
 
 //this is done in a very naive way, could be optimized... not necessary for prototype
+[DefaultExecutionOrder(-3)]
 public class PollutionManager : MonoBehaviour
 {
+    //public event 
+    //public delegate void PollutionCompleteEvent();
+    public event Action OnInitComplete;
+
+    private static PollutionManager _instance;
+    public static PollutionManager Instance
+    {
+        get => _instance;
+    }
+
     [SerializeField]
     private GridMap gridMap;
     [SerializeField]
@@ -31,9 +42,9 @@ public class PollutionManager : MonoBehaviour
     private float spreadPeriod;
     private float spreadTimer = 0;
 
-    GameObjectPool pollutionPool;
+    private GameObjectPool pollutionPool;
     
-    List<Vector2Int> freePositions;
+    private List<Vector2Int> freePositions;
 
     private void Awake()
     {
@@ -51,7 +62,6 @@ public class PollutionManager : MonoBehaviour
             pToAdd.PollutionManager = this;
             pollutionObjects.Add(pToAdd);
             UpdateFreePositionsForAddition(pToAdd.GetComponent<GridTransform>().topLeftPosMap);
-            //Debug.Log($"free positions count after considering static objects: {freePositions.Count}");
         }
 
         if(!initialMapHasPollution)
@@ -67,8 +77,21 @@ public class PollutionManager : MonoBehaviour
                 AddFreePosition(new Vector2Int(gridMap.width - 1, y));
             }
         }
-        //next --> ???
         PopulateInitialPollution();
+        if(_instance == null)
+        {
+            _instance = this;
+        }
+        else
+        {
+            throw new InvalidOperationException("can't have two pollution managers");
+        }
+    }
+
+
+    private void Start()
+    {
+        OnInitComplete?.Invoke();
     }
 
     private void UpdateFreePositionsForAddition(Vector2Int cell)
