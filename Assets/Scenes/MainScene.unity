@@ -463,7 +463,7 @@ MonoBehaviour:
   plantBlockEffect: {fileID: 11400000, guid: 4b0e8e8d5b7e9ea4fb191490c8eed54c, type: 2}
   mushroomBlockEffect: {fileID: 11400000, guid: d3a20ae1d30cc0f458d78972d0fa3842, type: 2}
   spreadBaseProbability: 0.01
-  spreadPeriod: 1
+  spreadPeriod: 0.5
   freeZoneWidth: 25
 --- !u!4 &415643804
 Transform:
@@ -25879,7 +25879,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 15, y: 15, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -27824,7 +27824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 385979971367115615, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3.3601398
+      value: 3.3599641
       objectReference: {fileID: 0}
     - target: {fileID: 1912259540184846535, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchorMax.y
@@ -28007,10 +28007,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   availableBuildingTypes:
-  - {fileID: 11400000, guid: 893face88af731e4fabc7a74c0aab6e6, type: 2}
+  - {fileID: 11400000, guid: 1280717aae5699b4fb70715b9c754ee5, type: 2}
   - {fileID: 11400000, guid: be688e35e3df4c142a5f84cbd6431e53, type: 2}
-  - {fileID: 11400000, guid: 09847e78b0db77f4f857fdd33e2ced88, type: 2}
-  - {fileID: 11400000, guid: 1dc425665b8186f438095af3537f2a7f, type: 2}
+  - {fileID: 11400000, guid: 5ec8b608218f695428f10049b5ad1d47, type: 2}
+  - {fileID: 11400000, guid: 1c5e7096d3705424593a155c6e6a5439, type: 2}
   gridMap: {fileID: 1990238066}
   defaultSpawnCoords: {x: 0, y: 0}
   _buildings: []
@@ -28257,11 +28257,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3504962035391567873, guid: b44f50d64c1583547bfc58d3ef13e0ad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.5
+      value: 11.5
       objectReference: {fileID: 0}
     - target: {fileID: 3504962035391567873, guid: b44f50d64c1583547bfc58d3ef13e0ad, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.5
+      value: 12.5
       objectReference: {fileID: 0}
     - target: {fileID: 3504962035391567873, guid: b44f50d64c1583547bfc58d3ef13e0ad, type: 3}
       propertyPath: m_LocalPosition.z
@@ -28471,7 +28471,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7697494355386919041, guid: 73025696be352bd40868c907001b9fa6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 7.8403344
+      value: 7.840005
       objectReference: {fileID: 0}
     - target: {fileID: 7697494355879360040, guid: 73025696be352bd40868c907001b9fa6, type: 3}
       propertyPath: m_AnchorMax.x

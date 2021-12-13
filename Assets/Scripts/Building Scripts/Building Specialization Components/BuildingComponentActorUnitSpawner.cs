@@ -22,7 +22,7 @@ public class BuildingComponentActorUnitSpawner : MonoBehaviour
         //need to check if reached max value
         if(!ActorUnitManager.Instance.ActorUnitsFull)
         {
-            ActorUnitManager.Instance.SpawnActorUnit(new Vector2Int(10, 10));
+            ActorUnitManager.Instance.SpawnActorUnit(GetComponent<GridTransform>().GetAdjacentTiles()[0]);
         }
     }
 

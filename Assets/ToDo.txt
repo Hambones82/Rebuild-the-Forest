@@ -1,3 +1,51 @@
+DO THESE:
+---------
+
+MUST:
+-----
+1) 
+1) cleaning pollution uncovers resources - but only once
+	- 
+2) additional condition (e.g., nearby building) for harvesting win condition
+3) central building to protect -- cleans seeds.  
+
+4) early seeds let grow plants -- block early pollution.  
+5) skills are collectible?
+6) pollution has higher types
+7) if pollution covers main building, you lose
+
+
+
+transform into building is an advanced skill
+
+islands of pollution die or don't grow
+
+
+
+
+def. need a better visualizer for when blocking exists.  the colors thing is helpful for knowing what type you need before, but you need to know when there is actually
+a block in place.
+
+i think we need to play around with the idea that the different buildings give you shapes that you have to align.  maybe the big blocker building gives you a wall that 
+is 2-3 away from it.  then maybe plant and mushroom give you lines or corners.  actually yeah, plant gives you lines, mush gives you corners.  
+in that case, we need to make a lot of things -- visualizers for the resulting effect area, shapes for the effect area.  and a way to select the shapes.  
+
+- i'm not sure i should start with the below stuff.  i think there needs to be something more basic that should be fixed, without just "adding stuff."
+
+let's try JUST the blocker idea -- make some unlimited mushrooms and plants, make the unlimited spawner building spawn guys next to itself
+
+- first: add the system that randomly spawns mushrooms and plant seeds on the map when you clean pollution.  
+- maybe it's the cleaning stat that allows one to grow into a tree -- i think this makes sense. -- implement it this way.
+- add an info panel for the unit you clicked on
+-dynamically changing pollution grow speed based on number of pollution-free squares? -- that's a cool way to make the game harder as you go along
+
+- pollution spawning on top of you feels randomly bad.  it would be nice to have a warning.  i think this is easy to implement -- when we decide to spawn the pollution in, 
+just do it with a delay, add a visual component that indicates it's coming in.  maybe it blinks, blink speed increases as pollution is more imminent.
+- warning for when you're getting damaged
+- when clicking a square, alternate through the guys there
+
+
+
 -pollution cleaning happens from adjacent square.
 "digging through the pollution" seems like it could actualy be fun.  however, it seems too easy.  ESPECIALLY with the heal mechanic.  let's delete it.
 even without heal mechanic, it's too easy to dig through the pollution.
@@ -7,8 +55,6 @@ even without heal mechanic, it's too easy to dig through the pollution.
 the pollution square.
 - now the threat is that the pollution closes in on them.  but given enuogh free space, this is pretty unlikely to happen while they are cleaning enough pollution to get
 to the goal.
-- pollution spawning on top of you feels randomly bad.  it would be nice to have a warning.  i think this is easy to implement -- when we decide to spawn the pollution in, 
-just do it with a delay, add a visual component that indicates it's coming in.  maybe it blinks, blink speed increases as pollution is more imminent.
 -maybe change the pollution free spots debug thing into a real thing. make the normal "free" squares yellow, but add a red one for when pollution is imminent.
 
 so once we work out this cleaning thing, i think we can think about trying to establish a perimeter.  in addition, we can have the effects we've already talked 
@@ -21,6 +67,8 @@ so again the problem is making cleaning the pollution a challenge, but a surmoun
 
 - might need to fix movement in general.  take it out of the "actions" class and make it its own thing.   this will be a pretty big refactor.  considering it's not necessary
 (now) for gameplay, let's wait to do this until later
+
+idea: always spawn the goal things one close, one medium distance, one far.  far one will obv be the hardest to get to.
 
 possible solutions:
 - make the pollution hurt more
