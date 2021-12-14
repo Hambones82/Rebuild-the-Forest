@@ -1,12 +1,8 @@
-remove marker when pollution dies.
+
+
+
+
 maybe your tree thing has abilities... can dig out and bring back things to charge up the abilities?
-
-random drop table thing still isn't working...
-
-drop table class.  building type drop.  "advance" function.  table adjusts internal probabilities to eventually give a guaranteed drop.  
-add the drop table class to the discoverable manager
-
-maybe just do something really simple for drop table.  then have the whatever manager spawn a building there, if there's no building, when you clear.  
 
 cool thing is buildings CAN stack on top of each other so... not too terrible that multiple things could drop.
 
@@ -20,11 +16,9 @@ DO THESE:
 
 MUST:
 -----
-1) 
-1) cleaning pollution uncovers resources - but only once
-	- 
+1) central building to protect -- cleans seeds.  	- 
 2) additional condition (e.g., nearby building) for harvesting win condition
-3) central building to protect -- cleans seeds.  
+3) 
 
 4) early seeds let grow plants -- block early pollution.  
 5) skills are collectible?
