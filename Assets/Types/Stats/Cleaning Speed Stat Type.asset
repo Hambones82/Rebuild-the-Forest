@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1998ef396c518944d9c1120cc9357410, type: 3}
   m_Name: Cleaning Speed Stat Type
   m_EditorClassIdentifier: 
-  amountPerClean: 1
+  amountPerClean: 25

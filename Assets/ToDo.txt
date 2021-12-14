@@ -1,4 +1,16 @@
+yeah i really like this loop.  different pollution levels.  higher levels give better rewards.  i still think the idea of growing a unit into a tree is a good one.
+i think growing is also a good way to advance the game after you have the "standoff" of when you first enclose your base.  you can improve your units pollution abilities 
+by continuing to clean pollution, and then get a building that automatically cleans pollution in a given radius.  maybe the roots clean pollution up/down and provide that 
+ability to neighboring trees.  i like these ideas.
 
+i like the faster clean, with the challenge being the speed with which the pollution comes forward.  let's design to the point where we can establish a base.  
+don't worry about the "win condition" right now.  regarding the issue that it's too easy to get there with a fast clean, we can deal with that by making the win condition
+more difficult that just "pick up the x"
+
+i definitely think it would be cool to do a pollution cutoff, where cutoff islands of pollution are killed or at least don't grow.
+
+IDEA: actually, growing guy int obuilding could work for pollution guy. maybe make a building that block poll and slowly digs out (maybe picks a random square in a radius)
+-	this one, once he's become pretty good at cleaning pollution.
 
 
 
@@ -16,9 +28,12 @@ DO THESE:
 
 MUST:
 -----
-1) central building to protect -- cleans seeds.  	- 
-2) additional condition (e.g., nearby building) for harvesting win condition
-3) 
+0) uncover the dead trees...  will these be spawned dynamically?  if so, this is kind of hard to do bc i'd have to check if four tiles are free... might not want this...
+- just spawn them in on mapgen...
+1) central building to protect -- cleans seeds.  --> try this, along with the appropriate loss condition (if pollution touches it) 
+2) do i even like this clean seeds mechanic?  i think it makes sense.  maybe the earliest thing will be just some seeds that'll help hold off pollution?  i dunno...
+2.5) try the slowing poll effect...
+3) additional condition (e.g., nearby building) for harvesting win condition
 
 4) early seeds let grow plants -- block early pollution.  
 5) skills are collectible?
