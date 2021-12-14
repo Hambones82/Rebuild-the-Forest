@@ -11,6 +11,9 @@ public class DiscoverableManager : MonoBehaviour
     private bool[,] _discovered; //don't set this directly -- doing so fails to call callbacks
     private int width, height;
 
+    [SerializeField]
+    private DropTable pollutionDropTable;
+
     public void SetDiscovered(int x, int y, bool b)
     {
         if(x < 0 || y < 0 || x >= width || y >= height)
@@ -24,14 +27,14 @@ public class DiscoverableManager : MonoBehaviour
         }
     }
 
-    
-
     private void Awake()
     {
+        pollutionDropTable.Initialize();
         width = GridMap.Current.width;
         height = GridMap.Current.height;
         _discovered = new bool[width, height];
         PollutionManager.Instance.OnInitComplete += InitializeDiscovered;
+        PollutionManager.Instance.OnPollutionDead += SpawnDiscovered;
     }
 
     private void InitializeDiscovered()
@@ -43,6 +46,16 @@ public class DiscoverableManager : MonoBehaviour
             {
                 SetDiscovered(x,y, pollutionGridMap.GetObjectsAtCell(new Vector2Int(x,y)).Count == 0);
             }
+        }
+    }
+
+    private void SpawnDiscovered(Vector2Int cell)
+    {
+        if(!_discovered[cell.x, cell.y])
+        {
+            BuildingType buildingType = pollutionDropTable.GetDroppedBuildingType();
+            BuildingManager.Instance.SpawnBuildingAt(buildingType.BuildingPrefab, cell);
+            SetDiscovered(cell.x, cell.y, true);
         }
     }
 }

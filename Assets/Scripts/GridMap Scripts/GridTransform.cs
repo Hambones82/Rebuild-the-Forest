@@ -299,20 +299,20 @@ public class GridTransform : MonoBehaviour, IGridMapable
     }
 
     //given a position in world coordinates, that is intended to be at the center of the grid transform, return the coordinates of the top left cell in map coordinates
-    private Vector2Int WorldCenterToMapTopLeft(Vector3 WorldCenterPos)
+    public Vector2Int WorldCenterToMapTopLeft(Vector3 WorldCenterPos)
     {
         Assert.IsNotNull(gridMap);
 
         Vector3 topLeftWorld = new Vector3(0, 0, 0);
         topLeftWorld.x = WorldCenterPos.x - topLeftToCenterDistance.x;
         topLeftWorld.y = WorldCenterPos.y + topLeftToCenterDistance.y;
-        return gridMap.WorldToMap(topLeftWorld);
+        return GridMap.Current.WorldToMap(topLeftWorld);
 
     }
 
-    private Vector3 TopLeftMapToWorldCenter(Vector2Int TopLeftMap)
+    public Vector3 TopLeftMapToWorldCenter(Vector2Int TopLeftMap)
     {
-        Vector3 worldTopLeftCoords = gridMap.MapToWorld(TopLeftMap);
+        Vector3 worldTopLeftCoords = GridMap.Current.MapToWorld(TopLeftMap);
         Vector3 worldCenterCoords = new Vector3(worldTopLeftCoords.x + topLeftToCenterDistance.x, worldTopLeftCoords.y - topLeftToCenterDistance.y, 0);
         return worldCenterCoords;
     }

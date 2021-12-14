@@ -1,3 +1,17 @@
+remove marker when pollution dies.
+maybe your tree thing has abilities... can dig out and bring back things to charge up the abilities?
+
+random drop table thing still isn't working...
+
+drop table class.  building type drop.  "advance" function.  table adjusts internal probabilities to eventually give a guaranteed drop.  
+add the drop table class to the discoverable manager
+
+maybe just do something really simple for drop table.  then have the whatever manager spawn a building there, if there's no building, when you clear.  
+
+cool thing is buildings CAN stack on top of each other so... not too terrible that multiple things could drop.
+
+could be a good candidate for custom editor, though...  could implement this really easy tbh
+
 code improvement: make the gridmap stuff reparentable...  meaning like i can put a gridmap 2 or 3 down from the actual gridmap and it'll still get the correct ref.  
 - allows them all to be organized in a hierarchy
 
@@ -271,7 +285,8 @@ idea--> you can build an area -- the area defines how many units you can have.
 so you win if there is no pollution left in the whole level.
 
 
-
+IDEA: 
+re sentience: maybe you get abilities as a forest itself...
 
 - in addition to cleaning pollution, need to terraform (e.g., remove water/whatever...) (???) --> i don't' think this meshes with the flavor of "cleaning" the forest.  except maybe something like restoring bodies of water.
 

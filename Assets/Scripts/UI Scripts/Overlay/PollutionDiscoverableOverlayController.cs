@@ -24,5 +24,9 @@ public class PollutionDiscoverableOverlayController : MonoBehaviour
         {
             tdm.SetTileAt(discoverableTile, new Vector2Int(x, y));
         }
+        else
+        {
+            tdm.SetTileAt(null, new Vector2Int(x, y));
+        }
     }
 }

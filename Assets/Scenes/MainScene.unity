@@ -27554,6 +27554,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f57c23b8705e446959b33d57ed26ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pollutionDropTable:
+    dropChance: 100
+    dropTableEntries:
+    - rarity: 1
+      buildingType: {fileID: 11400000, guid: d65e2eff769869545bbdba47d63dcb00, type: 2}
+    - rarity: 1
+      buildingType: {fileID: 11400000, guid: c1920720c408ea14aaadfb3d81670161, type: 2}
+    count: 
 --- !u!4 &1906543217
 Transform:
   m_ObjectHideFlags: 0
@@ -28016,7 +28024,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 385979971367115615, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3.35997
+      value: 3.3601034
       objectReference: {fileID: 0}
     - target: {fileID: 1912259540184846535, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchorMax.y
@@ -28663,7 +28671,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7697494355386919041, guid: 73025696be352bd40868c907001b9fa6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 7.839985
+      value: 7.840266
       objectReference: {fileID: 0}
     - target: {fileID: 7697494355879360040, guid: 73025696be352bd40868c907001b9fa6, type: 3}
       propertyPath: m_AnchorMax.x

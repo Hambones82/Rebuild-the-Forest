@@ -7,9 +7,11 @@ using System;
 [DefaultExecutionOrder(-3)]
 public class PollutionManager : MonoBehaviour
 {
+    public delegate void PollutionEvent(Vector2Int cell);
     //public event 
     //public delegate void PollutionCompleteEvent();
     public event Action OnInitComplete;
+    public event PollutionEvent OnPollutionDead;
 
     private static PollutionManager _instance;
     public static PollutionManager Instance
@@ -261,6 +263,7 @@ public class PollutionManager : MonoBehaviour
         pollutionPool.RecycleObject(pollution.gameObject);
         //freePositions.Add(pollutionPosition);
         UpdateFreePositionsForRemoval(pollutionPosition);
+        OnPollutionDead(pollutionPosition);
     }
 
 
