@@ -1,3 +1,63 @@
+To Do:
+------
+
+Ideas:
+------
+drop inventory when die --> good.  make a "mixed" building.  when you die, spawn the mixed, others can come and pick up.
+need a drop inventory ability in general.  would be nice to allow some guys to specialize.  e.g., some clean pollution.
+need a pause mode
+
+the blocker objects themselves could be expendable as more pollution grows at them.  not a bad idea... - not sure abt this one.  maybe -- it would add difficulty/challenge
+	could present some interesting gameplay bc you might want to upgrade all yoru trees to ones that clean pollution but that might be a pretty scarce resource
+mushrooms decompose dead trees to get more mushrooms thing. --> then we could turn down the spawn rate.
+implement multiple pollution types...  
+
+i like the different pollution effects.  no pass.  different spread types.  can damage/no damage.  can't think of any more.
+obv clean them in different ways.  
+
+lots of types of drops, some are research items that allow you to research things to help you clean the pollution.  tech for navigating the map and cleaning pollution.
+
+tech is human waste -- need to research it.
+
+so e.g., one drop could be a book...  clean it to learn human language.  lots of other drops possible.
+maybe horrified by things like chainsaws, other forestry type equipment.
+
+pollution: when level up, can clean more (e.g., maybe a row of pollution).  definitely need pollution clean advancement.
+
+pollution: high level gives a building that blocks and cleans pollution in a zone. basically just make its block radius grow over time. 
+need ideas for new buildings.  just block poll'n is pretty boring
+would be nice to have some extremely low drop items, to give good motivation to keep digging.  maybe some different kinds of trees.  -- like seeds for powerful trees.  
+higher poll'n clean level gives better rewards, e.g., faster clean, more squares cleaned
+roots
+pollution cutoff leads to dead islands
+maybe your tree thing has abilities... can dig out and bring back things to charge up the abilities?
+if poll'n covers main building, you lose
+i think we need to play around with the idea that the different buildings give you shapes that you have to align.  maybe the big blocker building gives you a wall that 
+is 2-3 away from it.  then maybe plant and mushroom give you lines or corners.  actually yeah, plant gives you lines, mush gives you corners.  
+in that case, we need to make a lot of things -- visualizers for the resulting effect area, shapes for the effect area.  and a way to select the shapes.  
+
+- the guys can be at the same spot -- probably want to avoid that (reserve the spot)
+
+- add an info panel for the unit you clicked on
+-dynamically changing pollution grow speed based on number of pollution-free squares? -- that's a cool way to make the game harder as you go along
+
+- pollution spawning on top of you feels randomly bad.  it would be nice to have a warning.  i think this is easy to implement -- when we decide to spawn the pollution in, 
+just do it with a delay, add a visual component that indicates it's coming in.  maybe it blinks, blink speed increases as pollution is more imminent.
+- warning for when you're getting damaged
+- when clicking a square, alternate through the guys there
+
+??make some set of spawning buildings.  healer(maybe), pollution blocker, cleaner, planter.  
+
+- need to refactor the unitactioncontextclick
+
+Evaluations:
+------------
+difficulty varies greatly depending on block effect radius
+using the pickupable/expendable resources to build blocking buildings definitely feels better than unlimited and gives a reason to dig.
+ok i definitely like the idea of getting new guys from the dead trees on the map.
+digging to find whatever is a really good idea.  
+i still don't like the transform into building early on thing.  it really complicates things because it's a way to quickly lose.
+
 yeah i really like this loop.  different pollution levels.  higher levels give better rewards.  i still think the idea of growing a unit into a tree is a good one.
 i think growing is also a good way to advance the game after you have the "standoff" of when you first enclose your base.  you can improve your units pollution abilities 
 by continuing to clean pollution, and then get a building that automatically cleans pollution in a given radius.  maybe the roots clean pollution up/down and provide that 
@@ -14,7 +74,6 @@ IDEA: actually, growing guy int obuilding could work for pollution guy. maybe ma
 
 
 
-maybe your tree thing has abilities... can dig out and bring back things to charge up the abilities?
 
 cool thing is buildings CAN stack on top of each other so... not too terrible that multiple things could drop.
 
@@ -42,46 +101,10 @@ MUST:
 
 
 
-transform into building is an advanced skill
-
-islands of pollution die or don't grow
-
-
-
-
 def. need a better visualizer for when blocking exists.  the colors thing is helpful for knowing what type you need before, but you need to know when there is actually
 a block in place.
 
-i think we need to play around with the idea that the different buildings give you shapes that you have to align.  maybe the big blocker building gives you a wall that 
-is 2-3 away from it.  then maybe plant and mushroom give you lines or corners.  actually yeah, plant gives you lines, mush gives you corners.  
-in that case, we need to make a lot of things -- visualizers for the resulting effect area, shapes for the effect area.  and a way to select the shapes.  
-
-- i'm not sure i should start with the below stuff.  i think there needs to be something more basic that should be fixed, without just "adding stuff."
-
-let's try JUST the blocker idea -- make some unlimited mushrooms and plants, make the unlimited spawner building spawn guys next to itself
-
-- first: add the system that randomly spawns mushrooms and plant seeds on the map when you clean pollution.  
 - maybe it's the cleaning stat that allows one to grow into a tree -- i think this makes sense. -- implement it this way.
-- add an info panel for the unit you clicked on
--dynamically changing pollution grow speed based on number of pollution-free squares? -- that's a cool way to make the game harder as you go along
-
-- pollution spawning on top of you feels randomly bad.  it would be nice to have a warning.  i think this is easy to implement -- when we decide to spawn the pollution in, 
-just do it with a delay, add a visual component that indicates it's coming in.  maybe it blinks, blink speed increases as pollution is more imminent.
-- warning for when you're getting damaged
-- when clicking a square, alternate through the guys there
-
-
-
--pollution cleaning happens from adjacent square.
-"digging through the pollution" seems like it could actualy be fun.  however, it seems too easy.  ESPECIALLY with the heal mechanic.  let's delete it.
-even without heal mechanic, it's too easy to dig through the pollution.
-- need to refactor the unitactioncontextclick
-- the guys can be at the same spot -- probably want to avoid that (reserve the spot)
-- ok even with a greatly slowed pollution cleaning speed, this isn't that hard.  although tbh, this is likely bc i changed it to where they don't have to clean from
-the pollution square.
-- now the threat is that the pollution closes in on them.  but given enuogh free space, this is pretty unlikely to happen while they are cleaning enough pollution to get
-to the goal.
--maybe change the pollution free spots debug thing into a real thing. make the normal "free" squares yellow, but add a red one for when pollution is imminent.
 
 so once we work out this cleaning thing, i think we can think about trying to establish a perimeter.  in addition, we can have the effects we've already talked 
 about spawn in.
@@ -89,21 +112,11 @@ about spawn in.
 - need to fix the movement/adjacency stuff.  units shouldn't be able to stand on each other.  this is kind of a complicated thing to fix -- need to create a reserved tile
 list and then add all reserved tiles into the pathfinder obstacles
 
-so again the problem is making cleaning the pollution a challenge, but a surmountable one.
-
 - might need to fix movement in general.  take it out of the "actions" class and make it its own thing.   this will be a pretty big refactor.  considering it's not necessary
 (now) for gameplay, let's wait to do this until later
 
 idea: always spawn the goal things one close, one medium distance, one far.  far one will obv be the hardest to get to.
 
-possible solutions:
-- make the pollution hurt more
-- make cleaned pollution respawn faster
-- make cleaning much weaker --> this might be a pretty good answer
-
-
-place mushroom on dead tree --> grow more mushrooms.
-can then harvest them and re plant them
 
 also, add the fact that the buildings require stats
 have a stats panel for the units
@@ -119,7 +132,6 @@ need a progress bar for EVERYTHING.
 
 delay when pollution is cleaned, for coming back.  could easily implement with a float array in pollutionmanager
 
-??make some set of spawning buildings.  healer(maybe), pollution blocker, cleaner, planter.  
 
 ??links between trees can improve the total number you can build.  
 

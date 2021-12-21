@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mapEffects:
-  - _range: 1
+  - _range: 5
     _enabled: 1
     _effect:
       _effectType: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
