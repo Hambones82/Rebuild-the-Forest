@@ -10,6 +10,9 @@ public class Pollution : MonoBehaviour
     private PollutionManager pollutionManager;
     public PollutionManager PollutionManager { get => pollutionManager; set => pollutionManager = value; }
 
+    [SerializeField]
+    public List<PollutionEffect> pollutionEffects;
+
     private SpriteRenderer spriteRenderer;
 
     [SerializeField]

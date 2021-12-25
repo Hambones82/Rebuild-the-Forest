@@ -1,5 +1,27 @@
 To Do:
 ------
+implement multiple pollution types...  
+get various effects.  
+	- no movement
+	- slow movement
+	- damages you
+	- clean levels (or clean types or requirements)
+	- clean speed
+	- drop tables - in the controller?
+	- 
+
+also, they spread differently
+	- can think of different ways...
+
+where do i put all these things???  list of effects in each prefab?  not the worst idea...  
+	- could also use a scriptable object to store information in a basic prefab. i kind of like this idea.  
+		- would have a hard time defining behavior?  but maybe we just want others to do that.  maybe just want the effects... i think that's a decent idea.
+		- let's start out just with the scripable object for effect type.  then go from there.
+
+
+
+
+- debug mouseover -- give it a timer to limit update frequency.
 
 Ideas:
 ------
@@ -10,7 +32,12 @@ need a pause mode
 the blocker objects themselves could be expendable as more pollution grows at them.  not a bad idea... - not sure abt this one.  maybe -- it would add difficulty/challenge
 	could present some interesting gameplay bc you might want to upgrade all yoru trees to ones that clean pollution but that might be a pretty scarce resource
 mushrooms decompose dead trees to get more mushrooms thing. --> then we could turn down the spawn rate.
-implement multiple pollution types...  
+
+
+remove pollution -- need to find the correct pollution controller
+
+//this removepollution thing is a problem because outside things call it -- need to implement in pollution manager and then call here
+    //as a base implementation, just call this one, but eventually need to find which pollution type controller is appropriate
 
 i like the different pollution effects.  no pass.  different spread types.  can damage/no damage.  can't think of any more.
 obv clean them in different ways.  
