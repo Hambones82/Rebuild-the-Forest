@@ -5,10 +5,22 @@ get various effects.
 	- no movement
 	- slow movement
 	- damages you
-	- clean levels (or clean types or requirements)
+	- clean types or requirements
 	- clean speed
 	- drop tables - in the controller?
 	- 
+
+let's just implement all these effects.  no movement...
+so... to implement movement stopping, we need to modify the pathfinding map.  we can probably do this with a callback.  for example, when a pollution with such an effect
+spawns, call the callback...  um...  yeah i guess.  so we need some guy that has these callbacks.  
+
+ok.... so for the pathfinder passable map.  how do i handle the issue that...  if i add something that's not passable, then yeah make it not passable.  but if i remove 
+something that's not passable, then you need to still figure out...  whether it's passable...  
+
+one thing i can think of is...  for each...  one, have a list of... bools... with like some unique handle...  maybe...  the object that set it (?). then you just and them all
+to calculate the true thing.  shrug...  
+
+that could work.  like have a dictionary of vector2's maybe...  or even like... just an array of lists or even a list of lists.  maybe an array of lists.  
 
 also, they spread differently
 	- can think of different ways...

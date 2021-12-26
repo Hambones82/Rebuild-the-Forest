@@ -41,6 +41,11 @@ public static class PathFinder
         }
     }
     
+    public static void UpdatePassable(int x, int y, bool passable)
+    {
+        grid.tiles[x, y].passable = passable;
+    }
+
     public static void Initialize(int width, int height, bool[,] passableMap)
     {
         grid = new PFGrid(width, height);
