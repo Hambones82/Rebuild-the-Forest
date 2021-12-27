@@ -128,6 +128,49 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5437509143199544727, guid: 26bc6514b4b08ee4b8b307cc5dbfc0c4, type: 3}
   m_PrefabInstance: {fileID: 7102273192076939487}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &252414583
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 252414585}
+  - component: {fileID: 252414584}
+  m_Layer: 0
+  m_Name: PathFinderManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &252414584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252414583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 623beb00ff821eb4a85e9ad08ecc8055, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &252414585
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252414583}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.170288, y: 18.871967, z: -330.33823}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &306355002
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -454,8 +497,6 @@ MonoBehaviour:
   gridMap: {fileID: 1990238066}
   pollutionControllers:
   - id: 0
-  pTypeController:
-  - id: 1
   references:
     version: 1
     00000000:
@@ -465,25 +506,12 @@ MonoBehaviour:
         gridMap: {fileID: 0}
         pollutionPrefab: {fileID: 332257860741888898, guid: a5d1b1f1f11595049b029ebf44392545, type: 3}
         pollutionObjects: []
-        spreadPeriod: 2
+        spreadPeriod: 0.5
         treeBlockEffect: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
         plantBlockEffect: {fileID: 11400000, guid: 4b0e8e8d5b7e9ea4fb191490c8eed54c, type: 2}
         mushroomBlockEffect: {fileID: 11400000, guid: d3a20ae1d30cc0f458d78972d0fa3842, type: 2}
         spreadBaseProbability: 0.05
         freeZoneWidth: 25
-    00000001:
-      type: {class: BasicPollutionController, ns: , asm: ProjectAssembly}
-      data:
-        pollutionManager: {fileID: 0}
-        gridMap: {fileID: 0}
-        pollutionPrefab: {fileID: 332257860741888898, guid: a5d1b1f1f11595049b029ebf44392545, type: 3}
-        pollutionObjects: []
-        spreadPeriod: 2
-        treeBlockEffect: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
-        plantBlockEffect: {fileID: 11400000, guid: 4b0e8e8d5b7e9ea4fb191490c8eed54c, type: 2}
-        mushroomBlockEffect: {fileID: 11400000, guid: d3a20ae1d30cc0f458d78972d0fa3842, type: 2}
-        spreadBaseProbability: 0.05
-        freeZoneWidth: 20
 --- !u!4 &415643804
 Transform:
   m_ObjectHideFlags: 0
@@ -16841,8 +16869,8 @@ Tilemap:
   - first: {x: 10, y: 17, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 34
-      m_TileSpriteIndex: 35
+      m_TileIndex: 36
+      m_TileSpriteIndex: 34
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -16851,8 +16879,8 @@ Tilemap:
   - first: {x: 11, y: 17, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 34
-      m_TileSpriteIndex: 35
+      m_TileIndex: 36
+      m_TileSpriteIndex: 34
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -16861,8 +16889,8 @@ Tilemap:
   - first: {x: 12, y: 17, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 34
-      m_TileSpriteIndex: 35
+      m_TileIndex: 36
+      m_TileSpriteIndex: 34
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -16871,8 +16899,8 @@ Tilemap:
   - first: {x: 13, y: 17, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 34
-      m_TileSpriteIndex: 35
+      m_TileIndex: 36
+      m_TileSpriteIndex: 34
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -16881,8 +16909,8 @@ Tilemap:
   - first: {x: 14, y: 17, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 34
-      m_TileSpriteIndex: 35
+      m_TileIndex: 36
+      m_TileSpriteIndex: 34
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -16891,8 +16919,8 @@ Tilemap:
   - first: {x: 15, y: 17, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 34
-      m_TileSpriteIndex: 35
+      m_TileIndex: 36
+      m_TileSpriteIndex: 34
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -25658,12 +25686,12 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 2500
+  - m_RefCount: 2494
     m_Data: {fileID: 11400000, guid: cac40e56f30d79a4a923f349faadbda4, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 6
+    m_Data: {fileID: 11400000, guid: d0acd69d9d8aab9498d74b449086f4ee, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 0
     m_Data: {fileID: 0}
@@ -25733,9 +25761,9 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 2500
+  - m_RefCount: 6
+    m_Data: {fileID: -6240118714662843829, guid: 05adef9260fc53a4b87523ac5750eb26, type: 3}
+  - m_RefCount: 2494
     m_Data: {fileID: 181853828817544305, guid: 05adef9260fc53a4b87523ac5750eb26, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 2500
@@ -27729,7 +27757,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 385979971367115615, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3.239988
+      value: 3.1200826
       objectReference: {fileID: 0}
     - target: {fileID: 1912259540184846535, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchorMax.y
@@ -28375,7 +28403,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7697494355386919041, guid: 73025696be352bd40868c907001b9fa6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 7.559994
+      value: 7.2801466
       objectReference: {fileID: 0}
     - target: {fileID: 7697494355879360040, guid: 73025696be352bd40868c907001b9fa6, type: 3}
       propertyPath: m_AnchorMax.x

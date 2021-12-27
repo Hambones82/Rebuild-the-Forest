@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3eadcac5c3ad4324ea79bb8607ba8de7, type: 3}
+  m_Script: {fileID: 11500000, guid: 09f2bf76508f4fb48a16acac67404b93, type: 3}
   m_Name: StopPollutionEffect
   m_EditorClassIdentifier: 

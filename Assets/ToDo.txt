@@ -1,5 +1,18 @@
+so pollution blocking finally works.  i'd like to update the pathfinder to maybe get a new path every tile traveled and also to allow clicking on a square that isn't passable
+but still allow going to an adjacent square.  seems hard bc now i handle adjacency by just removing the last node (which actually isn't right...).
+
+so i guess the next step is update pathfinding to allow clicking on a thingy that is a blocker.  issue is... it's not passable, so a standard pathfinding test won't work on 
+it.
+
+i guess the idea would be... if there's a gridtransform there...  maybe you go next to it...?  pick an adjacent tile.  could do that as just the adjacent tile closest in 
+manhattan distance.  but i think there could be problems here...
+
+simplest way would be to do a pathfind for each neighboring square.  i wonder if there's a better way.
+
 To Do:
 ------
+current problem is in the pathfinder class, and it's that i'm sending out the "can't update whatever" error twice.  there's probably a problem in design...
+
 implement multiple pollution types...  
 get various effects.  
 	- no movement

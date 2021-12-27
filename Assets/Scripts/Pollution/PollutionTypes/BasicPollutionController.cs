@@ -85,8 +85,8 @@ public class BasicPollutionController : PollutionTypeController
         if (addPollution)
         {
             GameObject newGO = pollutionPool.GetGameObject();
-            newGO.SetActive(true);
             newGO.GetComponent<GridTransform>().MoveToMapCoords(cell);
+            newGO.SetActive(true);
             Pollution newPollution = newGO.GetComponent<Pollution>();
             pollutionObjects.Add(newPollution);
             newPollution.PollutionManager = this.pollutionManager;
@@ -156,6 +156,8 @@ public class BasicPollutionController : PollutionTypeController
 
     private void PopulateInitialPollution()
     {
+        AddPollution(new Vector2Int(15, 15));
+        /*
         for (int y = 0; y < gridMap.height; y++)
         {
             for (int x = 0; x < gridMap.width; x++)
@@ -177,6 +179,7 @@ public class BasicPollutionController : PollutionTypeController
                 }
             }
         }
+        */
     }
 
     private void AddFreePosition(Vector2Int cell)

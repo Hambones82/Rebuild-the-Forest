@@ -15,16 +15,48 @@ public static class PathFinder
     {
         public Vector2Int position;
         public bool passable;
+        public int blockerTracker;
         public int f_score;//total score -- equals g + h.  g is sum from start to current of actual distance traveled.
         public int g_score;//summed distance score
         public int h_score;//heuristic from cell to destination
-        public PFTile previous;
+        public PFTile previous; 
 
-        public PFTile(int x, int y, bool passabl)
+        public PFTile(int x, int y)
         {
             position.x = x;
             position.y = y;
+        }
+
+        public void InitializePassable(bool passabl)
+        {
             passable = passabl;
+            blockerTracker = passable ? 0 : 1;
+        }
+
+        public void UpdatePassable(bool passabl)
+        {
+            if(passabl)
+            {
+                if(blockerTracker == 0)
+                {
+                    throw new InvalidOperationException("passability is already all clear. cannot double-update blocking status twice in the same direction");
+                }
+                else
+                {
+                    blockerTracker = blockerTracker >> 1; //removing a blocker using a shifter
+                }
+            }
+            else
+            {
+                blockerTracker = (blockerTracker << 1) + 1;//adding a blocker by shifting in a new 1 - no check for max, but this could happen...
+            }
+            passable = blockerTracker == 0;
+        }
+
+        public void ClearPassable()
+        {
+            blockerTracker = 0;
+            passable = true;
         }
     }
 
@@ -40,12 +72,16 @@ public static class PathFinder
             this.height = height;
         }
     }
-    
-    public static void UpdatePassable(int x, int y, bool passable)
-    {
-        grid.tiles[x, y].passable = passable;
-    }
 
+    //???
+    public static void UpdatePassable(Vector2Int pos, bool passable)
+    {
+        if (grid.tiles[pos.x, pos.y] == null) Debug.Log("pftile is null");
+        PFTile tile = grid.tiles[pos.x, pos.y];
+        tile.UpdatePassable(passable);
+        
+    }
+    
     public static void Initialize(int width, int height, bool[,] passableMap)
     {
         grid = new PFGrid(width, height);
@@ -53,7 +89,8 @@ public static class PathFinder
         {
             for(int y = 0; y < height; y++)
             {
-                grid.tiles[x, y] = new PFTile(x, y, passableMap[x,y]);
+                grid.tiles[x, y] = new PFTile(x, y);
+                grid.tiles[x, y].InitializePassable(passableMap[x, y]);
             }
         }
     }
@@ -66,15 +103,15 @@ public static class PathFinder
         {
             for(int y = 0; y < grid.height; y++)
             {
-                grid.tiles[x, y].f_score = int.MaxValue;
-                grid.tiles[x, y].g_score = int.MaxValue;
-                grid.tiles[x, y].h_score = int.MaxValue;
-                grid.tiles[x, y].previous = null;
+                PFTile tile = grid.tiles[x, y];
+                if(tile == null) { Debug.Log("tile is null"); }
+                tile.f_score = int.MaxValue;
+                tile.g_score = int.MaxValue;
+                tile.h_score = int.MaxValue;
+                tile.previous = null;
             }
         }
     }
-    //update passable - need a hookup for this
-
 
     //getpath
     public static List<Vector2Int> GetPath(Vector2Int start, Vector2Int end, bool adjacent = false)

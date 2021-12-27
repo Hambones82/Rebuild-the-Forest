@@ -23,16 +23,23 @@ public class Pollution : MonoBehaviour
     public float Amount { get => amount; }
 
     public UnityEvent OnDisableEvent;
-    
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         SetAmount(maxAmount);
     }
 
+    private void OnEnable()
+    {
+        foreach(PollutionEffect effect in pollutionEffects)
+        {
+            effect.OnSpawn(this);
+        }
+    }
+
     private void Update()
     {
-        //SetAmount((float)(amount - .1));
     }
 
     public void SetAmount(float amt)
@@ -45,13 +52,17 @@ public class Pollution : MonoBehaviour
             pollutionManager.RemovePollution(this);
         }
     }
-
+    
     private void OnDisable()
     {
         if(OnDisableEvent != null)
         {
             OnDisableEvent.Invoke();
             OnDisableEvent.RemoveAllListeners();
+        }
+        foreach (PollutionEffect effect in pollutionEffects)
+        {
+            effect.OnDeath(this);
         }
     }
 }
