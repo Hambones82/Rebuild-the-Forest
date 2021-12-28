@@ -25,7 +25,7 @@ public class PathFinderTester : MonoBehaviour
             {
                 endPos = MouseManager.Instance.GetMouseMapCoords();
                 during = false;
-                lastPath = PathFinder.GetPath(startPos, endPos);
+                PathFinder.GetPath(startPos, endPos, out lastPath);
                 Debug.Log($"Start pos: {startPos.ToString()}");
                 Debug.Log($"End pos: {endPos.ToString()}");
                 if (lastPath == null) Debug.Log("no path");

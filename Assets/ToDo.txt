@@ -1,3 +1,12 @@
+ok... i THINK that the speed problems with pathfinding is much improved.  now, however, correctness is wrong... so i gotta fix that.
+
+maybe the idea that when we change the map, we update the graph coloring... or something.  (???).  but what about when pollution spreads a ton?...
+
+the "adjacent" thing in the path finder is a little...  wrong.  first, it'll only go 1 away, so won't work for a larger grid transform.  might want to just use a "back-off"
+or we can handle it just in the calling code -- the calling code can back off as much as it wants.  
+
+so can we re-purpose the "adjacent" thing?  why don't we just refactor getpath to return a bool and out the list<vector2>... i think that's a good idea...
+
 so pollution blocking finally works.  i'd like to update the pathfinder to maybe get a new path every tile traveled and also to allow clicking on a square that isn't passable
 but still allow going to an adjacent square.  seems hard bc now i handle adjacency by just removing the last node (which actually isn't right...).
 

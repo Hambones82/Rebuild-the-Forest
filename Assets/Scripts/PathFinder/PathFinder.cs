@@ -2,21 +2,38 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Priority_Queue;
 
 public static class PathFinder
 {
-    private static List<PFTile> openTiles = new List<PFTile>();
-    private static List<PFTile> closedTiles = new List<PFTile>();
+    private static FastPriorityQueue<PFTile> openTiles;
+    private static HashSet<PFTile> closedTiles;
     private static PFGrid grid;
     private static readonly int horizontalScore = 10;
     private static readonly int diagonalScore = 14;
 
-    private class PFTile
+    private class PFTile : FastPriorityQueueNode
     {
         public Vector2Int position;
         public bool passable;
         public int blockerTracker;
-        public int f_score;//total score -- equals g + h.  g is sum from start to current of actual distance traveled.
+        private int f_score;//total score -- equals g + h.  g is sum from start to current of actual distance traveled.
+        public int F_score
+        {
+            get => f_score;
+            set
+            {
+                f_score = value;
+                if(openTiles.Contains(this))
+                {
+                    openTiles.UpdatePriority(this, f_score);
+                }
+                else
+                {
+                    Priority = value;
+                }
+            }
+        }
         public int g_score;//summed distance score
         public int h_score;//heuristic from cell to destination
         public PFTile previous; 
@@ -43,12 +60,12 @@ public static class PathFinder
                 }
                 else
                 {
-                    blockerTracker = blockerTracker >> 1; //removing a blocker using a shifter
+                    blockerTracker--;
                 }
             }
             else
             {
-                blockerTracker = (blockerTracker << 1) + 1;//adding a blocker by shifting in a new 1 - no check for max, but this could happen...
+                blockerTracker++;//adding a blocker by shifting in a new 1 - no check for max, but this could happen...
             }
             passable = blockerTracker == 0;
         }
@@ -93,50 +110,49 @@ public static class PathFinder
                 grid.tiles[x, y].InitializePassable(passableMap[x, y]);
             }
         }
+        openTiles = new FastPriorityQueue<PFTile>(width * height);
+        closedTiles = new HashSet<PFTile>();
     }
 
     private static void Reset()
     {
-        openTiles.Clear();
-        closedTiles.Clear();
         for(int x = 0; x < grid.width; x++)
         {
             for(int y = 0; y < grid.height; y++)
             {
                 PFTile tile = grid.tiles[x, y];
-                if(tile == null) { Debug.Log("tile is null"); }
-                tile.f_score = int.MaxValue;
+                //if(tile == null) { Debug.Log("tile is null"); }
+                tile.F_score = int.MaxValue;
                 tile.g_score = int.MaxValue;
                 tile.h_score = int.MaxValue;
                 tile.previous = null;
             }
         }
+        openTiles.Clear();
+        closedTiles.Clear();
     }
 
     //getpath
-    public static List<Vector2Int> GetPath(Vector2Int start, Vector2Int end, bool adjacent = false)
+    public static bool GetPath(Vector2Int start, Vector2Int end, out List<Vector2Int> result)
     {
         Reset();
-        List<Vector2Int> result = null;
+        result = new List<Vector2Int>();
         PFTile startTile = grid.tiles[start.x, start.y];
-        openTiles.Add(startTile);
-        while(openTiles.Count>0 && !closedTiles.Exists(x => x.position == end))
+        startTile.g_score = 0;
+        PFTile endTile = grid.tiles[end.x, end.y];
+        PFTile lowestHTile = startTile;
+        int lowestHNum = int.MaxValue;
+        openTiles.Enqueue(startTile);
+        while(openTiles.Count>0 && !closedTiles.Contains(endTile))
         {
-            int currentF = int.MaxValue;
             PFTile currentTile = null;
-            foreach(PFTile tile in openTiles)
-            {
-                if(tile.f_score <= currentF)
-                {
-                    currentF = tile.f_score;
-                    currentTile = tile;
-                }
-            }
-            openTiles.Remove(currentTile);
+            currentTile = openTiles.Dequeue();
+            //openTiles.ResetNode(currentTile);
             closedTiles.Add(currentTile);
-            List<PFTile> adjacencies = GetAdjacencies(currentTile);
+            SetAdjacencies(currentTile);
             foreach(PFTile node in adjacencies)
             {
+                if (node == null) continue;
                 if(!closedTiles.Contains(node) && node.passable)
                 {
                     int tentative_g_score = CalculateGScore(currentTile, node);
@@ -149,38 +165,33 @@ public static class PathFinder
                         node.previous = currentTile;
                         node.g_score = tentative_g_score;
                         node.h_score = DistanceToTarget(node.position, end);
-                        node.f_score = node.g_score + node.h_score;
+                        node.F_score = node.g_score + node.h_score;
                         if(!openTiles.Contains(node))
                         {
-                            openTiles.Add(node);
+                            openTiles.Enqueue(node);
+                        }
+                        if (node.h_score < lowestHNum)
+                        {
+                            lowestHTile = node;
+                            lowestHNum = node.h_score;
                         }
                     }
                 }
             }
         }
-        if (!closedTiles.Exists(x => x.position == end))
+        bool foundPath = closedTiles.Contains(endTile);
+        PFTile tempTile;
+        tempTile = lowestHTile;
+        
+        while(tempTile != null)
         {
-            return null;
-        }
-            
-        else
-        {
-            result = new List<Vector2Int>();
-        }
-
-        PFTile temp = closedTiles.Find(x => x.position == end);
-        while(temp != null)
-        {
-            result.Add(temp.position);
-            temp = temp.previous;
+            result.Add(tempTile.position);
+            tempTile = tempTile.previous;
         }
         result.Reverse();
-        if(adjacent)
-        {
-            result.RemoveAt(result.Count - 1);
-        }
+
         //construct the end path.
-        return result;
+        return foundPath;
     }
 
     private static int DistanceToTarget(Vector2Int start, Vector2Int target)
@@ -208,55 +219,72 @@ public static class PathFinder
         else return current.g_score + horizontalScore;
     }
 
-    private static List<PFTile> GetAdjacencies(PFTile current)
+    private static PFTile[] adjacencies = new PFTile[8];
+
+    private static void SetAdjacencies(PFTile current)
     {
         int x = current.position.x;
         int y = current.position.y;
         bool up = false, down = false, right = false, left = false;
-        List<PFTile> result = new List<PFTile>();
 
         if(x>0)
         {
-            left = TestTileAndAddToList(x - 1, y, result);
+            left = TestTileAndAddToAdjacencies(x - 1, y, 0);
         }
         if(x<grid.width-1)
         {
-            right = TestTileAndAddToList(x + 1, y, result);
+            right = TestTileAndAddToAdjacencies(x + 1, y, 1);
         }
         if(y>0)
         {
-            down = TestTileAndAddToList(x, y - 1, result);
+            down = TestTileAndAddToAdjacencies(x, y - 1, 2);
         }
         if(y<grid.height-1)
         {
-            up = TestTileAndAddToList(x, y + 1, result);
+            up = TestTileAndAddToAdjacencies(x, y + 1, 3);
         }
         if(left&&up && grid.tiles[x-1,y+1].passable)
         {
-            result.Add(grid.tiles[x - 1, y + 1]);
+            adjacencies[4] = grid.tiles[x - 1, y + 1];
+        }
+        else
+        {
+            adjacencies[4] = null;
         }
         if(right&&up && grid.tiles[x+1,y+1].passable)
         {
-            result.Add(grid.tiles[x + 1, y + 1]);
+            adjacencies[5] = grid.tiles[x + 1, y + 1];
+        }
+        else
+        {
+            adjacencies[5] = null;
         }
         if (left && down && grid.tiles[x - 1, y - 1].passable)
         {
-            result.Add(grid.tiles[x - 1, y - 1]);
+            adjacencies[6] = grid.tiles[x - 1, y - 1];
+        }
+        else
+        {
+            adjacencies[6] = null;
         }
         if (right && down && grid.tiles[x + 1, y - 1].passable)
         {
-            result.Add(grid.tiles[x + 1, y - 1]);
+            adjacencies[7] = grid.tiles[x + 1, y - 1];
         }
-        return result;
+        else
+        {
+            adjacencies[7] = null;
+        }
     }
 
-    private static bool TestTileAndAddToList(int x, int y, List<PFTile> tileList)
+    private static bool TestTileAndAddToAdjacencies(int x, int y, int index)
     {
         if (grid.tiles[x, y].passable)
         {
-            tileList.Add(grid.tiles[x, y]);
+            adjacencies[index] = grid.tiles[x, y];
             return true;
         }
+        adjacencies[index] = null;
         return false;
     }
 }
