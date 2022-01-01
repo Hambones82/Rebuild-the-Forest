@@ -1,22 +1,7 @@
-ok... i THINK that the speed problems with pathfinding is much improved.  now, however, correctness is wrong... so i gotta fix that.
 
-maybe the idea that when we change the map, we update the graph coloring... or something.  (???).  but what about when pollution spreads a ton?...
-
-the "adjacent" thing in the path finder is a little...  wrong.  first, it'll only go 1 away, so won't work for a larger grid transform.  might want to just use a "back-off"
-or we can handle it just in the calling code -- the calling code can back off as much as it wants.  
-
-so can we re-purpose the "adjacent" thing?  why don't we just refactor getpath to return a bool and out the list<vector2>... i think that's a good idea...
-
-so pollution blocking finally works.  i'd like to update the pathfinder to maybe get a new path every tile traveled and also to allow clicking on a square that isn't passable
-but still allow going to an adjacent square.  seems hard bc now i handle adjacency by just removing the last node (which actually isn't right...).
-
-so i guess the next step is update pathfinding to allow clicking on a thingy that is a blocker.  issue is... it's not passable, so a standard pathfinding test won't work on 
-it.
-
-i guess the idea would be... if there's a gridtransform there...  maybe you go next to it...?  pick an adjacent tile.  could do that as just the adjacent tile closest in 
-manhattan distance.  but i think there could be problems here...
-
-simplest way would be to do a pathfind for each neighboring square.  i wonder if there's a better way.
+next, implement more pollution effects (slow?)
+then, do the differe tpollution spreads
+then research the pollutions to clean them, different pollution experiences or w/e
 
 To Do:
 ------
@@ -32,17 +17,7 @@ get various effects.
 	- drop tables - in the controller?
 	- 
 
-let's just implement all these effects.  no movement...
-so... to implement movement stopping, we need to modify the pathfinding map.  we can probably do this with a callback.  for example, when a pollution with such an effect
-spawns, call the callback...  um...  yeah i guess.  so we need some guy that has these callbacks.  
-
-ok.... so for the pathfinder passable map.  how do i handle the issue that...  if i add something that's not passable, then yeah make it not passable.  but if i remove 
-something that's not passable, then you need to still figure out...  whether it's passable...  
-
-one thing i can think of is...  for each...  one, have a list of... bools... with like some unique handle...  maybe...  the object that set it (?). then you just and them all
-to calculate the true thing.  shrug...  
-
-that could work.  like have a dictionary of vector2's maybe...  or even like... just an array of lists or even a list of lists.  maybe an array of lists.  
+let's just implement all these effects.  
 
 also, they spread differently
 	- can think of different ways...

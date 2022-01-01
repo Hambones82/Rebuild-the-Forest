@@ -12,8 +12,34 @@ public class PathFinderTester : MonoBehaviour
 
     List<Vector2Int> lastPath;
 
+    PathFinderPriorityQueue pQ = new PathFinderPriorityQueue(10, 10);
+
     void Update()
     {
+        /*
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            Vector2Int newPos = new Vector2Int(Random.Range(0, 10), Random.Range(0, 10));
+            int priority = Random.Range(0, 100);
+            Debug.Log($"Trying to add {newPos} with priority {priority}");
+            if(!pQ.Contains(newPos))
+            {
+                pQ.Enqueue(newPos.x, newPos.y, priority);
+            }
+            else
+            {
+                Debug.Log("cannot add -- already there");
+            }
+            Debug.Log(pQ);
+        }
+
+        if(Input.GetKeyDown(KeyCode.D))
+        {
+            Vector2Int Dequeued = pQ.DeQueue();
+            Debug.Log($"dequeued: {Dequeued}");
+            Debug.Log(pQ);
+        }
+        */
         if (Input.GetKeyDown(KeyCode.P))
         {
             if(!during)
