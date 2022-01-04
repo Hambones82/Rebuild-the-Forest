@@ -53,3 +53,15 @@ MonoBehaviour:
       keyCode: 115
       keyPressType: 2
     inputActionType: 4
+  - keyPress:
+      keyCode: 49
+      keyPressType: 1
+    inputActionType: 7
+  - keyPress:
+      keyCode: 50
+      keyPressType: 1
+    inputActionType: 8
+  - keyPress:
+      keyCode: 51
+      keyPressType: 1
+    inputActionType: 9

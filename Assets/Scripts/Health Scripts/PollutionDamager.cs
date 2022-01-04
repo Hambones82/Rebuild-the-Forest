@@ -24,9 +24,9 @@ public class PollutionDamager : MonoBehaviour
 
     private void DoDamage()
     {
-        if(gridTransform.AtLeastOneCellIsOccupiedBy(MapLayer.pollution))
+        if(PollutionManager.Instance.IsEffectAtCell(gridTransform.topLeftPosMap, PollutionManager.Instance.DamageEffect))
         {
-            health.TakeDamage(_pollutionVulnerability);
+            health.TakeDamage(PollutionManager.Instance.DamageEffect.DamageAmount);
         }
     }
 

@@ -1,3 +1,17 @@
+feedback for cleaning objects in inventory
+queuing commands
+visual feedback for queued commands
+
+let's polish the unit control/movement.
+
+design the pollution types one by one.  we have the fast moving one that needs a lot of speed to protect against.
+now let's do something a little slower.  there will be a lot of issues to account for.  for example, 
+what happens when different pollutions occupy the same square?  
+
+we might need to change the pollution gameobjects to something different, though i'm not sure exactly how...
+
+so slow will require both that the movement speed slows down and also that path finding is improved for that.
+maybe we don't need to update pathfinding... at least for now...
 
 next, implement more pollution effects (slow?)
 then, do the differe tpollution spreads

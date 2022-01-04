@@ -26,6 +26,8 @@ public class MoveAction : UnitAction, IObjectPoolInterface
     int currentPathIndex = 0;
     private bool cancel;
 
+    private float speedFactor = 1;
+
     public MoveAction()
     {
         actionName = "Move";
@@ -119,9 +121,22 @@ public class MoveAction : UnitAction, IObjectPoolInterface
                 }
             }   
         }
+        SetSpeedFactor();
         MoveCellToCell(dt);
         return true;
         
+    }
+
+    private void SetSpeedFactor()
+    {
+        if(PollutionManager.Instance.IsEffectAtCell(gridTransform.topLeftPosMap, PollutionManager.Instance.SlowEffect))
+        {
+            speedFactor = PollutionManager.Instance.SlowEffect.SlowFactor;
+        }
+        else
+        {
+            speedFactor = 1;
+        }
     }
 
     private bool MoveCellToCell(float dt)
@@ -129,7 +144,7 @@ public class MoveAction : UnitAction, IObjectPoolInterface
         bool continueMovement = false;
         if (!arrivedAtWorldCoords)
         {
-            currentTravelDistance += dt * (Mathf.Floor(speedStat.Amount));
+            currentTravelDistance += dt * (Mathf.Floor(speedStat.Amount)) * speedFactor;
             float normalizedTravelDistance = currentTravelDistance / totalTravelDistance;
             Vector3 newPos = Vector3.Lerp(startWorldPos, targetWorldPos, normalizedTravelDistance);
             gridTransform.MoveToWorldCoords(newPos);

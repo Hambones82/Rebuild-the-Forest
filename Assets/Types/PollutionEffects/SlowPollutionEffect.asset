@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c2c9e7c30695584ca736e55f5035d07, type: 3}
   m_Name: SlowPollutionEffect
   m_EditorClassIdentifier: 
+  _slowFactor: 0.25

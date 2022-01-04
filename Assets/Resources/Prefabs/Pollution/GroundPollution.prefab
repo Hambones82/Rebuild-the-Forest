@@ -72,13 +72,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pollutionManager: {fileID: 0}
   pollutionEffects:
-  - {fileID: 11400000, guid: 14ebbd1eb4c5c854db9f7aba7da7339e, type: 2}
+  - {fileID: 11400000, guid: 4cc8eafe972c8864e9d3f4bf8ae8d54a, type: 2}
   maxAmount: 100
   amount: 0
   OnDisableEvent:
     m_PersistentCalls:
       m_Calls: []
-  effects: []
 --- !u!212 &8599265402863292950
 SpriteRenderer:
   m_ObjectHideFlags: 0

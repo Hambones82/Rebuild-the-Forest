@@ -85,6 +85,16 @@ public class UIManager : MonoBehaviour {
         currentMouseTool.StartTool(this, unityObject1, unityObject2);
     }
 
+    public void HardSelectGridTransform(GridTransform clickedGridTransform)
+    {
+        if(clickedGridTransform == null || clickedGridTransform == selectedGridTransform)
+        {
+            return;
+        }
+        SwitchMouseTool(BaseTool.Instance);
+        LeftClickAt(clickedGridTransform.transform.position);
+    }
+
     public void SelectGridTransform(GridTransform clickedGridTransform)
     {
         if(clickedGridTransform == null)

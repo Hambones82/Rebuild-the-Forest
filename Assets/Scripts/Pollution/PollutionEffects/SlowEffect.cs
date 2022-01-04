@@ -5,13 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SlowPollutionEffect", menuName = "ScriptableObjects/Types/PollutionEffects/Slow Pollution Effect")]
 public class SlowEffect : PollutionEffect
 {
-    public override void OnDeath(Pollution pollution)
-    {
-        throw new System.NotImplementedException();
-    }
+    [SerializeField]
+    private float _slowFactor;
+    public float SlowFactor { get => _slowFactor; }
+    public override void OnDeath(Pollution pollution) { }
 
-    public override void OnSpawn(Pollution pollution)
-    {
-        throw new System.NotImplementedException();
-    }
+    public override void OnSpawn(Pollution pollution) { }
 }

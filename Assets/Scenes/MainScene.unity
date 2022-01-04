@@ -123,6 +123,53 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &61204805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 61204807}
+  - component: {fileID: 61204806}
+  m_Layer: 0
+  m_Name: ActorUnitKeyboardSelector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &61204806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61204805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e9de49fb83372348b7fccbaf86807f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numSelectables: 3
+  uiManager: {fileID: 950741559}
+  actorUnitManager: {fileID: 392665348}
+  keyboardSelectableActorUnits: []
+--- !u!4 &61204807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61204805}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &89105511 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5437509143199544727, guid: 26bc6514b4b08ee4b8b307cc5dbfc0c4, type: 3}
@@ -494,6 +541,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 764409823f5b7944a805487174d08401, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _slowEffect: {fileID: 11400000, guid: b37afd19eceb4f945814d0c3f7a9d3f9, type: 2}
+  _stopEffect: {fileID: 11400000, guid: 14ebbd1eb4c5c854db9f7aba7da7339e, type: 2}
+  _damageEffect: {fileID: 11400000, guid: 4cc8eafe972c8864e9d3f4bf8ae8d54a, type: 2}
   gridMap: {fileID: 1990238066}
   pollutionControllers:
   - id: 0
@@ -506,7 +556,7 @@ MonoBehaviour:
         gridMap: {fileID: 0}
         pollutionPrefab: {fileID: 332257860741888898, guid: a5d1b1f1f11595049b029ebf44392545, type: 3}
         pollutionObjects: []
-        spreadPeriod: 0.1
+        spreadPeriod: 1
         treeBlockEffect: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
         plantBlockEffect: {fileID: 11400000, guid: 4b0e8e8d5b7e9ea4fb191490c8eed54c, type: 2}
         mushroomBlockEffect: {fileID: 11400000, guid: d3a20ae1d30cc0f458d78972d0fa3842, type: 2}
@@ -40257,7 +40307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 385979971367115615, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3.2402146
+      value: 3.239996
       objectReference: {fileID: 0}
     - target: {fileID: 1912259540184846535, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchorMax.y
@@ -40650,6 +40700,54 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
+    - inputActionType: 7
+      unityEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 61204806}
+            m_TargetAssemblyTypeName: KeyboardUnitSelector, ProjectAssembly
+            m_MethodName: SelectUnit1
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+    - inputActionType: 8
+      unityEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 61204806}
+            m_TargetAssemblyTypeName: KeyboardUnitSelector, ProjectAssembly
+            m_MethodName: SelectUnit2
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+    - inputActionType: 9
+      unityEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 61204806}
+            m_TargetAssemblyTypeName: KeyboardUnitSelector, ProjectAssembly
+            m_MethodName: SelectUnit3
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
 --- !u!4 &2125550749
 Transform:
   m_ObjectHideFlags: 0
@@ -40903,7 +41001,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7697494355386919041, guid: 73025696be352bd40868c907001b9fa6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 7.5605173
+      value: 7.5599804
       objectReference: {fileID: 0}
     - target: {fileID: 7697494355879360040, guid: 73025696be352bd40868c907001b9fa6, type: 3}
       propertyPath: m_AnchorMax.x

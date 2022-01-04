@@ -20,6 +20,8 @@ public class ActorUnitManager : MonoBehaviour
 
     [SerializeField]
     private List<ActorUnit> actorUnits = new List<ActorUnit>();
+    public List<ActorUnit> ActorUnits { get => new List<ActorUnit>(actorUnits); }
+
 
     [SerializeField]
     private GridMap gridMap;
@@ -32,6 +34,10 @@ public class ActorUnitManager : MonoBehaviour
 
     [SerializeField]
     private ActorUnit selectedActorUnit;
+
+    public delegate void ActorUnitLifecycleDelegate(ActorUnit actorUnit);
+    public event ActorUnitLifecycleDelegate OnActorUnitDeath;
+    public event ActorUnitLifecycleDelegate OnActorUnitSpawn;
 
     private void Awake()
     {
@@ -85,6 +91,7 @@ public class ActorUnitManager : MonoBehaviour
 
     public void KillActorUnit(ActorUnit actorUnit)
     {
+        OnActorUnitDeath?.Invoke(actorUnit);
         actorUnit.gameObject.SetActive(false);
         actorUnit.ResetWhenKilled();
         DeRegisterActorUnit(actorUnit);
@@ -97,5 +104,6 @@ public class ActorUnitManager : MonoBehaviour
         newActorUnit.gameObject.SetActive(true);
         newActorUnit.GetComponent<GridTransform>().MoveToMapCoords(coords);
         RegisterActorUnit(newActorUnit);
+        OnActorUnitSpawn?.Invoke(newActorUnit);
     }
 }

@@ -7,5 +7,8 @@ public enum InputActionType
     camera_scroll_up,
     camera_scroll_down,
     spawn_building,
-    cancel_action
+    cancel_action,
+    select_unit_1,
+    select_unit_2,
+    select_unit_3
 }

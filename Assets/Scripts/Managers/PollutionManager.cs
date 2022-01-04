@@ -3,10 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-//this is done in a very naive way, could be optimized... not necessary for prototype
 [DefaultExecutionOrder(-3)]
 public class PollutionManager : MonoBehaviour
 {
+    [SerializeField]
+    private SlowEffect _slowEffect;
+    public SlowEffect SlowEffect { get => _slowEffect; }
+
+    [SerializeField]
+    private StopEffect _stopEffect;
+    public StopEffect StopEffect { get => _stopEffect; }
+
+    [SerializeField]
+    private DamageEffect _damageEffect;
+    public DamageEffect DamageEffect { get => _damageEffect; }
+
     public delegate void PollutionEvent(Vector2Int cell);
     public event Action OnInitComplete;
     public event PollutionEvent OnPollutionDead;
@@ -62,6 +73,22 @@ public class PollutionManager : MonoBehaviour
             controller.RemovePollution(pollution, pollutionPosition);
         }
         OnPollutionDead(pollutionPosition);
+    }
+
+    public bool IsEffectAtCell(Vector2Int cell, PollutionEffect effect)
+    {
+        foreach (GridTransform gt in GridMap.Current.GetObjectsAtCell(cell, MapLayer.pollution))
+        {
+            Pollution subjectPol = gt.GetComponent<Pollution>();
+            if (subjectPol != null)
+            {
+                if (subjectPol.pollutionEffects.Contains(effect))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }
