@@ -27,7 +27,6 @@ public class KeyboardUnitSelector : MonoBehaviour
         }
         actorUnitManager.OnActorUnitDeath += ActorUnitDies;
         actorUnitManager.OnActorUnitSpawn += ActorUnitSpawned;
-        //actorUnitManager. //...
     }
 
     private void ActorUnitDies(ActorUnit actor)

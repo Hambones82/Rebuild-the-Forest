@@ -1,3 +1,26 @@
+what do i prioritize...
+
+maybe we can set up a mechanism to interact with the cleaner.  storage --> cleaner --> output.  cleaner needs some kind of rework periodically or drops pollution.
+
+let's try to make a win condition where you can't just do it by clicking on those x's right now.  there needs ot be some advancement.  maybe have a second ring of pollution, 
+need to get drops from that.
+
+feedback for when you pick up drops
+
+2 buildings can be acted on...   need to figure that out.  also, might want to drop a drop at a place other than on top of another building... think about it...
+
+at this point, i think we really need to just focus on the core loop.  what's even happening here?  is it fun?  does it suck?
+it's fun enough that i want to get to the end whenever i play it.  but it doesn't take that long to do that and there seems to be no point
+
+when we cancel an action, the bar then shows the progress of the next thing, which is moving.  gotta get rid of that
+
+units can't step on each other
+better control?  queue?  maybe the ...  queueing priority thing...  
+
+don't show completion bar for moving. -- minor issue i guess.
+
+want a damage indicator
+
 feedback for cleaning objects in inventory
 queuing commands
 visual feedback for queued commands

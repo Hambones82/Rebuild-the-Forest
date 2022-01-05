@@ -45,9 +45,14 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
         ObjectPool.Return(this);
     }
 
-    public override bool AdvanceAction(float dt)
+    public override bool AdvanceAction(float dt, out float progressAmount)
     {
-        if (cancel) return false;
+        if (cancel)
+        {
+            progressAmount = 0;
+            return false;
+        }
+            
         cleanTimer += dt;
         bool retVal = true;
         //if pollution is dead, return false
@@ -57,6 +62,7 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
             if (!CanDo())
             {
                 Debug.Log("Cannot clean pollution");
+                progressAmount = 0;
                 return false;
             }
                 
@@ -64,6 +70,7 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
             retVal = DoCleanPollutionTick();
             if (!retVal) break; //if the tick fully cleans up the pollution, don't continue the while loop
         }
+        progressAmount = 1 - targetPollution.Amount / targetPollution.MaxAmount;
         return retVal;
     }
 

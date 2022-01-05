@@ -7,6 +7,8 @@ public class OperateBuildingActionType : UnitActionType
 {
     public override UnitAction GetObject()
     {
-        return ObjectPool.Get<OperateAction>();
+        var retVal = ObjectPool.Get<OperateAction>();
+        retVal.actionType = this;
+        return retVal;
     }
 }

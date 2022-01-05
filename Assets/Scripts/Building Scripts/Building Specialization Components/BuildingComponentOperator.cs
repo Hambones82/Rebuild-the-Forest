@@ -13,6 +13,9 @@ public abstract class BuildingComponentOperator : MonoBehaviour
     [SerializeField]
     protected bool _continuous;
 
+    private float progress = 0;
+    public float Progress { get => progress; }
+
     public virtual bool Operate(float dt, GameObject inGameObject = null)
     {
         //Debug.Log("operator component: operate");
@@ -29,6 +32,7 @@ public abstract class BuildingComponentOperator : MonoBehaviour
                 break;
             }
         }
+        progress = _operateTimer / _operateTimerTrigger;
         return !triggered || _continuous;
     }
 

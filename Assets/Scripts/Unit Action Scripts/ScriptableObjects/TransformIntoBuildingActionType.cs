@@ -6,6 +6,8 @@ public class TransformIntoBuildingActionType : UnitActionType
 {
     public override UnitAction GetObject()
     {
-        return ObjectPool.Get<TransformIntoBuildingAction>();
+        var retVal = ObjectPool.Get<TransformIntoBuildingAction>();
+        retVal.actionType = this;
+        return retVal;
     }
 }

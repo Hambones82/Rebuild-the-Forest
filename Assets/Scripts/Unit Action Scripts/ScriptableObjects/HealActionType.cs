@@ -7,6 +7,8 @@ public class HealActionType : UnitActionType
 {
     public override UnitAction GetObject()
     {
-        return ObjectPool.Get<HealAction>();
+        var retVal = ObjectPool.Get<HealAction>();
+        retVal.actionType = this;
+        return retVal;
     }
 }

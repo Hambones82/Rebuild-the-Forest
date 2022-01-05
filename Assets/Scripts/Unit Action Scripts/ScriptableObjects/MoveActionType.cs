@@ -7,6 +7,8 @@ public class MoveActionType : UnitActionType
 {
     public override UnitAction GetObject()
     {
-        return ObjectPool.Get<MoveAction>();
+        var retVal = ObjectPool.Get<MoveAction>();
+        retVal.actionType = this;
+        return retVal;
     }
 }

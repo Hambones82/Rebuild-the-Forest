@@ -7,6 +7,8 @@ public class CleanPollutionActionType : UnitActionType
 {
     public override UnitAction GetObject()
     {
-        return ObjectPool.Get<CleanPollutionAction>();
+        var retVal = ObjectPool.Get<CleanPollutionAction>();
+        retVal.actionType = this;
+        return retVal;
     }
 }

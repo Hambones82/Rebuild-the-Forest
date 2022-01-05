@@ -81,7 +81,7 @@ public class MoveAction : UnitAction, IObjectPoolInterface
         return currentPath != null;
     }
 
-    public override bool AdvanceAction(float dt)
+    public override bool AdvanceAction(float dt, out float progressAmount)
     {
         /* 
          * if we arrived at the next cell, pop the next cell dest
@@ -89,7 +89,12 @@ public class MoveAction : UnitAction, IObjectPoolInterface
          * then perform the dt movement, which sets the bool vars
          */
         //if (cancel) Debug.Log("cancel is set");
-        if (currentPath == null) return false;
+        if (currentPath == null)
+        {
+            progressAmount = 0;
+            return false;
+        }
+            
         if(cancel && currentPath.Count > 1)
         {
             //Debug.Log("removing nodes");
@@ -100,6 +105,7 @@ public class MoveAction : UnitAction, IObjectPoolInterface
         {
             if (currentPath == null)
             {
+                progressAmount = 0;
                 return false;
             }
             else
@@ -117,12 +123,14 @@ public class MoveAction : UnitAction, IObjectPoolInterface
                 }
                 else
                 {
+                    progressAmount = 0;
                     return false;
                 }
             }   
         }
         SetSpeedFactor();
         MoveCellToCell(dt);
+        progressAmount = (float)currentPathIndex / (float)currentPath.Count;
         return true;
         
     }

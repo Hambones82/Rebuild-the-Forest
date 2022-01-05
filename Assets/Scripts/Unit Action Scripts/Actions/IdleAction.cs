@@ -32,8 +32,9 @@ public class IdleAction : UnitAction
 
     public override void EndAction() { }
     
-    public override bool AdvanceAction(float dt)
+    public override bool AdvanceAction(float dt, out float progressAmount)
     {
+        progressAmount = 0;
         return false; //always "yield" if possible
     }
 

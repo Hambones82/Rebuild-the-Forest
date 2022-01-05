@@ -54,7 +54,10 @@ public class DiscoverableManager : MonoBehaviour
         if(!_discovered[cell.x, cell.y])
         {
             BuildingType buildingType = pollutionDropTable.GetDroppedBuildingType();
-            BuildingManager.Instance.SpawnBuildingAt(buildingType.BuildingPrefab, cell);
+            if(buildingType != null)
+            {
+                BuildingManager.Instance.SpawnBuildingAt(buildingType.BuildingPrefab, cell);
+            }
             SetDiscovered(cell.x, cell.y, true);
         }
     }

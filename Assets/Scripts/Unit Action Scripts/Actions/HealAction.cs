@@ -40,10 +40,11 @@ public class HealAction : UnitAction, IObjectPoolInterface
         healTimer = 0;
     }
 
-    public override bool AdvanceAction(float dt)
+    public override bool AdvanceAction(float dt, out float progressAmount)
     {
         if(cancel)
         {
+            progressAmount = 0;
             return false;
         }
         else if(CanDo())
@@ -54,10 +55,12 @@ public class HealAction : UnitAction, IObjectPoolInterface
                 targetHealth.Heal(_healAmount);
                 healTimer -= _healPeriod;
             }
+            progressAmount = targetHealth.Health / targetHealth.MaxHealth;
             return true;
         }
         else
         {
+            progressAmount = 0;
             return false;
         }
     }

@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public abstract class UnitAction 
 {
+    public UnitActionType actionType;
+
     protected string actionName = "NO_ACTION_ENTERED";
     public string ActionName { get => actionName; }
     protected GameObject gameObject;
@@ -28,5 +30,5 @@ public abstract class UnitAction
     public abstract void Cancel();
 
     //whether to continue the current action
-    public abstract bool AdvanceAction(float dt); //advance action, have it do it's thing for the current frame...  
+    public abstract bool AdvanceAction(float dt, out float progressAmount); //advance action, have it do it's thing for the current frame...  
 }

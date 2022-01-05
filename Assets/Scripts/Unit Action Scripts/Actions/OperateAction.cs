@@ -29,14 +29,16 @@ public class OperateAction : UnitActionWithTarget<BuildingComponentOperator>, IO
         cancel = true;
     }
 
-    public override bool AdvanceAction(float dt)
+    public override bool AdvanceAction(float dt, out float progressAmount)
     {
         if(cancel || !CanDo())
         {
+            progressAmount = 0;
             return false;
         }
         else
         {
+            progressAmount = buildingComponentOperator.Progress;
             return buildingComponentOperator.Operate(dt, gameObject);
         }        
     }

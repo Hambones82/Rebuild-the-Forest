@@ -36,12 +36,13 @@ public class TransformIntoBuildingAction : UnitActionWithTarget<Building>, IObje
         return mapCanHaveBuilding && actorUnitHasInventory;
     }
 
-    public override bool AdvanceAction(float dt)
+    public override bool AdvanceAction(float dt, out float progressAmount)
     {
         //Debug.Log("building a building");
         if(cancel)
         {
             //Debug.Log("canceling build");
+            progressAmount = 0;
             return false;
         }
         timerValue += dt;
@@ -60,8 +61,10 @@ public class TransformIntoBuildingAction : UnitActionWithTarget<Building>, IObje
                     actorUnit.GetComponent<Inventory>().RemoveItem(building.RequiredItem);
                 }
             }
+            progressAmount = 0;
             return false;
         }
+        progressAmount = timerValue / buildRate;
         return true;
     }
 
