@@ -24,7 +24,7 @@ public class CameraMover : MonoBehaviour {
     public void moveCamera(Vector2 direction)
     {
         Vector3 v3Direction = new Vector3(direction.x, direction.y);
-        cameraTransform.position = cameraTransform.position + v3Direction * moveSpeed * Time.deltaTime * attachedCamera.orthographicSize;
+        cameraTransform.position = cameraTransform.position + v3Direction * moveSpeed * Time.unscaledDeltaTime * attachedCamera.orthographicSize;
         ConstrainToMap();
 
     }

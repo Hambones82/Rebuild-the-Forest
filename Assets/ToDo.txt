@@ -1,3 +1,17 @@
+once you block the pollution, there's not much to worry about.  i guess we could add one type of pollution that doesn't care about the blocking.
+
+for now: 
+1) bring back transform into building action for the base one...  
+	a) for this, need to make sure it's not possible to lose all of your guys...  either a warning or something else...  
+	i'll have to make a dialogue thing happen... -- not sure exactly how to do this.
+2) mushrooms must be grown on dead trees --> spores, grow on dead trees.
+3) plants stay the same (clean them) - or maybe we can make them grow.  would be cool if we make the drops really low.
+4) pollution would grow faster
+5) go to target square, interact, get an object, bring it back, analyze it, go back, clean it up.	
+	- for this one... eventually want to delay this a bit so that it's not possible to just sprint to the end point right in the beginning.
+6) area-of-effect tools
+
+
 what do i prioritize...
 
 maybe we can set up a mechanism to interact with the cleaner.  storage --> cleaner --> output.  cleaner needs some kind of rework periodically or drops pollution.

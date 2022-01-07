@@ -65,3 +65,7 @@ MonoBehaviour:
       keyCode: 51
       keyPressType: 1
     inputActionType: 9
+  - keyPress:
+      keyCode: 32
+      keyPressType: 1
+    inputActionType: 10

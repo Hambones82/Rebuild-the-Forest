@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 114603623875108166}
   - component: {fileID: 114058856135367282}
   - component: {fileID: 4601632972376416442}
+  - component: {fileID: 8013460534515789963}
   m_Layer: 0
   m_Name: OperableSpawner
   m_TagString: Untagged
@@ -187,4 +188,23 @@ MonoBehaviour:
   _operateTimerTrigger: 2
   _continuous: 0
   _exhausted: 0
+  _mushroomPlanted: 0
   exhaustedSprite: {fileID: 21300000, guid: 9c73eef44eac8b644b04a6c926a34b09, type: 3}
+  mushPlantedSprite: {fileID: 21300000, guid: d20381b4d38a7dd48b8db8cfc1f90c18, type: 3}
+  cleanMushroomType: {fileID: 11400000, guid: 87b657dc00d93ba4788b01acdfe95166, type: 2}
+--- !u!114 &8013460534515789963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030047143314608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a2749204f8a0204fb14ffbbce9a3e70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnee: {fileID: 1506528807958607395, guid: f00a15c77ae83f740a20bbcf69ab4028, type: 3}
+  _spawn: 0
+  time: 0
+  period: 2

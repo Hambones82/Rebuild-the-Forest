@@ -113,7 +113,6 @@ public class MoveAction : UnitAction, IObjectPoolInterface
                 if(currentPathIndex < currentPath.Count)
                 {
                     target = currentPath[currentPathIndex];
-                    //Debug.Log($"traveling to {target.ToString()}");
                     SetMapDestination(target);
                     arrivedAtMapCoords = false;
                     arrivedAtWorldCoords = false;
@@ -153,10 +152,15 @@ public class MoveAction : UnitAction, IObjectPoolInterface
         if (!arrivedAtWorldCoords)
         {
             currentTravelDistance += dt * (Mathf.Floor(speedStat.Amount)) * speedFactor;
-            float normalizedTravelDistance = currentTravelDistance / totalTravelDistance;
+            float normalizedTravelDistance = 0;
+            if(totalTravelDistance != 0)
+            {
+                normalizedTravelDistance = currentTravelDistance / totalTravelDistance; 
+            }
+            //float normalizedTravelDistance = currentTravelDistance / totalTravelDistance;
             Vector3 newPos = Vector3.Lerp(startWorldPos, targetWorldPos, normalizedTravelDistance);
             gridTransform.MoveToWorldCoords(newPos);
-            if (normalizedTravelDistance >= 1)
+            if (normalizedTravelDistance >= 1 || totalTravelDistance == 0)
             {
                 arrivedAtMapCoords = true;
                 arrivedAtWorldCoords = true;

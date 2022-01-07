@@ -10,5 +10,6 @@ public enum InputActionType
     cancel_action,
     select_unit_1,
     select_unit_2,
-    select_unit_3
+    select_unit_3,
+    pause_toggle
 }
