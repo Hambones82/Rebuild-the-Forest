@@ -38,6 +38,7 @@ public class ActorUnitManager : MonoBehaviour
     public delegate void ActorUnitLifecycleDelegate(ActorUnit actorUnit);
     public event ActorUnitLifecycleDelegate OnActorUnitDeath;
     public event ActorUnitLifecycleDelegate OnActorUnitSpawn;
+    public event Action OnInitComplete;
 
     private void Awake()
     {
@@ -59,6 +60,11 @@ public class ActorUnitManager : MonoBehaviour
         }
         UIManager.Instance.OnSelectEvent.AddListener(ProcessSelectionEvent);
         UIManager.Instance.OnDeselectEvent.AddListener(ProcessDeselectionEvent);
+    }
+
+    private void Start()
+    {
+        OnInitComplete?.Invoke();
     }
 
     public void CancelActorUnitActions()

@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ActorUnitHealthComponent : MonoBehaviour
 {
+    public event Action OnTakeDamage;
+
     [SerializeField]
     private float _minHealth;
 
@@ -29,6 +32,7 @@ public class ActorUnitHealthComponent : MonoBehaviour
     public void TakeDamage(float damage)
     {
         AdjustHealth(0 - damage);
+        OnTakeDamage?.Invoke();
     }
 
     public void Heal(float healAmount)

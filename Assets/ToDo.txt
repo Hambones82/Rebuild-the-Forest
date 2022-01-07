@@ -3,7 +3,7 @@ separate building for growing plants.  you grow into it.
 last guy dying to pollution feels kinda crappy...  we definitely need a damage warning.  maybe also make the damage slow down towards the end.
 
 for now: 
-1) WARNING FOR POLLUTION DAMAGE
+1) HEALER building.
 2) something about growing more plants.  ???  maybe a building for it -- not sure...
 5) go to target square, interact, get an object, bring it back, analyze it, go back, clean it up.	
 	- for this one... eventually want to delay this a bit so that it's not possible to just sprint to the end point right in the beginning.
