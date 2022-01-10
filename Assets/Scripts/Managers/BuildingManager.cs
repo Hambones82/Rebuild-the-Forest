@@ -69,7 +69,7 @@ public class BuildingManager : MonoBehaviour {
         GridTransform buildingGT = building.GetComponent<GridTransform>();
         if(buildingGT.WouldBeOccupiedAtPosition(mapCoords, MapLayer.buildings) || buildingGT.WouldBeOccupiedAtPosition(mapCoords, MapLayer.pollution))
         {
-            Debug.Log("cannot place building on another building or on pollution");
+            //Debug.Log("cannot place building on another building or on pollution");
             return false;
         }
         for(int x = mapCoords.x; x < mapCoords.x + buildingGT.Width; x++)

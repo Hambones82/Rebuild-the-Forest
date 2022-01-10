@@ -24,14 +24,15 @@ public class GameStateManager : MonoBehaviour
             {
                 pollutionSources.Remove(pSource);
             }
+            if (pollutionSources.Count == 0)
+            {
+                Win();
+            }
         }
-        if(pollutionSources.Count == 0)
-        {
-            Win();
-        }
+        
     }
 
-    private void Win()
+    private void Win() //why does this keep happening whenever you make a building get deleted?
     {
         Debug.Log("You win");
     }

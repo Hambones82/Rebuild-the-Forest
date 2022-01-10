@@ -21,7 +21,7 @@ public class ActorUnitManager : MonoBehaviour
     [SerializeField]
     private List<ActorUnit> actorUnits = new List<ActorUnit>();
     public List<ActorUnit> ActorUnits { get => new List<ActorUnit>(actorUnits); }
-
+    public int NumActorUnits { get => actorUnits.Count; }
 
     [SerializeField]
     private GridMap gridMap;

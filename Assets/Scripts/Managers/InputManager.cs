@@ -52,13 +52,7 @@ public class InputManager : MonoBehaviour {
         }
     }
 
-    // Use this for initialization
-    void Start () {
-        
-
-    }
-	
-	// Update is called once per frame
+   
 	void Update () {
         //add all keys released to keycodespressed
         //keycodes... presses... pressed... get rid of that?
@@ -73,9 +67,7 @@ public class InputManager : MonoBehaviour {
                 InvokeKey(keyPress);   
             }
         }
-
-
-            
+   
     }
 
     //different events should add or remove inputdefinitionmodules.  

@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 114603623875108166}
   - component: {fileID: 114058856135367282}
   - component: {fileID: 1739411717824330081}
+  - component: {fileID: -2406018645506881366}
+  - component: {fileID: -761843200029746408}
   m_Layer: 0
   m_Name: Blocker
   m_TagString: Untagged
@@ -189,3 +191,49 @@ MonoBehaviour:
     _effect:
       _effectType: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
       _amount: 1
+--- !u!114 &-2406018645506881366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030047143314608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 986b70e59a40fa54d875193dad484ef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-761843200029746408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030047143314608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 646cea22e2f6ce24fb05f349611aa6c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputDefinitionModuleType: 1
+  inputManager: {fileID: 0}
+  inputDefinitionModule:
+    passThrough: 0
+    blockUp: 0
+    inputDefinitions:
+    - inputActionType: 11
+      unityEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: -2406018645506881366}
+            m_TargetAssemblyTypeName: ActorUnitSequester, ProjectAssembly
+            m_MethodName: RestoreActorUnit
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2

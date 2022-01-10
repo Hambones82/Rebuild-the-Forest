@@ -7,12 +7,12 @@ public class StopEffect : PollutionEffect
 {
     public override void OnDeath(Pollution pollution)
     {
-        PathFinder.UpdatePassable(pollution.GetComponent<GridTransform>().topLeftPosMap, true);
+        PathingController.Instance.UpdatePassable(pollution.GetComponent<GridTransform>().topLeftPosMap, true);
     }
 
     public override void OnSpawn(Pollution pollution)
     {
         //Debug.Log("spawning pollution");
-        PathFinder.UpdatePassable(pollution.GetComponent<GridTransform>().topLeftPosMap, false);
+        PathingController.Instance.UpdatePassable(pollution.GetComponent<GridTransform>().topLeftPosMap, false);
     }
 }

@@ -41,15 +41,12 @@ public class InputSubscriber : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         inputManager = GameObject.Find("InputManager").GetComponent<InputManager>();
+        if(inputDefinitionModuleType == InputDefinitionModuleType.background) Activate();
         //inputDefinitionModule.inputDefinitions = new List<InputDefinition>(); //not correct... something else...
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-    private void OnValidate()
+    private void Awake()
     {
         inputManager = GameObject.Find("InputManager").GetComponent<InputManager>();
     }

@@ -1,14 +1,47 @@
+ok so it looks like for some reason, this foreground input manager thing isn't working.
+
+so... we don't activate the input subscriber... probably need to do this by adding a callback from input subscriber to selection... etc... fix that.
+
+next: make the local input manager do something --> there's a foreground input module that's probably untested and that allows actions to be performed on specific units.
+let's try to use this on the blocker building.
+
+bug: unit still does action even if failed pathfinder is found and unit is nowhere near adjacent to target.  need to rework the unit action stuff so this doesn't happen and in general
+
+need to fix pathfinder.  need a controller that stores all of the pathing information.  when you want to update pathing, update that.  that guy then updates the pathfinder.
+
+Can get guys back from trees you build.  
+
+Root growth required for certain operations in trees.  Root growth -> diminishing returns so you need a certain density of trees.
+
+maybe simplify the pollution blocking?  i like the transform into building thing, but i think using the two guys - plant and mushroom - isn't great.  instead,
+let's use mushrooms--pick up spores, must plant the spores on a dead tree.  the dead tree should disintegrate.  a tree can always turn into a dead tree.
+
+oh wait, that's great -- any tree can turn back into an actor unit... maybe???  or maybe can spawn one... not sure...  -- something like this
+--would solve a lot of problems...  for example, you can bring one back to life if you've lost all your guys...
+
+could do a progression --> find the p source for basic, clean it, plant it -- gives you some resource to clean the next level.  find that, clean it, clean up all 
+pollution, you win --> i like it.
+
+
+___add another pollution build type that is not affected by the plant/mush/tree thing.  not sure exactly how those would be handled...  it would spread much more slowly 
+than the basic pollution.  definitely add it.___
+
 separate building for growing plants.  you grow into it.
 
 last guy dying to pollution feels kinda crappy...  we definitely need a damage warning.  maybe also make the damage slow down towards the end.
 
 for now: 
+0.5) warning for when you are going to transform into a building.
 1) HEALER building.
 2) something about growing more plants.  ???  maybe a building for it -- not sure...
-5) go to target square, interact, get an object, bring it back, analyze it, go back, clean it up.	
+3) go to target square, interact, get an object, bring it back, analyze it, go back, clean it up.	
 	- for this one... eventually want to delay this a bit so that it's not possible to just sprint to the end point right in the beginning.
-6) area-of-effect tools
+4) area-of-effect tools
+5) make the win condition more interesting.  clean x% of map?  whole map?  what?
 
+
+
+additional notifications -- take more notes.
 
 what do i prioritize...
 
