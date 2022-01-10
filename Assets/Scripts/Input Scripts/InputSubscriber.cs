@@ -11,6 +11,7 @@ public class InputSubscriber : MonoBehaviour {
     public InputDefinitionModuleType inputDefinitionModuleType = InputDefinitionModuleType.foreground;
     public InputManager inputManager;
     public InputDefinitionModule inputDefinitionModule;
+    private MouseSelector attachedSelector;
 
     //when this is activated, send the inputdefinitionmodule to the input manager for use.  
 
@@ -41,8 +42,14 @@ public class InputSubscriber : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         inputManager = GameObject.Find("InputManager").GetComponent<InputManager>();
-        if(inputDefinitionModuleType == InputDefinitionModuleType.background) Activate();
-        //inputDefinitionModule.inputDefinitions = new List<InputDefinition>(); //not correct... something else...
+        if (inputDefinitionModuleType == InputDefinitionModuleType.background) Activate();
+        else
+        {
+            attachedSelector = GetComponent<MouseSelector>();
+            attachedSelector.OnSelect.AddListener(Activate);
+            attachedSelector.OnDeselect.AddListener(DeActivate);
+        }
+        
     }
 	
 

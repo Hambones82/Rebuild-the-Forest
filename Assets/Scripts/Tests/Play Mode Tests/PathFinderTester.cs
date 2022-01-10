@@ -12,7 +12,7 @@ public class PathFinderTester : MonoBehaviour
 
     List<Vector2Int> lastPath;
 
-    PathFinderPriorityQueue pQ = new PathFinderPriorityQueue(10, 10);
+    //PathFinderPriorityQueue pQ = new PathFinderPriorityQueue(10, 10);
 
     void Update()
     {

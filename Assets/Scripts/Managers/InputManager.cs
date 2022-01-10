@@ -30,8 +30,8 @@ public class InputManager : MonoBehaviour {
     {
         activeKeyPresses = new List<KeyPress>();
         //keyPressesActivated = new List<KeyPress>();
-        inputDefinitionModule = new InputDefinitionModule(); // default module?  sometimes it's null, sometimes it's something.  probably want a default one.
-        backgroundInputDefinitionModule = new InputDefinitionModule();
+        //inputDefinitionModule = new InputDefinitionModule(); // default module?  sometimes it's null, sometimes it's something.  probably want a default one.
+        //backgroundInputDefinitionModule = new InputDefinitionModule();
 
         //build a list of keycodes from definitions
         //in other words, what key presses are we looking for?
@@ -86,7 +86,7 @@ public class InputManager : MonoBehaviour {
             {
                 if (inputDefinitionModule.InvokeAction(actionsToDo)) return; //if that and not background passthrough
             }
-            if(backgroundInputDefinitionModule != null && ((inputDefinitionModule.blockUp != true) || backgroundInputDefinitionModule.passThrough == true))
+            if(backgroundInputDefinitionModule != null)
             {
                 if (backgroundInputDefinitionModule.InvokeAction(actionsToDo)) return;
             }

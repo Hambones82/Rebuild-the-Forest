@@ -7,7 +7,6 @@ public class ActorUnitSequester : MonoBehaviour
 {
     public void RestoreActorUnit()
     {
-        Debug.Log("restore function called");
         List<Vector2Int> candidateOpenPositions = GetComponent<GridTransform>().GetAdjacentTiles();
         List<Vector2Int> possiblePositions = new List<Vector2Int>();
         foreach (Vector2Int candidatePos in candidateOpenPositions)
