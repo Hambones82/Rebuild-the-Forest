@@ -3,5 +3,6 @@
     buildings,
     playerUnits,
     pollution,
-    UI
+    UI,
+    roots
 }

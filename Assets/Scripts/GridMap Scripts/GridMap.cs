@@ -68,12 +68,7 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
             gridSubMaps.Add(new GridSubMap(width, height, mapLayer));
         }
     }
-
-    private void Start()
-    {
-        
-    }
-
+    
     //so... the terrain could be a map layer... the problem is... we're returning a gridsubmap...  which isn't necessarily what we want.
     //i.e., gridsubmap explicitly uses gridtransform, but our terrain map is 
     private bool MapOfTypeExists(MapLayer mLayer)

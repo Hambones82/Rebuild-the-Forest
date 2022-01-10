@@ -1,5 +1,13 @@
 set up root growth
 
+what's the point of roots?  well... let's just say first... all building operation requires root connection to the cleaner.  so let's set that up.
+root growth semantics: set a target...  periodically, it grows towards the target.  need a bunch of visualizers...  but just do this for now.  
+
+i think...  the roots should be registered on the map.  since they are objects within the game and can be clicked on.  so give it a grid transform.  also, the graphic should 
+depend on the neighbors...  
+
+ok so...  gridmap needs a root layer.  let's do that...  
+
 make pathfinder not static -- instantiatable
 
 
