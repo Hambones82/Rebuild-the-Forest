@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Priority_Queue;
 
-public static class PathFinder
+public class PathFinder
 {
-    private static FastPriorityQueue<PFTile> openTiles;
-    private static HashSet<PFTile> closedTiles;
-    private static PFGrid grid;
-    private static readonly int horizontalScore = 10;
-    private static readonly int diagonalScore = 14;
+    private FastPriorityQueue<PFTile> openTiles;
+    private HashSet<PFTile> closedTiles;
+    private PFGrid grid;
+    private readonly int horizontalScore = 10;
+    private readonly int diagonalScore = 14;
 
     private class PFTile : FastPriorityQueueNode
     {
@@ -18,21 +18,21 @@ public static class PathFinder
         public bool passable;
         public int blockerTracker;
         private int f_score;//total score -- equals g + h.  g is sum from start to current of actual distance traveled.
+        public void SetFScore(int inScore, FastPriorityQueue<PFTile> openTiles)
+        {
+            f_score = inScore;
+            if (openTiles.Contains(this))
+            {
+                openTiles.UpdatePriority(this, f_score);
+            }
+            else
+            {
+                Priority = inScore;
+            }
+        }
         public int F_score
         {
             get => f_score;
-            set
-            {
-                f_score = value;
-                if (openTiles.Contains(this))
-                {
-                    openTiles.UpdatePriority(this, f_score);
-                }
-                else
-                {
-                    Priority = value;
-                }
-            }
         }
         public int g_score;//summed distance score
         public int h_score;//heuristic from cell to destination
@@ -91,7 +91,7 @@ public static class PathFinder
     }
 
     //???
-    public static void UpdatePassable(Vector2Int pos, bool passable)
+    public void UpdatePassable(Vector2Int pos, bool passable)
     {
         if (grid.tiles[pos.x, pos.y] == null) Debug.Log("pftile is null");
         PFTile tile = grid.tiles[pos.x, pos.y];
@@ -99,7 +99,12 @@ public static class PathFinder
 
     }
 
-    public static void Initialize(int width, int height, bool[,] passableMap)
+    public PathFinder(int width, int height, bool[,] passableMap)
+    {
+        Initialize(width, height, passableMap);
+    }
+
+    public void Initialize(int width, int height, bool[,] passableMap)
     {
         grid = new PFGrid(width, height);
         for (int x = 0; x < width; x++)
@@ -114,7 +119,7 @@ public static class PathFinder
         closedTiles = new HashSet<PFTile>();
     }
 
-    private static void Reset()
+    private void Reset()
     {
         for (int x = 0; x < grid.width; x++)
         {
@@ -122,7 +127,7 @@ public static class PathFinder
             {
                 PFTile tile = grid.tiles[x, y];
                 //if(tile == null) { Debug.Log("tile is null"); }
-                tile.F_score = int.MaxValue;
+                tile.SetFScore(int.MaxValue, openTiles);
                 tile.g_score = int.MaxValue;
                 tile.h_score = int.MaxValue;
                 tile.previous = null;
@@ -133,7 +138,7 @@ public static class PathFinder
     }
 
     //getpath
-    public static bool GetPath(Vector2Int start, Vector2Int end, out List<Vector2Int> result)
+    public bool GetPath(Vector2Int start, Vector2Int end, out List<Vector2Int> result)
     {
         Reset();
         result = new List<Vector2Int>();
@@ -166,7 +171,7 @@ public static class PathFinder
                         node.previous = currentTile;
                         node.g_score = tentative_g_score;
                         node.h_score = DistanceToTarget(node.position, end);
-                        node.F_score = node.g_score + node.h_score;
+                        node.SetFScore(node.g_score + node.h_score, openTiles);
                         if (!openTiles.Contains(node))
                         {
                             openTiles.Enqueue(node);
@@ -195,7 +200,7 @@ public static class PathFinder
         return foundPath;
     }
 
-    private static int DistanceToTarget(Vector2Int start, Vector2Int target)
+    private int DistanceToTarget(Vector2Int start, Vector2Int target)
     {
         int horiz_dist = Math.Abs(target.x - start.x);
         int vertical_dist = Math.Abs(target.y - start.y);
@@ -206,7 +211,7 @@ public static class PathFinder
         return straight_steps * horizontalScore + diag_steps * diagonalScore;
     }
 
-    private static int CalculateGScore(PFTile current, PFTile adjacent)
+    private int CalculateGScore(PFTile current, PFTile adjacent)
     {
         int xDist = Math.Abs(current.position.x - adjacent.position.x);
         int yDist = Math.Abs(current.position.y - adjacent.position.y);
@@ -220,9 +225,9 @@ public static class PathFinder
         else return current.g_score + horizontalScore;
     }
 
-    private static PFTile[] adjacencies = new PFTile[8];
+    private PFTile[] adjacencies = new PFTile[8];
 
-    private static void SetAdjacencies(PFTile current)
+    private void SetAdjacencies(PFTile current)
     {
         int x = current.position.x;
         int y = current.position.y;
@@ -278,7 +283,7 @@ public static class PathFinder
         }
     }
 
-    private static bool TestTileAndAddToAdjacencies(int x, int y, int index)
+    private bool TestTileAndAddToAdjacencies(int x, int y, int index)
     {
         if (grid.tiles[x, y].passable)
         {

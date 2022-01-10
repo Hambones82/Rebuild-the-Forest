@@ -6,9 +6,10 @@ using System;
 [DefaultExecutionOrder(-4)]
 public class PathingController : MonoBehaviour
 {
-    bool[,] passableMap;
-    int width;
-    int height;
+    private bool[,] passableMap;
+    private int width;
+    private int height;
+    private PathFinder pathFinder;
 
     private static PathingController _instance;
     public static PathingController Instance { get => _instance; }
@@ -29,17 +30,22 @@ public class PathingController : MonoBehaviour
             }
         }
 
-        PathFinder.Initialize(width, height, passableMap);
+        pathFinder = new PathFinder(width, height, passableMap);
     }
 
     public void UpdatePassable(Vector2Int cell, bool passable)
     {
         passableMap[cell.x, cell.y] = passable;
-        PathFinder.UpdatePassable(cell, passable);
+        pathFinder.UpdatePassable(cell, passable);
     }
        
     public bool GetPassable(Vector2Int cell)
     {
         return passableMap[cell.x, cell.y];
+    }
+
+    public bool GetPath(Vector2Int start, Vector2Int end, out List<Vector2Int> result)
+    {
+        return pathFinder.GetPath(start, end, out result);
     }
 }

@@ -63,7 +63,7 @@ public class MoveAction : UnitAction, IObjectPoolInterface
     {
         startWorldPos = transform.position;
         totalTravelDistance = Vector3.Distance(startWorldPos, targetWorldPos);
-        bool pathFound = PathFinder.GetPath(gridTransform.topLeftPosMap, targetMapPos, out currentPath);
+        bool pathFound = PathingController.Instance.GetPath(gridTransform.topLeftPosMap, targetMapPos, out currentPath);
         if(adjacent && pathFound)
         {
             currentPath.RemoveAt(currentPath.Count - 1);
