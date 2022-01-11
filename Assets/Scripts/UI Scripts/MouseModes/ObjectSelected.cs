@@ -26,7 +26,7 @@ public class ObjectSelected : MouseMode
         }
         else // either you click on another building or on nothing.
         {
-            uiManager.SelectedGridTransform.GetComponent<MouseSelector>()?.DeSelect(); // therefore, you deselect the current selected one
+            uiManager.SelectedGridTransform?.GetComponent<MouseSelector>()?.DeSelect(); // therefore, you deselect the current selected one
             uiManager.OnDeselectEvent.Invoke();
             //here we use null as a valid value... maybe we should use something else?
             if (target != null)

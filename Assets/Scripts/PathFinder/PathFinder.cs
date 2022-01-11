@@ -6,6 +6,8 @@ using Priority_Queue;
 
 public class PathFinder
 {
+    public enum NeighborType { fourWay, eightWay };
+    private NeighborType neighborType;
     private FastPriorityQueue<PFTile> openTiles;
     private HashSet<PFTile> closedTiles;
     private PFGrid grid;
@@ -99,12 +101,12 @@ public class PathFinder
 
     }
 
-    public PathFinder(int width, int height, bool[,] passableMap)
+    public PathFinder(int width, int height, bool[,] passableMap, NeighborType nType = NeighborType.eightWay)
     {
-        Initialize(width, height, passableMap);
+        Initialize(width, height, passableMap, nType);
     }
 
-    public void Initialize(int width, int height, bool[,] passableMap)
+    public void Initialize(int width, int height, bool[,] passableMap, NeighborType nType = NeighborType.eightWay)
     {
         grid = new PFGrid(width, height);
         for (int x = 0; x < width; x++)
@@ -117,6 +119,7 @@ public class PathFinder
         }
         openTiles = new FastPriorityQueue<PFTile>(width * height);//hang on... do we even need a priority queue?  can't we simplify this if we just use position??
         closedTiles = new HashSet<PFTile>();
+        neighborType = nType;
     }
 
     private void Reset()
@@ -248,38 +251,29 @@ public class PathFinder
         if (y < grid.height - 1)
         {
             up = TestTileAndAddToAdjacencies(x, y + 1, 3);
-        }
-        if (left && up && grid.tiles[x - 1, y + 1].passable)
+        } //add the if for neighbortype...
+        adjacencies[4] = null;
+        adjacencies[5] = null;
+        adjacencies[6] = null;
+        adjacencies[7] = null;
+        if (neighborType == NeighborType.eightWay)
         {
-            adjacencies[4] = grid.tiles[x - 1, y + 1];
-        }
-        else
-        {
-            adjacencies[4] = null;
-        }
-        if (right && up && grid.tiles[x + 1, y + 1].passable)
-        {
-            adjacencies[5] = grid.tiles[x + 1, y + 1];
-        }
-        else
-        {
-            adjacencies[5] = null;
-        }
-        if (left && down && grid.tiles[x - 1, y - 1].passable)
-        {
-            adjacencies[6] = grid.tiles[x - 1, y - 1];
-        }
-        else
-        {
-            adjacencies[6] = null;
-        }
-        if (right && down && grid.tiles[x + 1, y - 1].passable)
-        {
-            adjacencies[7] = grid.tiles[x + 1, y - 1];
-        }
-        else
-        {
-            adjacencies[7] = null;
+            if (left && up && grid.tiles[x - 1, y + 1].passable)
+            {
+                adjacencies[4] = grid.tiles[x - 1, y + 1];
+            }
+            if (right && up && grid.tiles[x + 1, y + 1].passable)
+            {
+                adjacencies[5] = grid.tiles[x + 1, y + 1];
+            }
+            if (left && down && grid.tiles[x - 1, y - 1].passable)
+            {
+                adjacencies[6] = grid.tiles[x - 1, y - 1];
+            }
+            if (right && down && grid.tiles[x + 1, y - 1].passable)
+            {
+                adjacencies[7] = grid.tiles[x + 1, y - 1];
+            }
         }
     }
 

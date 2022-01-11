@@ -8,7 +8,8 @@ public static class MLayerToSortingOrder
     {
         {MapLayer.buildings, 0 },
         {MapLayer.pollution, 1 },
-        {MapLayer.playerUnits, 2 },
+        {MapLayer.roots, 2 },
+        {MapLayer.playerUnits, 3 },
         {MapLayer.UI, 4 }
     };
 }

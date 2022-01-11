@@ -1,3 +1,12 @@
+something's broken... just get the project assembly file from github back...
+
+so there's some kind of bug where... if you click on something without some component (probably selector), you get a null ref exception...
+need to make sure roots don't grow inside of trees (just remove certain first nodes).
+
+context click for buildings too... see if we can generalize the actorunitcontextclick.
+
+so... building manager has code for spawning things at positions. i kind of feel like this should be...  in a different class maybe.  like spawn using grid transform...
+
 set up root growth
 
 what's the point of roots?  well... let's just say first... all building operation requires root connection to the cleaner.  so let's set that up.
