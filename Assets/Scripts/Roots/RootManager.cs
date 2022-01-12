@@ -18,6 +18,9 @@ public class RootManager : MonoBehaviour
 
     private bool[,] rootPassableMap;
     private PathFinder rootPathfinder;
+    
+    [SerializeField]
+    private Sprite[] sprites;
 
     private void Awake()
     {
@@ -39,13 +42,46 @@ public class RootManager : MonoBehaviour
     public Root SpawnRoot(Vector2Int position)
     {
         if (!GridMap.Current.IsWithinBounds(position)) return null;
+        if (GridMap.Current.IsCellOccupied(position, MapLayer.roots)) return null;
         else
         {
+            Vector2Int north = new Vector2Int(position.x, position.y + 1);
+            Vector2Int south = new Vector2Int(position.x, position.y - 1);
+            Vector2Int east = new Vector2Int(position.x + 1, position.y);
+            Vector2Int west = new Vector2Int(position.x - 1, position.y);
+            Direction[] positionsOccupied = new Direction[4]
+            {
+                GridMap.Current.IsCellOccupied(north) ? Direction.north : Direction.none,
+                GridMap.Current.IsCellOccupied(south) ? Direction.south : Direction.none,
+                GridMap.Current.IsCellOccupied(east) ? Direction.east : Direction.none,
+                GridMap.Current.IsCellOccupied(west) ? Direction.west : Direction.none
+            };
+            Direction directionCombination = positionsOccupied[0] | positionsOccupied[1] | positionsOccupied[2] | positionsOccupied[3];
             Vector3 worldPos = rootPrefab.GetComponent<GridTransform>().TopLeftMapToWorldCenter(position);
             Root newRoot = Instantiate(rootPrefab, worldPos, Quaternion.identity, GridMap.Current.GetComponent<Transform>());
+            SetConnectivity(newRoot, directionCombination);
             _roots.Add(newRoot);
+            SetNeighborConnectivity(north, Direction.south);
+            SetNeighborConnectivity(south, Direction.north);
+            SetNeighborConnectivity(east, Direction.west);
+            SetNeighborConnectivity(west, Direction.east);
             return newRoot;
         }
+    }
+
+    private void SetConnectivity(Root root, Direction connectivity)
+    {
+        int directionCombination = (int)connectivity;
+        root.GetComponent<SpriteRenderer>().sprite = sprites[directionCombination];
+        root.connectivity = (Direction)directionCombination;
+    }
+
+    private void SetNeighborConnectivity(Vector2Int neighborPos, Direction connectivityToAdd)
+    {
+        Root root = GridMap.Current.GetObjectAtCell<Root>(neighborPos, MapLayer.roots);
+        if (root == null) return;
+        root.connectivity |= connectivityToAdd;
+        root.GetComponent<SpriteRenderer>().sprite = sprites[(int)root.connectivity];
     }
     
     public void DeleteRoot(Root root)

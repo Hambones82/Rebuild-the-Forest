@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Root : MonoBehaviour
 {
-    //onenable...
+    public Direction connectivity;
 }
