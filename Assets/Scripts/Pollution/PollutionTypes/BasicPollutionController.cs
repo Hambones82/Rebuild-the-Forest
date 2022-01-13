@@ -2,16 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//maybe make a dervied type, e.g., level1controller...  level2controller... defines some additional addpollution stuff.
+// the other option is to make a flat class... have an interface or something.  seems harder...  not sure.
 [System.Serializable]
-public class BasicPollutionController : PollutionTypeController
-{
-    [SerializeField]
-    private MapEffectType treeBlockEffect;
-    [SerializeField]
-    private MapEffectType plantBlockEffect;
-    [SerializeField]
-    private MapEffectType mushroomBlockEffect;
-
+public abstract class BasicPollutionController : PollutionTypeController
+{   
     //this is a helper buffer to assist with another function.  maybe scope it to that function only
     private List<Pollution> workingPollutionObjects;
 
@@ -20,6 +15,7 @@ public class BasicPollutionController : PollutionTypeController
     
     private List<Vector2Int> freePositions;
     
+    //can probably put this into base...  
     public override void Initialize(GridMap inGridMap, PollutionManager inPollutionManager)
     {
         base.Initialize(inGridMap, inPollutionManager);
@@ -55,34 +51,14 @@ public class BasicPollutionController : PollutionTypeController
         PopulateInitialPollution();
     }
 
+    protected abstract bool IsBlocked(Vector2Int cell);
+    
+    //this part -- check for the ...  priority.  don't add if... higher (lower?) priority pollution already exists at cell ... but maybe we just want to 
+    //handle this w free positions?
     private Pollution AddPollution(Vector2Int cell)
     {
-        bool addPollution = true;
-        List<MapEffectObject> effectsAtCell = MapEffectsManager.Instance.GetEffectsAtCell(cell);
-        if (effectsAtCell != null)
-        {
-            bool mush = false;
-            bool plant = false;
-            bool tree = false;
-            foreach (MapEffectObject effectObject in effectsAtCell)
-            {
-                if (effectObject.EffectType == treeBlockEffect)
-                {
-                    tree = true;
-                }
-                else if (effectObject.EffectType == mushroomBlockEffect)
-                {
-                    mush = true;
-                }
-                else if (effectObject.EffectType == plantBlockEffect)
-                {
-                    plant = true;
-                }
-            }
-            addPollution = !(mush && plant && tree);
-        }
-
-        if (addPollution)
+        bool addPollution = !IsBlocked(cell); //something other than isblocked?
+        if (addPollution) //all of this can be put into base
         {
             GameObject newGO = pollutionPool.GetGameObject();
             newGO.GetComponent<GridTransform>().MoveToMapCoords(cell);
@@ -91,7 +67,7 @@ public class BasicPollutionController : PollutionTypeController
             pollutionObjects.Add(newPollution);
             newPollution.PollutionManager = this.pollutionManager;
             newPollution.SetAmount(newPollution.MaxAmount);
-            UpdateFreePositionsForAddition(cell);
+            UpdateFreePositionsForAddition(cell); //make this virtual?
             return newPollution;
         }
         else
@@ -111,7 +87,7 @@ public class BasicPollutionController : PollutionTypeController
 
         foreach (Vector2Int position in positions)
         {
-            if (!freePositions.Contains(position) && gridMap.IsWithinBounds(position) && !pollutionMap.IsCellOccupied(position))
+            if (!freePositions.Contains(position) && gridMap.IsWithinBounds(position) && !pollutionMap.IsCellOccupied(position))//don't add if priority is wrong
             {
                 AddFreePosition(position);
             }
@@ -145,7 +121,7 @@ public class BasicPollutionController : PollutionTypeController
                 }
             }
         }
-        if (neighborsPollution)
+        if (neighborsPollution) //also...  don't add it back if the priority thing is wrong... so... 
         {
             AddFreePosition(cell);
         }
@@ -180,18 +156,21 @@ public class BasicPollutionController : PollutionTypeController
         
     }
 
+    //could be in base
     private void AddFreePosition(Vector2Int cell)
     {
         freePositions.Add(cell);
         DebugTilemap.Instance.AddTile(cell);
     }
 
+    //could be in base
     private void RemoveFreePosition(Vector2Int cell)
     {
         freePositions.Remove(cell);
         DebugTilemap.Instance.RemoveTile(cell);
     }
 
+    //could be in base
     protected override void UpdatePollutionState()
     {
         if (freePositions.Count > 0)
@@ -201,6 +180,7 @@ public class BasicPollutionController : PollutionTypeController
         }
     }
 
+    //could be in base
     public override void RemovePollution(Pollution pollution, Vector2Int pollutionPosition)
     {
         base.RemovePollution(pollution, pollutionPosition);

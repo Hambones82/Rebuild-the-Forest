@@ -1,3 +1,17 @@
+really not sure how to do the multiple pollution types thing cleanly.
+
+i think we gotta rework the pollution thing.  probably put a lot of the functionality in the base, then add the mush/plant/whatever in basic... s/t else
+in level 2, etc...  pollution thing needs a map priority...
+
+next... let's do a second level of pollution...  moves slower, harder to clean.
+
+actually... i don't need another pollution controller class.  if i make some parameters, i can make the controllers control overwrite, etc.  also, 
+can just give each one how to clean it... that's just based on the prefab.  also, spread speed can be a parameter...
+
+so maybe a lot of this is going to be making the buildings scarce and placing them strategically to expand root network.
+
+roots grow faster the closer they are to the cleaner building.
+
 fix selectable to cycle through objects in a tile.
 
 so there's some kind of bug where... if you click on something without some component (probably selector), you get a null ref exception...
@@ -16,9 +30,6 @@ i think...  the roots should be registered on the map.  since they are objects w
 depend on the neighbors...  
 
 ok so...  gridmap needs a root layer.  let's do that...  
-
-make pathfinder not static -- instantiatable
-
 
 bug: unit still does action even if failed pathfinder is found and unit is nowhere near adjacent to target.  need to rework the unit action stuff so this doesn't happen and in general
 
