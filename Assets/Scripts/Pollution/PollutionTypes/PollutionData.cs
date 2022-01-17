@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class L1BasicPollutionController : BasicPollutionController
+[CreateAssetMenu(fileName = "PollutionData", menuName = "Pollution/Pollution Data")]
+public class PollutionData : ScriptableObject
 {
-    /*
     [SerializeField]
     private MapEffectType treeBlockEffect;
     [SerializeField]
@@ -13,7 +12,20 @@ public class L1BasicPollutionController : BasicPollutionController
     [SerializeField]
     private MapEffectType mushroomBlockEffect;
 
-    protected override bool IsBlocked(Vector2Int cell)
+    //droptable
+    [SerializeField]
+    private DropTable _dropTable;
+    
+    //priority
+    [SerializeField]
+    private int _priority;
+    public int Priority { get => _priority; }
+    //a/t else?
+    
+    [SerializeField]
+    public List<PollutionEffect> pollutionEffects;
+    
+    public bool IsBlocked(Vector2Int cell)
     {
         bool retVal = false;
         List<MapEffectObject> effectsAtCell = MapEffectsManager.Instance.GetEffectsAtCell(cell);
@@ -41,5 +53,5 @@ public class L1BasicPollutionController : BasicPollutionController
         }
         return retVal;
     }
-    */
 }
+

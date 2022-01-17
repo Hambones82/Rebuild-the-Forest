@@ -5,8 +5,18 @@ using UnityEngine;
 [System.Serializable]
 public abstract class PollutionTypeController //maybe make this generic for a pollution type???  not 100% sure...need to think abt it.
 {
+    public delegate void PollutionChangeDelegate(Vector2Int cell, int priority);
+    public event PollutionChangeDelegate OnPollutionAdd;
+    public event PollutionChangeDelegate OnPollutionDelete;
+    protected void InvokeOnPollutionAdd(Vector2Int cell, int priority) { OnPollutionAdd?.Invoke(cell, priority); }
+    protected void InvokeOnPollutionDelete(Vector2Int cell, int priority) { OnPollutionDelete?.Invoke(cell, priority); }
+
     [SerializeField]
     protected PollutionManager pollutionManager;
+
+    [SerializeField]
+    protected List<Vector2Int> freePositions;
+    public List<Vector2Int> FreePositions { get => freePositions; }
 
     [SerializeField]
     protected GridMap gridMap;
@@ -41,10 +51,56 @@ public abstract class PollutionTypeController //maybe make this generic for a po
         pollutionManager = inPollutionManager;
         pollutionPool = new GameObjectPool(pollutionPrefab.gameObject, parentObj: gridMap.gameObject, activeByDefault: false);
     }
-    
+
+    public abstract void InitializePollutionState();
+
     public virtual void RemovePollution(Pollution pollution, Vector2Int pollutionPosition)
     {
-        pollutionObjects.Remove(pollution);
-        pollutionPool.RecycleObject(pollution.gameObject);
+        if(pollution.pTypeController == this)//get rid of this -- it's definitely hurting performance.
+        {
+            pollutionObjects.Remove(pollution);
+            pollutionPool.RecycleObject(pollution.gameObject);
+            OnPollutionDelete?.Invoke(pollutionPosition, pollution.Priority);
+        }
+    }
+
+    //priorities are the priority of the 
+    public abstract void UpdateFreePositionsForAddition(Vector2Int cell, int priority);
+    public abstract void UpdateFreePositionsForRemoval(Vector2Int cell, int priority);
+
+    protected Pollution AddPollution(Vector2Int cell)
+    {
+        bool addPollution = !pollutionPrefab.PollutionData.IsBlocked(cell); //something other than isblocked?
+        Pollution pollutionAtCell = GridMap.Current.GetObjectAtCell<Pollution>(cell, MapLayer.pollution);
+        if (pollutionAtCell != null)
+        {
+            if (pollutionPrefab.PollutionData.Priority < pollutionAtCell.PollutionData.Priority) //s/t is wrong...
+            {
+                //Debug.Log("this thing is happening");
+                addPollution = false;
+            }
+            else if (addPollution)
+            {
+                PollutionManager.Instance.RemovePollutionSoft(pollutionAtCell);
+                //Debug.Log($"removing pollution soft at cell: {cell}");
+            }
+        }
+        if (addPollution) //all of this can be put into base
+        {
+            GameObject newGO = pollutionPool.GetGameObject();
+            newGO.GetComponent<GridTransform>().MoveToMapCoords(cell);
+            newGO.SetActive(true);
+            Pollution newPollution = newGO.GetComponent<Pollution>();
+            newPollution.pTypeController = this;
+            pollutionObjects.Add(newPollution);
+            newPollution.PollutionManager = this.pollutionManager;
+            newPollution.SetAmount(newPollution.MaxAmount);
+            OnPollutionAdd?.Invoke(cell, newPollution.Priority);
+            return newPollution;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

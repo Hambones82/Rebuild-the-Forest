@@ -1,4 +1,41 @@
-really not sure how to do the multiple pollution types thing cleanly.
+on add or on delete event...  
+
+
+
+problem with doing a flat pollution controller: might want some weird pollution spread shape/function.  a lot of the pollution controller keeps track of this.
+
+so let's just get the pollution manager thing working...  do i want to split it up in this inheritance hierarchy or just handle everything in one place
+and use the pollutiondata to handle differences?  maybe that... use the pollutiondata to handle the differences...
+
+so how do we even do the drops... where things can spread over other things?  do we just keep original drops?  maybe that's best...
+
+i think i need to rewrite everything... rewrite the discoverablemanager... add some behavior info to a scriptable object for pollution.. 
+
+let's implement the discoverable part within pollution itself, rather than as a separate thing.  oof...
+
+so initial map gen decides drops, but pollution can still spawn over other pollution and cause it to become worse pollution.
+
+in that case, we need to...  be able to convert one pollution into another pollution.
+
+so there's a big problem here.  problem is that...  if we have the pollution spawn it, it'll trigger the drops for the lower priority ones.  
+we can cause those drops not to happen but then what drops do we add?
+
+this is something i really need to figure out...  
+
+what i was envisioning was that the the higher level stuff comes over the lower level stuff and i guess...  they'd carry in their drops.  but then 
+the problem would be that you'd be bringing in new drops?  that could be a problem...  this is something i need to think about.
+
+so for the priority things...  how do i implement that?  one possibility is through the free things... the other is through just blocking it when try
+to add.  i'd like to do it through free things.
+
+so each controller needs a reference to the others so that they can update each others' free list. but is it true we only need to update it for lower
+priorities?  when a higher priority is spawned, it causes the free spots for the same and lower priority to be removed.  but doesn't do for higher.
+when a higher priority is deleted...  it causes the free spots for the ...
+
+lets just make this the easiest way possible -- can't overwrite a higher priority.
+
+i don't think we need to implement this stuff in the sub-types...  just do this in the free whatever.  for higher priority...  don't remove free if 
+occupied by lower priority.  also, add even if it neighbors a lower priority
 
 i think we gotta rework the pollution thing.  probably put a lot of the functionality in the base, then add the mush/plant/whatever in basic... s/t else
 in level 2, etc...  pollution thing needs a map priority...

@@ -631,21 +631,33 @@ MonoBehaviour:
   gridMap: {fileID: 1990238066}
   pollutionControllers:
   - id: 0
+  - id: 1
   references:
     version: 1
     00000000:
-      type: {class: L1BasicPollutionController, ns: , asm: ProjectAssembly}
+      type: {class: BasicPollutionController, ns: , asm: ProjectAssembly}
       data:
-        pollutionManager: {fileID: 0}
+        pollutionManager: {fileID: 415643803}
+        freePositions: []
         gridMap: {fileID: 1990238066}
         pollutionPrefab: {fileID: 332257860741888898, guid: a5d1b1f1f11595049b029ebf44392545, type: 3}
         pollutionObjects: []
-        spreadPeriod: 0.5
-        spreadBaseProbability: 0.354
-        freeZoneWidth: 25
-        treeBlockEffect: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
-        plantBlockEffect: {fileID: 11400000, guid: 4b0e8e8d5b7e9ea4fb191490c8eed54c, type: 2}
-        mushroomBlockEffect: {fileID: 11400000, guid: d3a20ae1d30cc0f458d78972d0fa3842, type: 2}
+        spreadPeriod: 2.94
+        priority: 0
+        spreadBaseProbability: 0.484
+        freeZoneWidth: 50
+    00000001:
+      type: {class: BasicPollutionController, ns: , asm: ProjectAssembly}
+      data:
+        pollutionManager: {fileID: 415643803}
+        freePositions: []
+        gridMap: {fileID: 1990238066}
+        pollutionPrefab: {fileID: 332257860741888898, guid: ad3a47feb21edb64e83e94ffc3fc22a3, type: 3}
+        pollutionObjects: []
+        spreadPeriod: 3
+        priority: 0
+        spreadBaseProbability: 0.666
+        freeZoneWidth: 75
 --- !u!4 &415643804
 Transform:
   m_ObjectHideFlags: 0
@@ -40569,7 +40581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 385979971367115615, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3.839982
+      value: 3.8400059
       objectReference: {fileID: 0}
     - target: {fileID: 1912259540184846535, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchorMax.y
@@ -41328,7 +41340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7697494355386919041, guid: 73025696be352bd40868c907001b9fa6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 8.960012
+      value: 8.960004
       objectReference: {fileID: 0}
     - target: {fileID: 7697494355879360040, guid: 73025696be352bd40868c907001b9fa6, type: 3}
       propertyPath: m_AnchorMax.x

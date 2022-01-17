@@ -10,6 +10,14 @@ public class Pollution : MonoBehaviour
     private PollutionManager pollutionManager;
     public PollutionManager PollutionManager { get => pollutionManager; set => pollutionManager = value; }
 
+    public PollutionTypeController pTypeController;
+
+    [SerializeField]
+    private PollutionData _pollutionData;
+    public PollutionData PollutionData { get => _pollutionData; }
+
+    public int Priority { get => _pollutionData.Priority; }
+
     [SerializeField]
     public List<PollutionEffect> pollutionEffects;
 

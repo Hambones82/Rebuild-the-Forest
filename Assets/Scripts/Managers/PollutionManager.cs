@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+//pollution manager needs a "change" or "overwrite" that doesn't cause the drop to be triggered...
+//do all the initialization for the controllers.
+//have flat controllers...
 [DefaultExecutionOrder(-3)]
 public class PollutionManager : MonoBehaviour
 {
@@ -33,14 +36,11 @@ public class PollutionManager : MonoBehaviour
 
     [SerializeReference, SubclassSelector]
     private List<PollutionTypeController> pollutionControllers;
+    public List<PollutionTypeController> PollutionControllers { get => pollutionControllers; }
     
-    private void Awake()
+    //so maybe we do keep the type controllers... would make it easier i think...
+    private void Awake()//so initialize...  go from highest to lowest priority...
     {
-        foreach(PollutionTypeController controller in pollutionControllers)
-        {
-            controller.Initialize(gridMap, this);
-        }
-
         if (_instance == null)
         {
             _instance = this;
@@ -48,6 +48,32 @@ public class PollutionManager : MonoBehaviour
         else
         {
             throw new InvalidOperationException("can't have two pollution managers");
+        }
+        foreach (PollutionTypeController controller in pollutionControllers)
+        {
+            controller.OnPollutionAdd += UpdateFreePositionsForAddition;
+            controller.OnPollutionDelete += UpdateFreePositionsForRemoval;
+            controller.Initialize(gridMap, this);
+        }
+        foreach(PollutionTypeController controller in pollutionControllers)
+        {
+            controller.InitializePollutionState();
+        }
+    }
+
+    public void UpdateFreePositionsForAddition(Vector2Int cell, int priority)
+    {
+        foreach (PollutionTypeController controller in pollutionControllers)
+        {
+            controller.UpdateFreePositionsForAddition(cell, priority);
+        }
+    }
+
+    public void UpdateFreePositionsForRemoval(Vector2Int cell, int priority)
+    {
+        foreach (PollutionTypeController controller in pollutionControllers)
+        {
+            controller.UpdateFreePositionsForRemoval(cell, priority);
         }
     }
 
@@ -72,7 +98,17 @@ public class PollutionManager : MonoBehaviour
         {
             controller.RemovePollution(pollution, pollutionPosition);
         }
-        OnPollutionDead(pollutionPosition);
+        OnPollutionDead?.Invoke(pollutionPosition);
+    }
+
+    public void RemovePollutionSoft(Pollution pollution)
+    {
+        Vector2Int pollutionPosition = pollution.GetComponent<GridTransform>().topLeftPosMap;
+        //for now, do this for all... but should really find the correct one...
+        foreach (PollutionTypeController controller in pollutionControllers)
+        {
+            controller.RemovePollution(pollution, pollutionPosition);
+        }
     }
 
     public bool IsEffectAtCell(Vector2Int cell, PollutionEffect effect)

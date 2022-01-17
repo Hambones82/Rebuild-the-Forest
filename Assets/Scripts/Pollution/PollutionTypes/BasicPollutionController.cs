@@ -5,34 +5,41 @@ using UnityEngine;
 //maybe make a dervied type, e.g., level1controller...  level2controller... defines some additional addpollution stuff.
 // the other option is to make a flat class... have an interface or something.  seems harder...  not sure.
 [System.Serializable]
-public abstract class BasicPollutionController : PollutionTypeController
-{   
+public class BasicPollutionController : PollutionTypeController
+{
+    [SerializeField]//a lower number means higher priority...
+    private int priority;
     //this is a helper buffer to assist with another function.  maybe scope it to that function only
     private List<Pollution> workingPollutionObjects;
 
     [SerializeField, Range(0, 1)]
     private float spreadBaseProbability;
     
-    private List<Vector2Int> freePositions;
-    
-    //can probably put this into base...  
     public override void Initialize(GridMap inGridMap, PollutionManager inPollutionManager)
     {
         base.Initialize(inGridMap, inPollutionManager);
-        
+
+        priority = pollutionPrefab.PollutionData.Priority;
+
         pollutionMap = gridMap.GetMapOfType(MapLayer.pollution);
 
         freePositions = new List<Vector2Int>();
+    }
 
+    public override void InitializePollutionState()
+    {
         bool initialMapHasPollution = false;
-
+        //this is broken for if you have multiple pollution priorities
         foreach (GridTransform gt in pollutionMap.GetAllObjects())
         {
-            initialMapHasPollution = true;
             Pollution pToAdd = gt.GetComponent<Pollution>();
-            pToAdd.PollutionManager = pollutionManager;
-            pollutionObjects.Add(pToAdd);
-            UpdateFreePositionsForAddition(pToAdd.GetComponent<GridTransform>().topLeftPosMap);
+            if(pToAdd.Priority == priority)
+            {
+                initialMapHasPollution = true;
+                pToAdd.PollutionManager = pollutionManager;
+                pollutionObjects.Add(pToAdd);
+                InvokeOnPollutionAdd(pToAdd.GetComponent<GridTransform>().topLeftPosMap, pToAdd.Priority);
+            }
         }
 
         if (!initialMapHasPollution)
@@ -51,33 +58,10 @@ public abstract class BasicPollutionController : PollutionTypeController
         PopulateInitialPollution();
     }
 
-    protected abstract bool IsBlocked(Vector2Int cell);
-    
-    //this part -- check for the ...  priority.  don't add if... higher (lower?) priority pollution already exists at cell ... but maybe we just want to 
-    //handle this w free positions?
-    private Pollution AddPollution(Vector2Int cell)
-    {
-        bool addPollution = !IsBlocked(cell); //something other than isblocked?
-        if (addPollution) //all of this can be put into base
-        {
-            GameObject newGO = pollutionPool.GetGameObject();
-            newGO.GetComponent<GridTransform>().MoveToMapCoords(cell);
-            newGO.SetActive(true);
-            Pollution newPollution = newGO.GetComponent<Pollution>();
-            pollutionObjects.Add(newPollution);
-            newPollution.PollutionManager = this.pollutionManager;
-            newPollution.SetAmount(newPollution.MaxAmount);
-            UpdateFreePositionsForAddition(cell); //make this virtual?
-            return newPollution;
-        }
-        else
-        {
-            return null;
-        }
-    }
 
-    private void UpdateFreePositionsForAddition(Vector2Int cell)
+    public override void UpdateFreePositionsForAddition(Vector2Int cell, int inPriority)
     {
+        if (inPriority < priority) return;
         if (freePositions.Contains(cell))
         {
             RemoveFreePosition(cell);
@@ -87,15 +71,23 @@ public abstract class BasicPollutionController : PollutionTypeController
 
         foreach (Vector2Int position in positions)
         {
-            if (!freePositions.Contains(position) && gridMap.IsWithinBounds(position) && !pollutionMap.IsCellOccupied(position))//don't add if priority is wrong
+            Pollution pollAtCell = GridMap.Current.GetObjectAtCell<Pollution>(position, MapLayer.pollution)?.GetComponent<Pollution>();
+            bool cellIsOccupied = false;
+            if(pollAtCell != null)
+            {
+                cellIsOccupied = pollAtCell.Priority >= priority;
+            }
+            if (!freePositions.Contains(position) && gridMap.IsWithinBounds(position) && !cellIsOccupied)//don't add if priority is wrong
             {
                 AddFreePosition(position);
             }
         }
     }
 
-    private void UpdateFreePositionsForRemoval(Vector2Int cell)
+    public override void UpdateFreePositionsForRemoval(Vector2Int cell, int inPriority)
     {
+        if (inPriority < priority) return;
+
         List<Vector2Int> positions = cell.GetNeighbors();
         bool neighborsPollution = false;
         foreach (Vector2Int position in positions)
@@ -167,7 +159,17 @@ public abstract class BasicPollutionController : PollutionTypeController
     private void RemoveFreePosition(Vector2Int cell)
     {
         freePositions.Remove(cell);
-        DebugTilemap.Instance.RemoveTile(cell);
+        bool freePosAtCell = false;
+        foreach(PollutionTypeController controller in PollutionManager.Instance.PollutionControllers)
+        {
+            if (controller.FreePositions.Contains(cell)) freePosAtCell = true;
+        }
+        if(!freePosAtCell)
+        {
+            //Debug.Log("removing free pos indicator");
+            DebugTilemap.Instance.RemoveTile(cell);
+        }
+            
     }
 
     //could be in base
@@ -179,11 +181,5 @@ public abstract class BasicPollutionController : PollutionTypeController
             AddPollution(freePositions[position]);
         }
     }
-
-    //could be in base
-    public override void RemovePollution(Pollution pollution, Vector2Int pollutionPosition)
-    {
-        base.RemovePollution(pollution, pollutionPosition);
-        UpdateFreePositionsForRemoval(pollutionPosition);
-    }
+    
 }

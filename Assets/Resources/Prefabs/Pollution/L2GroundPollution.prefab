@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2455998378417550799}
   - component: {fileID: 1832710032}
   m_Layer: 0
-  m_Name: GroundPollution
+  m_Name: L2GroundPollution
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,9 +71,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pollutionManager: {fileID: 0}
-  _pollutionData: {fileID: 11400000, guid: 721458d2ec833c94e84dd31f7153c905, type: 2}
+  _pollutionData: {fileID: 11400000, guid: 87d417aa28b6edd4fb01291fda651522, type: 2}
   pollutionEffects:
   - {fileID: 11400000, guid: 4cc8eafe972c8864e9d3f4bf8ae8d54a, type: 2}
+  - {fileID: 11400000, guid: b37afd19eceb4f945814d0c3f7a9d3f9, type: 2}
   maxAmount: 100
   amount: 0
   OnDisableEvent:
@@ -119,7 +120,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e0be2fc4ca155ac4d81994b874741a0a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72434c00c20ec3948af646cecba4a1db, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

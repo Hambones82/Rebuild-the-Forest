@@ -277,6 +277,7 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
     public T GetObjectAtCell<T>(Vector2Int cellPos, MapLayer mapLayer) 
     {
         List<GridTransform> grids = GetObjectsAtCell(cellPos, mapLayer);
+        if (grids == null) return default(T);
         foreach(GridTransform gt in grids)
         {
             T component = gt.GetComponent<T>();
