@@ -84,9 +84,15 @@ public class BasicPollutionController : PollutionTypeController
         }
     }
 
+    //inpriority is the priority of the object that is being deleted...
     public override void UpdateFreePositionsForRemoval(Vector2Int cell, int inPriority)
     {
-        if (inPriority < priority) return;
+    
+        if (inPriority < priority) 
+        {
+            return;
+        }
+    
 
         List<Vector2Int> positions = cell.GetNeighbors();
         bool neighborsPollution = false;
@@ -94,7 +100,10 @@ public class BasicPollutionController : PollutionTypeController
         {
             if (pollutionMap.IsCellOccupied(position))
             {
-                neighborsPollution = true;
+                if(GridMap.Current.GetObjectAtCell<Pollution>(position, MapLayer.pollution).Priority == priority)
+                {
+                    neighborsPollution = true;
+                }
             }
             List<Vector2Int> subPositions = position.GetNeighbors();
             bool subNeighborsPollution = false;
@@ -104,7 +113,10 @@ public class BasicPollutionController : PollutionTypeController
                 {
                     if (pollutionMap.IsCellOccupied(subPosition))
                     {
-                        subNeighborsPollution = true;
+                        if (GridMap.Current.GetObjectAtCell<Pollution>(subPosition, MapLayer.pollution).Priority == priority)
+                        {
+                            subNeighborsPollution = true;
+                        }
                     }
                 }
                 if (subNeighborsPollution == false)

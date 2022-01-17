@@ -642,7 +642,7 @@ MonoBehaviour:
         gridMap: {fileID: 1990238066}
         pollutionPrefab: {fileID: 332257860741888898, guid: a5d1b1f1f11595049b029ebf44392545, type: 3}
         pollutionObjects: []
-        spreadPeriod: 2.94
+        spreadPeriod: 1
         priority: 0
         spreadBaseProbability: 0.484
         freeZoneWidth: 50
@@ -654,10 +654,10 @@ MonoBehaviour:
         gridMap: {fileID: 1990238066}
         pollutionPrefab: {fileID: 332257860741888898, guid: ad3a47feb21edb64e83e94ffc3fc22a3, type: 3}
         pollutionObjects: []
-        spreadPeriod: 3
+        spreadPeriod: 5
         priority: 0
         spreadBaseProbability: 0.666
-        freeZoneWidth: 75
+        freeZoneWidth: 54
 --- !u!4 &415643804
 Transform:
   m_ObjectHideFlags: 0
@@ -40581,7 +40581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 385979971367115615, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 3.8400059
+      value: 3.8403332
       objectReference: {fileID: 0}
     - target: {fileID: 1912259540184846535, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchorMax.y
@@ -41340,7 +41340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7697494355386919041, guid: 73025696be352bd40868c907001b9fa6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 8.960004
+      value: 8.960837
       objectReference: {fileID: 0}
     - target: {fileID: 7697494355879360040, guid: 73025696be352bd40868c907001b9fa6, type: 3}
       propertyPath: m_AnchorMax.x

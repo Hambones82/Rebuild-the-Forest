@@ -61,7 +61,7 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
         {
             if (!CanDo())
             {
-                Debug.Log("Cannot clean pollution");
+                //Debug.Log("Cannot clean pollution");
                 progressAmount = 0;
                 return false;
             }

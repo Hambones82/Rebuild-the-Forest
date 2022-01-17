@@ -1,5 +1,10 @@
-on add or on delete event...  
+remove the pollution -- so... say you remove the white one.  you call it with white priority
+so the update function... is called with the white pollution priority.
 
+ok i think the problem is...  there's gotta be something wrong with ...  addition.  but then
+...  why is the removal thing the problem?
+
+problem: when we update for deletion, it can...  cause a free spot for the wrong pollution type.  upon removal, must only add if borders one of same type.
 
 
 problem with doing a flat pollution controller: might want some weird pollution spread shape/function.  a lot of the pollution controller keeps track of this.
