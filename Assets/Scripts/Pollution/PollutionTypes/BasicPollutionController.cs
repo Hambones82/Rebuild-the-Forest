@@ -87,13 +87,11 @@ public class BasicPollutionController : PollutionTypeController
     //inpriority is the priority of the object that is being deleted...
     public override void UpdateFreePositionsForRemoval(Vector2Int cell, int inPriority)
     {
-    
         if (inPriority < priority) 
         {
             return;
         }
     
-
         List<Vector2Int> positions = cell.GetNeighbors();
         bool neighborsPollution = false;
         foreach (Vector2Int position in positions)

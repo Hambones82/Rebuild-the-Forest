@@ -256,7 +256,11 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
         List<GridTransform> retVal = new List<GridTransform>();
         foreach(GridSubMap subMap in gridSubMaps)
         {
-            retVal.AddRange(subMap.GetObjectsAtCell(cellPos));
+            List<GridTransform> rangeToAdd = subMap.GetObjectsAtCell(cellPos);
+            if(rangeToAdd != null)
+            {
+                retVal.AddRange(rangeToAdd);
+            }
         }
         return retVal;
     }

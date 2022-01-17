@@ -632,6 +632,7 @@ MonoBehaviour:
   pollutionControllers:
   - id: 0
   - id: 1
+  - id: 2
   references:
     version: 1
     00000000:
@@ -642,10 +643,10 @@ MonoBehaviour:
         gridMap: {fileID: 1990238066}
         pollutionPrefab: {fileID: 332257860741888898, guid: a5d1b1f1f11595049b029ebf44392545, type: 3}
         pollutionObjects: []
-        spreadPeriod: 1
+        spreadPeriod: 0.2
         priority: 0
         spreadBaseProbability: 0.484
-        freeZoneWidth: 50
+        freeZoneWidth: 35
     00000001:
       type: {class: BasicPollutionController, ns: , asm: ProjectAssembly}
       data:
@@ -654,10 +655,22 @@ MonoBehaviour:
         gridMap: {fileID: 1990238066}
         pollutionPrefab: {fileID: 332257860741888898, guid: ad3a47feb21edb64e83e94ffc3fc22a3, type: 3}
         pollutionObjects: []
-        spreadPeriod: 5
+        spreadPeriod: 0.6
         priority: 0
         spreadBaseProbability: 0.666
-        freeZoneWidth: 54
+        freeZoneWidth: 50
+    00000002:
+      type: {class: BasicPollutionController, ns: , asm: ProjectAssembly}
+      data:
+        pollutionManager: {fileID: 415643803}
+        freePositions: []
+        gridMap: {fileID: 1990238066}
+        pollutionPrefab: {fileID: 332257860741888898, guid: 3de8e494b9d3d654fb961c3f1d472373, type: 3}
+        pollutionObjects: []
+        spreadPeriod: 1
+        priority: 0
+        spreadBaseProbability: 0.571
+        freeZoneWidth: 60
 --- !u!4 &415643804
 Transform:
   m_ObjectHideFlags: 0
