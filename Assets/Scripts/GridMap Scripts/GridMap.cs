@@ -230,7 +230,6 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
         return grid.GetCellCenterWorld(new Vector3Int(gridCoords.x, gridCoords.y, 0));
     }
     
-    //?
     private void DrawMapBorders()
     {
         Vector3 cellSize = grid.cellSize / 2;

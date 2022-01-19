@@ -35,7 +35,6 @@ public class RootBuildingComponent : MonoBehaviour
             positionSet = false;
             rootGrowthProgress = 0;
         }
-
     }
 
     [SerializeField]
@@ -46,6 +45,7 @@ public class RootBuildingComponent : MonoBehaviour
     float period;
     private void Update()
     {
+        
         if(Input.GetKeyDown(KeyCode.P))
         {
             SetRootGrowthTarget(new Vector2Int(35, 30));
@@ -55,6 +55,7 @@ public class RootBuildingComponent : MonoBehaviour
             time += Time.deltaTime;
             if(time >= period)
             {
+                
                 RootManager.Instance.SpawnRoot(rootGrowthPath[rootGrowthProgress++]);
                 //need to set all the info for that root, but do it after we get the root grown...
                 if(rootGrowthProgress >= rootGrowthPath.Count)

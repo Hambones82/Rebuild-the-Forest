@@ -45,28 +45,32 @@ public class RootManager : MonoBehaviour
         if (GridMap.Current.IsCellOccupied(position, MapLayer.roots)) return null;
         else
         {
-            Vector2Int north = new Vector2Int(position.x, position.y + 1);
-            Vector2Int south = new Vector2Int(position.x, position.y - 1);
-            Vector2Int east = new Vector2Int(position.x + 1, position.y);
-            Vector2Int west = new Vector2Int(position.x - 1, position.y);
-            Direction[] positionsOccupied = new Direction[4]
-            {
+            Vector3 worldPos = rootPrefab.GetComponent<GridTransform>().TopLeftMapToWorldCenter(position);
+            Root newRoot = Instantiate(rootPrefab, worldPos, Quaternion.identity, GridMap.Current.GetComponent<Transform>());
+            SetConnectivity(newRoot, ConnectivityIfPlaced(position));
+            _roots.Add(newRoot);
+            AddToNeighborConnectivity(new Vector2Int(position.x, position.y + 1), Direction.south);
+            AddToNeighborConnectivity(new Vector2Int(position.x, position.y - 1), Direction.north);
+            AddToNeighborConnectivity(new Vector2Int(position.x + 1, position.y), Direction.west);
+            AddToNeighborConnectivity(new Vector2Int(position.x - 1, position.y), Direction.east);
+            return newRoot;
+        }
+    }
+
+    private Direction ConnectivityIfPlaced(Vector2Int position)
+    {
+        Vector2Int north = new Vector2Int(position.x, position.y + 1);
+        Vector2Int south = new Vector2Int(position.x, position.y - 1);
+        Vector2Int east = new Vector2Int(position.x + 1, position.y);
+        Vector2Int west = new Vector2Int(position.x - 1, position.y);
+        Direction[] positionsOccupied = new Direction[4]
+        {
                 GridMap.Current.IsCellOccupied(north) ? Direction.north : Direction.none,
                 GridMap.Current.IsCellOccupied(south) ? Direction.south : Direction.none,
                 GridMap.Current.IsCellOccupied(east) ? Direction.east : Direction.none,
                 GridMap.Current.IsCellOccupied(west) ? Direction.west : Direction.none
-            };
-            Direction directionCombination = positionsOccupied[0] | positionsOccupied[1] | positionsOccupied[2] | positionsOccupied[3];
-            Vector3 worldPos = rootPrefab.GetComponent<GridTransform>().TopLeftMapToWorldCenter(position);
-            Root newRoot = Instantiate(rootPrefab, worldPos, Quaternion.identity, GridMap.Current.GetComponent<Transform>());
-            SetConnectivity(newRoot, directionCombination);
-            _roots.Add(newRoot);
-            SetNeighborConnectivity(north, Direction.south);
-            SetNeighborConnectivity(south, Direction.north);
-            SetNeighborConnectivity(east, Direction.west);
-            SetNeighborConnectivity(west, Direction.east);
-            return newRoot;
-        }
+        };
+        return positionsOccupied[0] | positionsOccupied[1] | positionsOccupied[2] | positionsOccupied[3];
     }
 
     private void SetConnectivity(Root root, Direction connectivity)
@@ -76,12 +80,11 @@ public class RootManager : MonoBehaviour
         root.connectivity = (Direction)directionCombination;
     }
 
-    private void SetNeighborConnectivity(Vector2Int neighborPos, Direction connectivityToAdd)
+    private void AddToNeighborConnectivity(Vector2Int neighborPos, Direction connectivityToAdd)
     {
         Root root = GridMap.Current.GetObjectAtCell<Root>(neighborPos, MapLayer.roots);
         if (root == null) return;
-        root.connectivity |= connectivityToAdd;
-        root.GetComponent<SpriteRenderer>().sprite = sprites[(int)root.connectivity];
+        SetConnectivity(root, root.connectivity | connectivityToAdd);
     }
     
     public void DeleteRoot(Root root)
