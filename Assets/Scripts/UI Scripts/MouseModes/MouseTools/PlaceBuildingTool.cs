@@ -26,11 +26,11 @@ public class PlaceBuildingTool : MouseTool
 
 
     //ok... big issue here is... we really want to determine the top left (?) or bottom left (?) position...  for the building
-    public override bool LeftClick(Vector3 mousePosition, UIManager uiManager)
+    public override bool LeftClick(Vector3 mousePosition)
     {
         //Vector2Int mapCoords = uiManager.gridMap.WorldToMap(mousePosition);
         UnitActionController actionController = actorUnit.GetComponent<UnitActionController>();
-        PlacementCursor cursor = uiManager.PlacementCursor;
+        PlacementCursor cursor = UIManager.Instance.PlacementCursor;
         Vector2Int mapCoords = cursor.GetComponent<GridTransform>().topLeftPosMap;
 
         //not just can place building at, must also check inventory
@@ -53,13 +53,13 @@ public class PlaceBuildingTool : MouseTool
         return false;
     }
 
-    public override bool RightClick(Vector3 mousePosition, UIManager uiManager)
+    public override bool RightClick(Vector3 mousePosition)
     {
         return false;
     }
     
     
-    public override void StartTool(UIManager uiManager, UnityEngine.Object buildingTypeObject, UnityEngine.Object actorUnitComponent)
+    public override void StartTool(UnityEngine.Object buildingTypeObject, UnityEngine.Object actorUnitComponent)
     {
         BuildingType buildingType = (BuildingType)buildingTypeObject;
         buildingToPlacePrefab = buildingType.BuildingPrefab;
@@ -67,19 +67,13 @@ public class PlaceBuildingTool : MouseTool
         ActorUnit actor = (ActorUnit)actorUnitComponent;
         this.actorUnit = actor;
 
-        PlacementCursor cursor = uiManager.PlacementCursor;
+        PlacementCursor cursor = UIManager.Instance.PlacementCursor;
         cursor.setBuilding(buildingToPlacePrefab);
         cursor.enableCursor();
     }
 
-    public override void EndTool(UIManager uiManager)
+    public override void EndTool()
     {
-        uiManager.PlacementCursor.disableCursor();
-    }
-
-    public override void Cancel()
-    {
-        EndTool(UIManager.Instance);
-        UIManager.Instance.SelectGridTransform(null);
+        UIManager.Instance.PlacementCursor.disableCursor();
     }
 }

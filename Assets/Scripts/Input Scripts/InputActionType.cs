@@ -12,5 +12,6 @@ public enum InputActionType
     select_unit_2,
     select_unit_3,
     pause_toggle,
-    restore_actor
+    restore_actor,
+    start_root_growth
 }

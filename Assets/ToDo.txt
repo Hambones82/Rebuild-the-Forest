@@ -1,9 +1,5 @@
 next to do:
-- if i want to grow it, i need some kind of complex tool for visualizing the whole sequence...
-- the root tool itself needs a root visualizer...
-- maybe for now we could just do a single tile visualizer...
-- roots should grow automatically - no... then the whole screen would fill up with roots.  should be controlled.  do an action and a place root tool...
-let's fix all the issues though... need to not grow on a tile already grown on...
+- put a limit for how far the roots can grow
 - roots enable buildings
 - certain building connected to roots required to clean pollution level 2
 
@@ -98,6 +94,8 @@ UI/EOU Fixes:
 	removing control of individual units and just designating orders for parts of the map.  but i think an intermediate method of allowing dragged rectangles for cleaning 
 	would be best.  try it out and see if not.
 
+CODE IMPROVEMENTS:
+Move placement cursor into the place building tool?
 
 if any action cannot happen, the entire queue should get dropped.
 

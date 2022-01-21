@@ -17,13 +17,13 @@ public class NoObjectSelected : MouseMode
         }
     }
 
-    public override MouseMode LeftClick(Vector3 clickPoint, UIManager uiManager)
+    public override MouseMode LeftClick(Vector3 clickPoint)
     {
-        GridTransform target = uiManager.gridMap.GetClosestClickedObject(clickPoint);
+        GridTransform target = UIManager.Instance.gridMap.GetClosestClickedObject(clickPoint);
             
         if (target != null) //if you click on something
         {
-            uiManager.SelectGridTransform(target);
+            UIManager.Instance.SelectGridTransform(target);
             return ObjectSelected.Instance; //mouse state is that something is selected
         }
         else
@@ -32,7 +32,7 @@ public class NoObjectSelected : MouseMode
         }
     }
 
-    public override MouseMode RightClick(Vector3 clickPoint, UIManager uiManager)
+    public override MouseMode RightClick(Vector3 clickPoint)
     {
         return Instance;
     }

@@ -16,21 +16,32 @@ public class BaseTool : MouseTool
     }
 
     private MouseMode currentMouseMode = NoObjectSelected.Instance;
-    public override bool LeftClick(Vector3 mousePosition, UIManager uiManager)
+    public override bool LeftClick(Vector3 mousePosition)
     {
-        currentMouseMode = currentMouseMode.LeftClick(mousePosition, uiManager);
+        currentMouseMode = currentMouseMode.LeftClick(mousePosition);
         return true;
     }
 
-    public override bool RightClick(Vector3 mousePosition, UIManager uiManager)
+    public override bool RightClick(Vector3 mousePosition)
     {
-        currentMouseMode = currentMouseMode.RightClick(mousePosition, uiManager);
+        currentMouseMode = currentMouseMode.RightClick(mousePosition);
         return true;
     }
 
+    /*
     public override void Cancel()
     {
-        currentMouseMode = NoObjectSelected.Instance;
+        
         UIManager.Instance.SelectGridTransform(null);
+    }*/
+
+    public override void StartTool(Object unityObject1 = null, Object unityObject2 = null)
+    {
+        
+    }
+
+    public override void EndTool()
+    {
+        currentMouseMode = NoObjectSelected.Instance;
     }
 }

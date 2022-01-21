@@ -64,7 +64,7 @@ public class UIManager : MonoBehaviour {
 
     public void LeftClickAt(Vector3 mouseWorldPosition)
     {
-        if(currentMouseTool.LeftClick(mouseWorldPosition, this) == false)
+        if(currentMouseTool.LeftClick(mouseWorldPosition) == false)
         {
             SwitchMouseTool(BaseTool.Instance);
         }
@@ -72,7 +72,7 @@ public class UIManager : MonoBehaviour {
 
     public void rightClickAt(Vector3 mouseWorldPosition)
     {
-        if(currentMouseTool.RightClick(mouseWorldPosition, this) == false)
+        if(currentMouseTool.RightClick(mouseWorldPosition) == false)
         {
             SwitchMouseTool(BaseTool.Instance);
         }
@@ -80,9 +80,9 @@ public class UIManager : MonoBehaviour {
     
     public void SwitchMouseTool(MouseTool mouseTool, UnityEngine.Object unityObject1 = null, UnityEngine.Object unityObject2 = null)//provide an optional game object?  i think that would be a good idea.
     {
-        currentMouseTool.EndTool(this);
+        currentMouseTool.EndTool();
         currentMouseTool = mouseTool;
-        currentMouseTool.StartTool(this, unityObject1, unityObject2);
+        currentMouseTool.StartTool(unityObject1, unityObject2);
     }
 
     public void HardSelectGridTransform(GridTransform clickedGridTransform)
@@ -113,13 +113,13 @@ public class UIManager : MonoBehaviour {
             OnSelectEvent.Invoke();
         }
     }
-
     
     public void DeselectMouseSelector(MouseSelector objectToDisable)
     {
         if(selectedGridTransform != null && selectedGridTransform == objectToDisable.GetComponent<GridTransform>())
         {
-            currentMouseTool.Cancel();
+            currentMouseTool.EndTool();
+            SelectGridTransform(null);
             currentMouseTool = BaseTool.Instance;
         }
     }

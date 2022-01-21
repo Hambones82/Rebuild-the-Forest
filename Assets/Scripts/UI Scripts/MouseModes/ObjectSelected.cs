@@ -17,35 +17,35 @@ public class ObjectSelected : MouseMode
         }
     }
 
-    public override MouseMode LeftClick(Vector3 clickPoint, UIManager uiManager)
+    public override MouseMode LeftClick(Vector3 clickPoint)
     {
-        GridTransform target = uiManager.gridMap.GetClosestClickedObject(clickPoint);
-        if (target == uiManager.SelectedGridTransform)
+        GridTransform target = GridMap.Current.GetClosestClickedObject(clickPoint);
+        if (target == UIManager.Instance.SelectedGridTransform)
         {
             return Instance;
         }
         else // either you click on another building or on nothing.
         {
-            uiManager.SelectedGridTransform?.GetComponent<MouseSelector>()?.DeSelect(); // therefore, you deselect the current selected one
-            uiManager.OnDeselectEvent.Invoke();
+            UIManager.Instance.SelectedGridTransform?.GetComponent<MouseSelector>()?.DeSelect(); // therefore, you deselect the current selected one
+            UIManager.Instance.OnDeselectEvent.Invoke();
             //here we use null as a valid value... maybe we should use something else?
             if (target != null)
             {
-                uiManager.SelectGridTransform(target);
+                UIManager.Instance.SelectGridTransform(target);
                 return Instance;
             }
             else // clicked is null
             {
-                uiManager.SelectGridTransform(null); // set to null because nothing is selected
+                UIManager.Instance.SelectGridTransform(null); // set to null because nothing is selected
                 return NoObjectSelected.Instance;  
             }
         }
     }
 
-    public override MouseMode RightClick(Vector3 clickPoint, UIManager uiManager)
+    public override MouseMode RightClick(Vector3 clickPoint)
     {
-        ContextClickComponent contextClickComponent = uiManager.SelectedGridTransform.GetComponent<ContextClickComponent>();
-        contextClickComponent?.DoContextClick(uiManager.gridMap.WorldToMap(clickPoint)); //this one...
+        ContextClickComponent contextClickComponent = UIManager.Instance.SelectedGridTransform.GetComponent<ContextClickComponent>();
+        contextClickComponent?.DoContextClick(GridMap.Current.WorldToMap(clickPoint)); //this one...
         return Instance;
     }
 }

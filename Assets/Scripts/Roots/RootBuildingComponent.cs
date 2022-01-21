@@ -55,10 +55,11 @@ public class RootBuildingComponent : MonoBehaviour
             time += Time.deltaTime;
             if(time >= period)
             {
-                
-                RootManager.Instance.SpawnRoot(rootGrowthPath[rootGrowthProgress++]);
-                //need to set all the info for that root, but do it after we get the root grown...
-                if(rootGrowthProgress >= rootGrowthPath.Count)
+                if(AdvanceToNextOpenPosition())
+                {
+                    RootManager.Instance.SpawnRoot(rootGrowthPath[rootGrowthProgress]);
+                }
+                else
                 {
                     positionSet = false;
                     rootGrowthProgress = 0;
@@ -68,4 +69,25 @@ public class RootBuildingComponent : MonoBehaviour
         }
     }
 
+    private bool AdvanceToNextOpenPosition()
+    {
+        while(rootGrowthProgress < rootGrowthPath.Count)
+        {
+            if(PositionIsOccupied(rootGrowthPath[rootGrowthProgress]))
+            {
+                rootGrowthProgress++;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private bool PositionIsOccupied(Vector2Int position)
+    {
+        return GridMap.Current.IsCellOccupied(position, MapLayer.buildings)
+            || GridMap.Current.IsCellOccupied(position, MapLayer.roots);
+    }
 }

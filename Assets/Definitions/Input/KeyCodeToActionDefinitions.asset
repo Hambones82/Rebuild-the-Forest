@@ -73,3 +73,7 @@ MonoBehaviour:
       keyCode: 114
       keyPressType: 1
     inputActionType: 11
+  - keyPress:
+      keyCode: 114
+      keyPressType: 1
+    inputActionType: 12

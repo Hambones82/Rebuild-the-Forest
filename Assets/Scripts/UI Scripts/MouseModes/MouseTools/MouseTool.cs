@@ -4,9 +4,8 @@ using UnityEngine;
 
 public abstract class MouseTool
 {
-    public virtual void StartTool(UIManager uiManager, UnityEngine.Object unityObject1 = null, UnityEngine.Object unityObject2 = null) { }
-    public virtual void EndTool(UIManager uiManager) { }
-    public abstract bool LeftClick(Vector3 mousePosition, UIManager uiManager);
-    public abstract bool RightClick(Vector3 mousePosition, UIManager uiManager);
-    public abstract void Cancel();
+    public abstract void StartTool(UnityEngine.Object unityObject1 = null, UnityEngine.Object unityObject2 = null);
+    public abstract void EndTool();
+    public abstract bool LeftClick(Vector3 mousePosition);
+    public abstract bool RightClick(Vector3 mousePosition);
 }
