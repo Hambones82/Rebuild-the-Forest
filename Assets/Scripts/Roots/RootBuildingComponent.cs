@@ -14,6 +14,19 @@ public class RootBuildingComponent : MonoBehaviour
     [SerializeField]
     int rootGrowthProgress = 0;
 
+    [SerializeField]
+    private int _rootNetwork;
+    public int RootNetwork
+    {
+        get => _rootNetwork;
+        set => _rootNetwork = value;
+
+    }
+
+    [SerializeField]
+    float rootRange;
+    public float RootRange { get => rootRange; }
+
     private void Start()
     {
         SetRootGrowthTarget(new Vector2Int(35, 33));

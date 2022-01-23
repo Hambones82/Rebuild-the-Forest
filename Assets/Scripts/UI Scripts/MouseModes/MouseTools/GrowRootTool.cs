@@ -26,20 +26,14 @@ public class GrowRootTool : MouseTool
 
     public GrowRootTool()
     {
-        Debug.Log("instantiating");
         _rootCursor = Object.Instantiate(PrefabReferences.Instance.RootCursor, GridMap.Current.transform);
         _rootCursor.gameObject.SetActive(false);
     }
 
     public override bool LeftClick(Vector3 mousePosition)
     {
-        Vector2Int mapCoords = GridMap.Current.WorldToMap(mousePosition);
-        if (GridMap.Current.IsWithinBounds(mapCoords))
-        {
-            rootBuilding.SetRootGrowthTarget(mapCoords);
-            return false;
-        }
-        return true;
+        rootBuilding.SetRootGrowthTarget(_rootCursor.GetComponent<GridTransform>().topLeftPosMap);
+        return false;
     }
 
     public override bool RightClick(Vector3 mousePosition)
@@ -53,7 +47,7 @@ public class GrowRootTool : MouseTool
         rootBuilding = (RootBuildingComponent)unityObject1;
         _rootCursor.gameObject.SetActive(true);
         _rootCursor.enableCursor();
-
+        _rootCursor.Initialize(rootBuilding.transform.position, rootBuilding.RootRange);
     }
 
     public override void EndTool()

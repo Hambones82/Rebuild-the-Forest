@@ -131,6 +131,11 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
         return (GetMapOfType(mapLayer).IsCellOccupied(cellToCheck));
     }
 
+    public bool IsCellOccupied<T>(Vector2Int cellToCheck, MapLayer mapLayer)
+    {
+        return GetObjectAtCell<T>(cellToCheck, mapLayer) != null;
+    }
+
     public bool IsCellOccupied(Vector2Int cellToCheck)
     {
         foreach(GridSubMap gsm in gridSubMaps)

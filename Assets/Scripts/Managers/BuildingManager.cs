@@ -41,6 +41,7 @@ public class BuildingManager : MonoBehaviour {
 
     [SerializeField]
     private List<Building> _buildings = new List<Building>();
+    public List<Building> Buildings { get => _buildings; }
     
     public Building SpawnBuildingAt(Building buildingPrefab, Vector2Int cell)
     {

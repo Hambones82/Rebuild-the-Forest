@@ -1,6 +1,18 @@
+- so we have to check connectivity pretty frequently i think -- basically... any time we need to know whether a building is operating
+- so...  doing a pathfinder every frame is probably not going to be great.  actually it would be multiple pathfinders -- one for each building that can be enabled
+- so we will have to do the custom function for this... ok fine let's just do it
+- root network node is a building component.  it has a network id, which is set by the root manager.
+- resources on the map.  link up a root to gain access to those resources.  use them up, the resources deplete.  
+- build a root...  how do we limit this.  
+
+set the origin for root growth as the closest point in the building to the target.
+use the midpoint of the building as the origin point for the radius.  alternatively, use the closest point from the building.
+need to work out the root network thing...  
+-- let's try to do it with...  the pathfinder... put a pathfinder in ...  the root manager.
+otherwise we need a special root walker...  
+
 next to do:
-- put a limit for how far the roots can grow
-- roots enable buildings
+- roots enable buildings -- do an enable component... then we can centralize all the "is enabled" stuff...
 - certain building connected to roots required to clean pollution level 2
 
 GAMEPLAY IDEAS:

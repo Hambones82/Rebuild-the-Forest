@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MapEffectComponent : MonoBehaviour
 {
-    //need an onmoveposition
     [SerializeField]
     private List<MapEffect> _mapEffects;
     public List<MapEffect> MapEffects { get { return new List<MapEffect>(_mapEffects); } }

@@ -37,7 +37,14 @@ public class BaseTool : MouseTool
 
     public override void StartTool(Object unityObject1 = null, Object unityObject2 = null)
     {
-        
+        if(UIManager.Instance.SelectedGridTransform == null)
+        {
+            currentMouseMode = NoObjectSelected.Instance;
+        }
+        else
+        {
+            currentMouseMode = ObjectSelected.Instance;
+        }
     }
 
     public override void EndTool()

@@ -41,7 +41,7 @@ public abstract class Cursor : MonoBehaviour
         GetComponent<SpriteRenderer>().enabled = true;
     }
 
-    public void moveCursorTo(Vector3 WorldPos)
+    public virtual void moveCursorTo(Vector3 WorldPos)
     {
         GetComponent<GridTransform>().MoveToWorldCoords(WorldPos);
     }
