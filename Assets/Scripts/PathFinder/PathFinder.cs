@@ -6,7 +6,7 @@ using Priority_Queue;
 
 public class PathFinder
 {
-    public enum NeighborType { fourWay, eightWay };
+    
     private NeighborType neighborType;
     private FastPriorityQueue<PFTile> openTiles;
     private HashSet<PFTile> closedTiles;

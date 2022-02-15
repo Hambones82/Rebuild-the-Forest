@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(RootNetworkComponent))]
 public class RootBuildingComponent : MonoBehaviour
 {
     //function to set target for root growth
@@ -13,15 +14,6 @@ public class RootBuildingComponent : MonoBehaviour
     List<Vector2Int> rootGrowthPath;
     [SerializeField]
     int rootGrowthProgress = 0;
-
-    [SerializeField]
-    private int _rootNetwork;
-    public int RootNetwork
-    {
-        get => _rootNetwork;
-        set => _rootNetwork = value;
-
-    }
 
     [SerializeField]
     float rootRange;

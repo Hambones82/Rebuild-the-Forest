@@ -1,3 +1,16 @@
+for changing the network num, really need to combine them.  should allow the mutablegridnetwork class to implement this.
+
+some problem here...  
+
+have multiple networks.  in total, they store all the nodes
+based on adjacency, group the roots into networks.
+
+so... have a class that does all this.  
+
+so regarding the root network... do we actually want to store a network?  might want to. like root manager should have maybe a network component...  maybe it's generic...  
+maybe we use like a graph set...  or something
+it stores a bunch of graphs... subdivides all nodes (generic parameter) into grahps.  manages graph membership on adds and removes
+
 - so we have to check connectivity pretty frequently i think -- basically... any time we need to know whether a building is operating
 - so...  doing a pathfinder every frame is probably not going to be great.  actually it would be multiple pathfinders -- one for each building that can be enabled
 - so we will have to do the custom function for this... ok fine let's just do it

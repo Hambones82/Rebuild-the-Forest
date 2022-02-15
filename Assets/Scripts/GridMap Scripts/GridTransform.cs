@@ -151,11 +151,22 @@ public class GridTransform : MonoBehaviour, IGridMapable
         }
     }
 
-    public List<Vector2Int> GetAdjacentTiles()
+    public List<Vector2Int> GetAdjacentTiles(NeighborType neighborType = NeighborType.eightWay)
     {
         List<Vector2Int> retVal = new List<Vector2Int>();
         //two rows plus two truncated columns
-        for (int i = topLeftPosMap.x - 1; i <= topLeftPosMap.x + width; i++)
+        int leftX, rightX;
+        if(neighborType == NeighborType.eightWay)
+        {
+            leftX = topLeftPosMap.x - 1;
+            rightX = topLeftPosMap.x + width;
+        }
+        else //.fourway
+        {
+            leftX = topLeftPosMap.x;
+            rightX = topLeftPosMap.x + width - 1;
+        }
+        for (int i = leftX; i <= rightX; i++)
         {
             Vector2Int topCell = new Vector2Int(i, topLeftPosMap.y + 1);
             Vector2Int bottomCell = new Vector2Int(i, topLeftPosMap.y - height);
@@ -203,7 +214,11 @@ public class GridTransform : MonoBehaviour, IGridMapable
     private void Awake()
     {
         //set sprite renderer layer based on map layer above
-        GetComponent<SpriteRenderer>().sortingOrder = MLayerToSortingOrder.defs[mapLayer];
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if(spriteRenderer != null)
+        {
+            GetComponent<SpriteRenderer>().sortingOrder = MLayerToSortingOrder.defs[mapLayer];
+        }
         gridMap = gameObject.GetComponentInParent(typeof(GridMap)) as GridMap;
         CalculateTopLeftToCenterDistance();
         if (snapToGrid)

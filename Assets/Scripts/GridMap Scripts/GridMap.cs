@@ -295,6 +295,33 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
         return default(T);
     }
 
+    public T GetObjectAtCell<T>(Vector2Int cellPos)
+    {
+        List<GridTransform> gts = GetObjectsAtCell(cellPos);
+        foreach(GridTransform gt in gts)
+        {
+            T component = gt.GetComponent<T>();
+            if (component != null) return component;
+        }
+        return default;
+    }
+
+    /*
+    public List<T> GetObjectsAtCell<T>(Vector2Int cellPos)
+    {
+        List<T> retVal = new List<T>();
+        List<GridTransform> grids = GetObjectsAtCell(cellPos);
+        foreach(GridTransform gt in grids)
+        {
+            T component = gt.GetComponent<T>();
+            if(component != null)
+            {
+                retVal.Add(component);
+            }
+        }
+        return retVal;
+    }*/
+
     private GridTransform GetClosestGridTransform(List<GridTransform> gridTransforms)
     {
         if (gridTransforms == null) // 
