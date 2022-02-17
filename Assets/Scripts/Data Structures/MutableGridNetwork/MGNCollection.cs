@@ -11,7 +11,18 @@ public class MGNCollection<T> where T : IMGNNode
     {
         //3 cases: no neighbors, some neighbors, all same network, some neighbors of different networks
         List<IMGNNode> neighbors = node.GetAdjacentNodes();
-        if(neighbors.Count == 0)
+        bool oneValidNeighbor = false;
+        IMGNNode validNeighbor = null;
+        foreach(IMGNNode iNode in neighbors)
+        {
+            if(iNode.IsValid())
+            {
+                oneValidNeighbor = true;
+                validNeighbor = iNode;
+                break;
+            }
+        }
+        if(neighbors.Count == 0 || !oneValidNeighbor)
         {
             //Debug.Log("no neighbors");
             int networkNum = NewNetwork();
@@ -21,14 +32,14 @@ public class MGNCollection<T> where T : IMGNNode
         else if(neighbors.Count == 1)
         {
             //add to old network
-            networks[neighbors[0].NetworkID].AddNode(node);
+            networks[validNeighbor.NetworkID].AddNode(node);
         }
         else
         {
             //check for conflict
             //conflict occurs if there are at least two different ones\
             //Debug.Log($"neighbors count: {neighbors.Count}");
-            int sameID = neighbors[0].NetworkID;
+            int sameID = validNeighbor.NetworkID;
             
             for(int i = 1; i < neighbors.Count; i++)
             {

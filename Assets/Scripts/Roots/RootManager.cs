@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+[DefaultExecutionOrder(-1)]
 public class RootManager : MonoBehaviour
 {
     private static RootManager _instance;
@@ -30,6 +30,10 @@ public class RootManager : MonoBehaviour
 
     private void Awake()
     {
+        //initialize singleton
+        if (_instance != null) throw new InvalidOperationException("can't have two root managers");
+        else _instance = this;
+
         //Initialize width/height
         width = GridMap.Current.width;
         height = GridMap.Current.height;
@@ -44,45 +48,22 @@ public class RootManager : MonoBehaviour
         }
         //this is necessary for growing roots towards things
         rootPathfinder = new PathFinder(GridMap.Current.width, GridMap.Current.height, rootPassableMap, NeighborType.fourWay);
+    }
 
-        //initialize singleton
-        if (_instance != null) throw new InvalidOperationException("can't have two root managers");
-        else _instance = this;
-
-        /*
-        mapOfRoots = new bool[width, height];
-        for(int x=0; x<width; x++)
-        {
-            for(int y = 0; y < height; y++)
-            {
-                mapOfRoots[x, y] = GridMap.Current.IsCellOccupied(new Vector2Int(x, y), MapLayer.roots)
-                    || GridMap.Current.IsCellOccupied<RootBuildingComponent>(new Vector2Int(x, y), MapLayer.buildings);
-            }
-        }
-        mapOfRootsPathfinder = new PathFinder(width, height, mapOfRoots, NeighborType.fourWay);
-        */
-        //add roots/buildings already on map
-        //what'st he point of this?
-        /*
-        rootBuildings = new List<RootBuildingComponent>();
-        foreach(Building building in BuildingManager.Instance.Buildings)
-        {
-            RootBuildingComponent rbc = building.GetComponent<RootBuildingComponent>();
-            if(rbc != null)
-            {
-                rootBuildings.Add(rbc);
-            }
-        }
-        */
-        //then, need to set the networks for the rbcs... test for connectivity, etc...
-        //i think we should delete this?
-        
-
+    private void Start()
+    {
         rootNetworks = new MGNCollection<RootNetworkComponent>();
         RootNetworkComponent[] rootNs = FindObjectsOfType<RootNetworkComponent>();
-        foreach(RootNetworkComponent rnc in rootNs)
+        foreach (RootNetworkComponent rnc in rootNs)
         {
             rootNetworks.AddNode(rnc); //also needs to do this when a new root is added, i.e., in spawnroot
+            //here...  i think what's happening is that it's not updating the rnc's original network number.  need to figure this out.
+            //probably need an actual is connected to...  
+        }
+        Root[] roots = FindObjectsOfType<Root>();
+        foreach(Root root in roots)
+        {
+            UpdateConnectivity(root, root.GetComponent<GridTransform>().topLeftPosMap);
         }
     }
 
@@ -94,16 +75,21 @@ public class RootManager : MonoBehaviour
         {
             Vector3 worldPos = rootPrefab.GetComponent<GridTransform>().TopLeftMapToWorldCenter(position);
             Root newRoot = Instantiate(rootPrefab, worldPos, Quaternion.identity, GridMap.Current.GetComponent<Transform>());
-            SetConnectivity(newRoot, ConnectivityIfPlaced(position));
             _roots.Add(newRoot);
-            AddToNeighborConnectivity(new Vector2Int(position.x, position.y + 1), Direction.south);
-            AddToNeighborConnectivity(new Vector2Int(position.x, position.y - 1), Direction.north);
-            AddToNeighborConnectivity(new Vector2Int(position.x + 1, position.y), Direction.west);
-            AddToNeighborConnectivity(new Vector2Int(position.x - 1, position.y), Direction.east);
-            mapOfRoots[position.x, position.y] = true;
+            UpdateConnectivity(newRoot, position);
+            //mapOfRoots[position.x, position.y] = true;
             rootNetworks.AddNode(newRoot.GetComponent<RootNetworkComponent>());
             return newRoot;
         }
+    }
+
+    private void UpdateConnectivity(Root root, Vector2Int position)
+    {
+        SetConnectivity(root, ConnectivityIfPlaced(position));
+        AddToNeighborConnectivity(new Vector2Int(position.x, position.y + 1), Direction.south);
+        AddToNeighborConnectivity(new Vector2Int(position.x, position.y - 1), Direction.north);
+        AddToNeighborConnectivity(new Vector2Int(position.x + 1, position.y), Direction.west);
+        AddToNeighborConnectivity(new Vector2Int(position.x - 1, position.y), Direction.east);
     }
 
     private Direction ConnectivityIfPlaced(Vector2Int position)
@@ -114,10 +100,10 @@ public class RootManager : MonoBehaviour
         Vector2Int west = new Vector2Int(position.x - 1, position.y);
         Direction[] positionsOccupied = new Direction[4]
         {
-                GridMap.Current.IsCellOccupied(north) ? Direction.north : Direction.none,
-                GridMap.Current.IsCellOccupied(south) ? Direction.south : Direction.none,
-                GridMap.Current.IsCellOccupied(east) ? Direction.east : Direction.none,
-                GridMap.Current.IsCellOccupied(west) ? Direction.west : Direction.none
+                GridMap.Current.IsCellOccupied<RootNetworkComponent>(north) ? Direction.north : Direction.none,
+                GridMap.Current.IsCellOccupied<RootNetworkComponent>(south) ? Direction.south : Direction.none,
+                GridMap.Current.IsCellOccupied<RootNetworkComponent>(east) ? Direction.east : Direction.none,
+                GridMap.Current.IsCellOccupied<RootNetworkComponent>(west) ? Direction.west : Direction.none
         };
         return positionsOccupied[0] | positionsOccupied[1] | positionsOccupied[2] | positionsOccupied[3];
     }

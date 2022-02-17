@@ -8,6 +8,7 @@ public class RootNetworkComponent : MonoBehaviour, IMGNNode
 
     [SerializeField]
     private int _networkID;
+    private bool _isValid = false;
 
     private void Awake()
     {
@@ -17,8 +18,14 @@ public class RootNetworkComponent : MonoBehaviour, IMGNNode
     public int NetworkID
     {
         get => _networkID;
-        set => _networkID = value;
+        set
+        {
+            _networkID = value;
+            _isValid = true;
+        }
     }
+
+    public bool IsValid() => _isValid;
 
     public List<IMGNNode> GetAdjacentNodes()
     {

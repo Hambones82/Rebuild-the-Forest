@@ -1,28 +1,11 @@
-for changing the network num, really need to combine them.  should allow the mutablegridnetwork class to implement this.
+need to fix the original roots thing...
+fix the neighbor thing for roots --> not iscelloccupied (rootmanager, lines 101-104), but is cell occupied by root network component
 
-some problem here...  
+how to grow roots? maybe just set it.  use the component we already have -- allow an action to start the root pathing process.
 
-have multiple networks.  in total, they store all the nodes
-based on adjacency, group the roots into networks.
+root connection to cleaner --> enables building.  how are roots built?
+don't forget --> roots can gain you resources.
 
-so... have a class that does all this.  
-
-so regarding the root network... do we actually want to store a network?  might want to. like root manager should have maybe a network component...  maybe it's generic...  
-maybe we use like a graph set...  or something
-it stores a bunch of graphs... subdivides all nodes (generic parameter) into grahps.  manages graph membership on adds and removes
-
-- so we have to check connectivity pretty frequently i think -- basically... any time we need to know whether a building is operating
-- so...  doing a pathfinder every frame is probably not going to be great.  actually it would be multiple pathfinders -- one for each building that can be enabled
-- so we will have to do the custom function for this... ok fine let's just do it
-- root network node is a building component.  it has a network id, which is set by the root manager.
-- resources on the map.  link up a root to gain access to those resources.  use them up, the resources deplete.  
-- build a root...  how do we limit this.  
-
-set the origin for root growth as the closest point in the building to the target.
-use the midpoint of the building as the origin point for the radius.  alternatively, use the closest point from the building.
-need to work out the root network thing...  
--- let's try to do it with...  the pathfinder... put a pathfinder in ...  the root manager.
-otherwise we need a special root walker...  
 
 next to do:
 - roots enable buildings -- do an enable component... then we can centralize all the "is enabled" stuff...

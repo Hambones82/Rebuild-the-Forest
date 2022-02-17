@@ -6,4 +6,5 @@ public interface IMGNNode
 {
     int NetworkID { get; set; }
     List<IMGNNode> GetAdjacentNodes();
+    bool IsValid();
 }

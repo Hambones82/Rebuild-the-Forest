@@ -148,6 +148,18 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
         return false;
     }
 
+    public bool IsCellOccupied<T>(Vector2Int cellToCheck)
+    {
+        foreach(GridSubMap gsm in gridSubMaps)
+        {
+            if(gsm.ComponentTypeExistsAtCell<T>(cellToCheck))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     //the above stuff needs to be implemented in grid sub map.  then we need wrappers i guess
 
     public bool IsWithinBounds(Vector2Int cell)
