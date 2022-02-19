@@ -19,6 +19,9 @@ public class RootBuildingComponent : MonoBehaviour
     float rootRange;
     public float RootRange { get => rootRange; }
 
+    public delegate void RootChangeDelegate(Vector2Int target);
+    public event RootChangeDelegate OnTargetChangeEvent;
+
     private void Start()
     {
         SetRootGrowthTarget(new Vector2Int(35, 33));
@@ -33,6 +36,7 @@ public class RootBuildingComponent : MonoBehaviour
             rootGrowthProgress = 0; //but... don't we want to look at ... like the current progress, try to match it up to that???
             rootGrowthPath = result;
             positionSet = true;
+            OnTargetChangeEvent?.Invoke(target);
             //root manager pathfinder.getpath to... from top left world pos... just remove from the first few the ones that are on the gridtransform...
         }
         else

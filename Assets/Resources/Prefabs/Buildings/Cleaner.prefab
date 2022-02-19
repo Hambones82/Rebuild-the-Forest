@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4046381508219432495}
   - component: {fileID: -7458714608119442959}
   - component: {fileID: 399969634}
+  - component: {fileID: 1951174255}
   m_Layer: 0
   m_Name: Cleaner
   m_TagString: Untagged
@@ -241,3 +242,16 @@ MonoBehaviour:
   positionSet: 0
   time: 0
   period: 0.5
+--- !u!114 &1951174255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030047143314608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c65648c9d72c1e5458c43597c260b5ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visualizerObject: {fileID: 0}
