@@ -1,11 +1,4 @@
-need: build roots.  show current root target.
-for now, roots are built just by setting a target.  can do this with...  a command?  a click?  probably a command followed by a click.  for command, use the foreground thing plus tool
-need a target visualizer
-
-maybe a widget controller that stores references to all these one off things?
-
-- for the target visualizer... want to show it somehow... have a cursor or something...  i think just have something as a child... turn it on or off.  ok put it on all buildings...
-
+now, finally... need to enable buildings based on connection to cleaner/main building
 
 root connection to cleaner --> enables building.  how are roots built?
 don't forget --> roots can gain you resources.

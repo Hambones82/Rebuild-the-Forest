@@ -11,6 +11,7 @@ public class RootGrowthTargetVisualizer : MonoBehaviour
     private GameObject visualizerObject; //just has a sprite renderer and a grid transform
     private GridTransform thisGridTransform;
     private GridTransform visualizerObjectGT;
+    RootBuildingComponent rbc;
     private MouseSelector mouseSelector;
 
     private void Awake()
@@ -18,7 +19,10 @@ public class RootGrowthTargetVisualizer : MonoBehaviour
         //hook up to the rootbuildingcomponent's events for...  changing root growth target.
         //that's when we'd move the visualizer object
         //also... selection...  enable the object on select.
-        GetComponent<RootBuildingComponent>().OnTargetChangeEvent += ChangeTarget;
+        rbc = GetComponent<RootBuildingComponent>();
+        rbc.OnTargetChangeEvent += ChangeTarget;
+        rbc.OnGrowthEnd += UnShowVisualizer;
+        rbc.OnGrowthStart += ShowVisualizer;
         visualizerObject = GameObject.FindGameObjectWithTag("RootTargetVisualizer");
         visualizerObjectGT = visualizerObject.GetComponent<GridTransform>();
         if(visualizerObjectGT == null)
@@ -40,7 +44,10 @@ public class RootGrowthTargetVisualizer : MonoBehaviour
 
     private void ShowVisualizer()
     {
-        visualizerObject.SetActive(true);
+        if(rbc.Growing && mouseSelector.IsSelected)
+        {
+            visualizerObject.SetActive(true);
+        }
     }
 
     private void UnShowVisualizer()

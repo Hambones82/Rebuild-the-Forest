@@ -17,6 +17,7 @@ public class MouseSelector : MonoBehaviour {
     private GameObject selectorImage;
 
     private bool isSelected = false;
+    public bool IsSelected { get => isSelected; }
 
 	// Use this for initialization
 	void Start () {

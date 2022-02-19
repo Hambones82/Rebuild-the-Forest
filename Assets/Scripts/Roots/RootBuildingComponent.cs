@@ -22,10 +22,9 @@ public class RootBuildingComponent : MonoBehaviour
     public delegate void RootChangeDelegate(Vector2Int target);
     public event RootChangeDelegate OnTargetChangeEvent;
 
-    private void Start()
-    {
-        SetRootGrowthTarget(new Vector2Int(35, 33));
-    }
+    public event System.Action OnGrowthEnd;
+    public event System.Action OnGrowthStart;
+    
     //to test, set to 35,30.
     public void SetRootGrowthTarget(Vector2Int inTarget)
     {
@@ -37,6 +36,7 @@ public class RootBuildingComponent : MonoBehaviour
             rootGrowthPath = result;
             positionSet = true;
             OnTargetChangeEvent?.Invoke(target);
+            OnGrowthStart?.Invoke();
             //root manager pathfinder.getpath to... from top left world pos... just remove from the first few the ones that are on the gridtransform...
         }
         else
@@ -48,17 +48,13 @@ public class RootBuildingComponent : MonoBehaviour
 
     [SerializeField]
     bool positionSet = false;
+    public bool Growing { get => positionSet; }
     [SerializeField]
     float time = 0;
     [SerializeField]
     float period;
     private void Update()
     {
-        
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            SetRootGrowthTarget(new Vector2Int(35, 30));
-        }
         if(positionSet)
         {
             time += Time.deltaTime;
@@ -67,15 +63,26 @@ public class RootBuildingComponent : MonoBehaviour
                 if(AdvanceToNextOpenPosition())
                 {
                     RootManager.Instance.SpawnRoot(rootGrowthPath[rootGrowthProgress]);
+                    if(rootGrowthProgress == rootGrowthPath.Count - 1)
+                    {
+                        EndGrowth();
+                    }
                 }
                 else
                 {
-                    positionSet = false;
-                    rootGrowthProgress = 0;
+                    EndGrowth();
                 }
                 time = 0;
             }
         }
+    }
+
+    private void EndGrowth()
+    {
+
+        positionSet = false;
+        rootGrowthProgress = 0;
+        OnGrowthEnd?.Invoke();
     }
 
     private bool AdvanceToNextOpenPosition()
