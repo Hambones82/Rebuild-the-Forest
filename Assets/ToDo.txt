@@ -1,5 +1,50 @@
+First... need a win/lose condition.
+ok... i guess...  we need to keep track of all the pollution sources or something?  then win when they're all gone?
+- spawn pollution sources
+- clean them all up, win
+	- we already have this actually...  just need to actually spawn them...
+	- ok, so multiple sources --> win works...  i think this is a good win condition.
+	- lose condition: all guys dead or ...  cleaner covered?
+
+-->let's try that first of all...
+
+
+win condition -- let's try cleaning all the polluted objects.
+loss - all guys dead or cleaner dead.
+
+so i think i need to make some changes to the pollution spread -- should spread from pollution spreader objects?
+
+
+
+Need some basic combination of these things to get a satisfying game loop with win/lose condition...
+Test out a bunch of building ideas.  I think we've created enough systems.
+	- one idea is a low angle sprayer that sprays/deletes pollution
+	- other blockers?
+	- trainers (train up the units stats)?
+	- planters/growers?
+	- buildings for more advanced pollution
+	- objects to research?
+
+
+
+Definitely feels good to find thingies under the pollution.  The cleaning thing feels decent but gets repetitive very quickly.
+RN, let's add things.  maybe add new pickups and thus buildings/things you can make...
+
+One of the main things should be...  getting more little guys.  They can be locked behind different obstacles...
+
+I think we need to prioritize the good ideas.  Right now there's maybe 3-5 minutes of interesting gameplay.  How do we extend this?
+I think the main idea that games like this use to keep interest is changing up the gameplay loop.  Gameplay loop evolves as you progress.
+We need to implement ideas to do this.  I have no idea whether any of the main mechanics are actually good.  Maybe let's stick with some
+of what we have an continue from there.
+
+OK... we have a roots idea...???  This was obviously not implemented..  
+ABOVE: Coming back after 2 years
+=======
+
+
 - so we have to check connectivity pretty frequently i think -- basically... any time we need to know whether a building is operating
 - so...  doing a pathfinder every frame is probably not going to be great.  actually it would be multiple pathfinders -- one for each building that can be enabled
+--> isn't this just a "graph coloring" thing?  why path find every time, that makes no sense...
 - so we will have to do the custom function for this... ok fine let's just do it
 - root network node is a building component.  it has a network id, which is set by the root manager.
 - resources on the map.  link up a root to gain access to those resources.  use them up, the resources deplete.  
@@ -42,6 +87,7 @@ WINNING/LOSING:
 
 BUILDINGS/PLANTING:
 - mushrooms decompose trees
+- ???
 
 INTERACTION WITH HUMANS:
 - >>>>tech is human waste -- need to research it.<<<<
@@ -107,6 +153,10 @@ UI/EOU Fixes:
 	would be best.  try it out and see if not.
 
 CODE IMPROVEMENTS:
+Maybe we want to get rid of all the singletons and just do "findobjectinscene" which really isn't that terrible if you do it once...
+I think I'd rather have that because it would have all references be to actual objects in the scene rather than based on some c# statics.
+This would allow normal scene cleanup, etc., to properly delete all the old stuff, etc...  I hope.
+
 Move placement cursor into the place building tool?
 
 if any action cannot happen, the entire queue should get dropped.

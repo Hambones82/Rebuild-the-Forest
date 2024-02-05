@@ -498,7 +498,7 @@ TextureImporter:
       213: 2696101724747840741
     second: galletcity_tiles_164
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -518,6 +518,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -527,8 +529,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -549,11 +551,16 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -564,7 +571,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -575,6 +583,31 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -4053,6 +4086,172 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      galletcity_tiles_145: 4512101099597734410
+      galletcity_tiles_123: 6258660901737391777
+      galletcity_tiles_54: -5094935213043389541
+      galletcity_tiles_70: -8513007694989632465
+      galletcity_tiles_11: -4553196348614873056
+      galletcity_tiles_159: 1734574767156296427
+      galletcity_tiles_143: 3146736464339965157
+      galletcity_tiles_60: 3648511601100395285
+      galletcity_tiles_141: -6426847414099749643
+      galletcity_tiles_108: 581055235203216958
+      galletcity_tiles_35: 5989404941138499122
+      galletcity_tiles_78: -1962581409673805767
+      galletcity_tiles_88: 4412355534904511691
+      galletcity_tiles_63: 1787857028961742384
+      galletcity_tiles_131: 3136486973665709144
+      galletcity_tiles_100: -6240118714662843829
+      galletcity_tiles_29: -63117056096915411
+      galletcity_tiles_91: 8972447902561745000
+      galletcity_tiles_138: 181853828817544305
+      galletcity_tiles_20: -944942826615893578
+      galletcity_tiles_36: 6456483993545444652
+      galletcity_tiles_55: 713003838842517554
+      galletcity_tiles_146: 1976560060291286587
+      galletcity_tiles_81: -466155475927620724
+      galletcity_tiles_65: 6934833384587693973
+      galletcity_tiles_28: -7214708311633738119
+      galletcity_tiles_153: -8812786016582330547
+      galletcity_tiles_105: 5916622842956161045
+      galletcity_tiles_62: -3657014397628892650
+      galletcity_tiles_94: -5471528727793183499
+      galletcity_tiles_12: 6694926947651173812
+      galletcity_tiles_52: -1586866947058858179
+      galletcity_tiles_121: -7198159664410377518
+      galletcity_tiles_73: -3900324308193686130
+      galletcity_tiles_37: -1663510408933540980
+      galletcity_tiles_6: 5067037363923878696
+      galletcity_tiles_137: -9168158399238379130
+      galletcity_tiles_49: -1042404790231174118
+      galletcity_tiles_53: 8876529420589757818
+      galletcity_tiles_45: 8318329963094036604
+      galletcity_tiles_96: -7845745232980076605
+      galletcity_tiles_77: -9088776353180608975
+      galletcity_tiles_71: 3194743543132831223
+      galletcity_tiles_103: -1329287200560907355
+      galletcity_tiles_16: -647175489432467223
+      galletcity_tiles_57: 5352790106626739179
+      galletcity_tiles_158: -7641560267605755405
+      galletcity_tiles_114: 8173651698433656178
+      galletcity_tiles_46: -5306330602114464028
+      galletcity_tiles_113: -3788314018429168169
+      galletcity_tiles_10: -8888709070398981648
+      galletcity_tiles_47: 4129744749008639906
+      galletcity_tiles_66: -3258588238278157133
+      galletcity_tiles_102: -2620196380498194553
+      galletcity_tiles_1: 2957472138325805011
+      galletcity_tiles_50: -3378706478129808718
+      galletcity_tiles_86: -5464821887190236720
+      galletcity_tiles_75: -8974192945941447687
+      galletcity_tiles_8: -2982110897753315215
+      galletcity_tiles_128: -5827013323050419805
+      galletcity_tiles_157: 4092726768882592045
+      galletcity_tiles_25: -7638138269856078785
+      galletcity_tiles_21: 5389116014724334186
+      galletcity_tiles_162: 2650340837740540969
+      galletcity_tiles_85: 1242090198227684437
+      galletcity_tiles_163: -1049277659287376635
+      galletcity_tiles_109: 1383248551843963065
+      galletcity_tiles_135: 5882125557573591111
+      galletcity_tiles_30: 322093466043930322
+      galletcity_tiles_92: -6490163379456893805
+      galletcity_tiles_68: 7106316796548087738
+      galletcity_tiles_27: -5236664321366618873
+      galletcity_tiles_117: -1440253849063681553
+      galletcity_tiles_22: -7502983045216831619
+      galletcity_tiles_38: 5926800366112544182
+      galletcity_tiles_119: -3882745665496869637
+      galletcity_tiles_107: -1996995609669208541
+      galletcity_tiles_134: -6507470469761891099
+      galletcity_tiles_130: -9029247127523306240
+      galletcity_tiles_133: -8605619095438591685
+      galletcity_tiles_76: -4088423893451965018
+      galletcity_tiles_136: 3836256189015496034
+      galletcity_tiles_93: -87526911920786386
+      galletcity_tiles_79: -5760819658032784057
+      galletcity_tiles_44: -3222927589536607876
+      galletcity_tiles_142: -5839885160089779906
+      galletcity_tiles_154: 7300716759180101324
+      galletcity_tiles_122: -1504386837575005087
+      galletcity_tiles_150: 1342836807751824162
+      galletcity_tiles_155: 7952466417227550532
+      galletcity_tiles_24: 1041395435749147654
+      galletcity_tiles_101: -1763719170163497161
+      galletcity_tiles_144: 4346419463451038735
+      galletcity_tiles_164: 2696101724747840741
+      galletcity_tiles_58: 7247524584714688328
+      galletcity_tiles_26: -7905367582537612929
+      galletcity_tiles_18: 7682072827068952605
+      galletcity_tiles_13: 2067322956144486857
+      galletcity_tiles_74: 8045176165422292090
+      galletcity_tiles_112: 8803207316823023276
+      galletcity_tiles_149: -4344072844154293838
+      galletcity_tiles_40: -5605475434677908772
+      galletcity_tiles_90: -4493704071431291300
+      galletcity_tiles_72: -77089754465281579
+      galletcity_tiles_127: -6947762391840559061
+      galletcity_tiles_116: 3771629783384121994
+      galletcity_tiles_59: 4757641089985671101
+      galletcity_tiles_120: -3007812335686002196
+      galletcity_tiles_139: -2226196885890323581
+      galletcity_tiles_161: 6644535130504613988
+      galletcity_tiles_129: 4653509531902658626
+      galletcity_tiles_69: 8690050108392694024
+      galletcity_tiles_132: 6880397243790896774
+      galletcity_tiles_147: -2134368639842851546
+      galletcity_tiles_148: 8875763642565113500
+      galletcity_tiles_17: -5785950833701485933
+      galletcity_tiles_84: -8893322887477523727
+      galletcity_tiles_126: -8701805147471204282
+      galletcity_tiles_42: -7104536733996555307
+      galletcity_tiles_151: -1878849068090924464
+      galletcity_tiles_33: 2912939489342479890
+      galletcity_tiles_64: 7327459678786454981
+      galletcity_tiles_152: -1261394125237005863
+      galletcity_tiles_115: 1594854320510102051
+      galletcity_tiles_97: 1620485124514638881
+      galletcity_tiles_32: 6943956379250792906
+      galletcity_tiles_160: 1774004192029754190
+      galletcity_tiles_3: -4571555810847636589
+      galletcity_tiles_7: -6398865843671004035
+      galletcity_tiles_83: 2825972152528697772
+      galletcity_tiles_99: -8848009537764274126
+      galletcity_tiles_124: -5593425437007588166
+      galletcity_tiles_19: -3162474465420118869
+      galletcity_tiles_106: -8298797628231920350
+      galletcity_tiles_82: 3772226152555295522
+      galletcity_tiles_140: -5350087278260365934
+      galletcity_tiles_51: -8404020816556526871
+      galletcity_tiles_5: 7421151625868906246
+      galletcity_tiles_48: -8926274963843901434
+      galletcity_tiles_98: -2950870933129611808
+      galletcity_tiles_39: -5812037089273256393
+      galletcity_tiles_31: -3929123685316376508
+      galletcity_tiles_125: 7861443886397596038
+      galletcity_tiles_23: -6659559648138540738
+      galletcity_tiles_2: -2095222261008637686
+      galletcity_tiles_4: 8771424550299654416
+      galletcity_tiles_41: -5648040414724106220
+      galletcity_tiles_95: -1981513406865896809
+      galletcity_tiles_15: 371879967121877373
+      galletcity_tiles_43: -5450514482007978646
+      galletcity_tiles_61: 599990151689115900
+      galletcity_tiles_89: -6863984052172839963
+      galletcity_tiles_14: -8877857870146830590
+      galletcity_tiles_111: -1421824927477467620
+      galletcity_tiles_0: -7326130864017124952
+      galletcity_tiles_67: -1506596818930476721
+      galletcity_tiles_87: -6066783279789778134
+      galletcity_tiles_110: 6167090924648742679
+      galletcity_tiles_34: -6801311807399565471
+      galletcity_tiles_9: 8026390358122376815
+      galletcity_tiles_104: 3256362903159702949
+      galletcity_tiles_156: -7799577347348609184
+      galletcity_tiles_56: -8038326115897114144
+      galletcity_tiles_118: 5522638699062212096
+      galletcity_tiles_80: -8699419935781270373
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
