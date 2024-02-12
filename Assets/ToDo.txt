@@ -1,16 +1,45 @@
-First... need a win/lose condition.
-ok... i guess...  we need to keep track of all the pollution sources or something?  then win when they're all gone?
-- spawn pollution sources
-- clean them all up, win
-	- we already have this actually...  just need to actually spawn them...
-	- ok, so multiple sources --> win works...  i think this is a good win condition.
-	- lose condition: all guys dead or ...  cleaner covered?
-
--->let's try that first of all...
+- i think the best way to do this might be... simply leaving the callbacks on the inventory component and maybe just having a specialized
+- component for the fueled blocker...  that way, the inventory component is just doing the callbacks...
+- ok, for this... InventoryItem needs to have an amount in it......  i think that's fine... 
 
 
-win condition -- let's try cleaning all the polluted objects.
-loss - all guys dead or cleaner dead.
+general "fueled" - on add, do something (callback).  on delete, do something (callback)
+
+maybe for gridmap things -- give an error that the thing must be a child of a gridmap...?
+	- could do this both runtime and in editor
+
+
+so first -- building inventory...  
+	- might have to fix how the pollution block spread works
+	- map effect - block - when inventor has fuel in it
+
+	- actor unit can place the fuel in there - what is fuel?  mushroom?  clean mushroom?
+		- not sure...  maybe... the building itself specifies what fuel it can have...  ok.  
+		- fuel component maybe?
+	- when pollution would spawn in block area, the fuel is depleted
+	- when fuel is 0, map effect goes away...
+
+	- for this purpose, need to figure out how we even set the map effects...  might hard to put in there...
+
+	- maybe redo the pollutionblockoverlaytilemap as it's quite messy and was kind of an ad hoc bandaid...  
+	- but we don't really even need to use this for now...
+	- the pollution thing is on the scriptableobject of pollutiondata...?  that's quite indirect...   
+
+
+		cool, inventory has nothing to do with actorunit, so i can put this on buildings...  let's do that for the blocker.
+	- will need to make a "store" action that involves storing the thingy in the building
+	- i guess "effect" that will "deplete" the item...
+
+- things like mushrooms get put into blocker inventory. Lose charges when pollution “would” hit.  
+- killing pollution improves pollution kill stat, making a pollution kill building available.  
+- poll kill building has a p kill aura whose rate of p kill strength depends on stat.
+
+Like w xcom, they come at you w weapons and you can research them.
+
+Maybe that building - the brain - is the one we want to be the one that can lose.
+
+Alarm and terror.  Alarm is their strength.  Terror is how afraid they are.
+
 
 so i think i need to make some changes to the pollution spread -- should spread from pollution spreader objects?
 

@@ -1,16 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PollutionData", menuName = "Pollution/Pollution Data")]
 public class PollutionData : ScriptableObject
 {
     [SerializeField]
-    private MapEffectType treeBlockEffect;
-    [SerializeField]
-    private MapEffectType plantBlockEffect;
-    [SerializeField]
-    private MapEffectType mushroomBlockEffect;
+    private List<MapEffectType> mapBlockingEffects;
+    //could even add a bool/toggle for "need all or need some"
 
     //droptable
     [SerializeField]
@@ -27,31 +25,22 @@ public class PollutionData : ScriptableObject
     
     public bool IsBlocked(Vector2Int cell)
     {
-        bool retVal = false;
-        List<MapEffectObject> effectsAtCell = MapEffectsManager.Instance.GetEffectsAtCell(cell);
+        if(mapBlockingEffects.Count == 0) return false;
+        List<MapEffectObject> effectsAtCell = MapEffectsManager.Instance.GetEffectsAtCell(cell);        
+
         if (effectsAtCell != null)
         {
-            bool mush = false;
-            bool plant = false;
-            bool tree = false;
-            foreach (MapEffectObject effectObject in effectsAtCell)
+            List<MapEffectType> effectTypesAtCell = effectsAtCell.Select(type => type.EffectType).ToList();
+            foreach (MapEffectType effectType in mapBlockingEffects)
             {
-                if (effectObject.EffectType == treeBlockEffect)
+                if (!effectTypesAtCell.Contains(effectType))
                 {
-                    tree = true;
-                }
-                else if (effectObject.EffectType == mushroomBlockEffect)
-                {
-                    mush = true;
-                }
-                else if (effectObject.EffectType == plantBlockEffect)
-                {
-                    plant = true;
-                }
+                    return false;
+                }            
             }
-            retVal = mush && plant && tree;
+            return true;
         }
-        return retVal;
+        return false;
     }
 }
 

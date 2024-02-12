@@ -6,14 +6,44 @@ public class MapEffectComponent : MonoBehaviour
 {
     [SerializeField]
     private List<MapEffect> _mapEffects;
+    
     public List<MapEffect> MapEffects { get { return new List<MapEffect>(_mapEffects); } }
+
+    public bool IsEffectEnablbed(MapEffectType effectType)
+    {
+        MapEffect foundEffect = _mapEffects.Find(effect => effect.Effect.EffectType == effectType);
+        if (foundEffect == null) return false;
+        return foundEffect.Enabled;
+    }
+
+    public void EnableEffect(MapEffectType effectType)
+    {
+        MapEffect foundEffect = _mapEffects.Find(effect => effect.Effect.EffectType == effectType);
+        if (foundEffect == null) return;
+        if (foundEffect.Enabled) return;
+        foundEffect.Enabled = true;
+        AddEffectRegistration(foundEffect);
+    }
+
+    public void DisableEffect(MapEffectType effectType)
+    {
+        MapEffect foundEffect = _mapEffects.Find(effect => effect.Effect.EffectType == effectType);
+        if (foundEffect == null) return;
+        if (!foundEffect.Enabled) return;
+        foundEffect.Enabled = false;
+        RemoveEffectRegistration(foundEffect);
+    }
+    //also need a corresponding disableeffect.  then test both.
 
     private void OnEnable()
     {
         GetComponent<GridTransform>().OnChangeMapPos += ChangeMapPos;
         foreach (MapEffect effect in _mapEffects)
         {
-            AddEffectRegistration(effect);  //problem--> how do i determine whether the effect is already registered?  could jsut do it in the manager...
+            if(effect.Enabled)
+            {
+                AddEffectRegistration(effect);  
+            }
         }
     }
 
@@ -22,7 +52,10 @@ public class MapEffectComponent : MonoBehaviour
         GetComponent<GridTransform>().OnChangeMapPos -= ChangeMapPos;
         foreach (MapEffect effect in _mapEffects)
         {
-            RemoveEffectRegistration(effect);
+            if(effect.Enabled)
+            {
+                RemoveEffectRegistration(effect);
+            }
         }
     }
 

@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-//fix this entire thing...  the components themselves should register in map effects manager.
-//is this even necessary?  can we just check...  not sure...  probably best to have this "register"
 [DefaultExecutionOrder(-7)]
 public class MapEffectsManager : MonoBehaviour
 {
 
-    //need on effect add and remove callbacks
-
-    //have a ref to building manager, add some functions to on buildbuilding and on remove building
     public delegate void MapEffectChangeDelegate(Vector2Int cell);
     public event MapEffectChangeDelegate OnMapEffectChange;
     

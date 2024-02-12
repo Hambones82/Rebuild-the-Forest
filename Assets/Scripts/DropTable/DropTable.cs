@@ -24,6 +24,7 @@ public class DropTable
 
     private int totalDropTable;
 
+    //what's the purpose of this?  maybe just to show at runtime (inspector) how many of these things there are?
     [SerializeField]
     private int[] count;
 

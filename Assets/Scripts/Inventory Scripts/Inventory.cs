@@ -6,11 +6,13 @@ public class Inventory : MonoBehaviour
 {
     [SerializeField]
     private List<InventoryItem> inventoryItems;
-
+    //need to add functionality related to amount here...
+    //maybe to fix all of the problems, AddItem and RemoveItem need to specify float amount.
+    //otherwise, we might be leaving things in the code that don't properly account for the amount idea.
     public void AddItem(InventoryItemType inventoryItemType)
     {
         InventoryItem newItem = new InventoryItem(inventoryItemType);
-        inventoryItems.Add(newItem);
+        inventoryItems.Add(newItem);        
     }
 
     public List<InventoryItem> GetAllInventoryItems()
