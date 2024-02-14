@@ -1,3 +1,17 @@
+-encroachment manager appears to be unused.
+
+- so again... the whole point here is...  ok, putting _amounts_ of fuel into the blocker, so that it can be recharged to block poll spread
+- ok i like the idea that... you can use the fuel now vs putting it into the spawner and getting more...
+
+- problem: high priority pollution is killing low priority pollution, causing the low priority pollution to drop stuff...  not good...
+
+- update operable spawner amount - X
+- update amounts in the pickupables - X
+- update building required item amount (0) -??? - do we have any of these? - i think we got these...
+
+- changing all the inventory stuff to have amounts... need to test all this stuff pretty well.
+- need to fix the inventory visualizers
+
 - i think the best way to do this might be... simply leaving the callbacks on the inventory component and maybe just having a specialized
 - component for the fueled blocker...  that way, the inventory component is just doing the callbacks...
 - ok, for this... InventoryItem needs to have an amount in it......  i think that's fine... 

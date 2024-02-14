@@ -33,6 +33,10 @@ public class Building : MonoBehaviour
     [SerializeField]
     private InventoryItemType _requiredItem;
     public InventoryItemType RequiredItem { get => _requiredItem; }
+
+    [SerializeField]
+    private float _requiredItemAmount;
+    public float RequiredItemAmount { get => _requiredItemAmount; }
     
     private void OnDisable()
     {

@@ -19,6 +19,9 @@ public class BuildingComponentExhaustableSpawner : BuildingComponentOperator
     [SerializeField]
     private InventoryItemType cleanMushroomType;
 
+    [SerializeField]
+    private float mushroomAmountForPlanting;
+
     protected override void Trigger(GameObject gameObject = null)
     {
         if(_exhausted) //plant a mushroom
@@ -32,18 +35,21 @@ public class BuildingComponentExhaustableSpawner : BuildingComponentOperator
         
     }
 
+    //wtf is this???
+    
     private void TriggerForMushroomGrowth(GameObject inGameObject)
     {
         Inventory inventory = inGameObject.GetComponent<Inventory>();
         if(inventory.HasItem(cleanMushroomType))
         {
-            inventory.RemoveItem(cleanMushroomType);
+            inventory.RemoveItem(cleanMushroomType, mushroomAmountForPlanting);
             _mushroomPlanted = true;
             GetComponent<SpriteRenderer>().sprite = mushPlantedSprite;
             GetComponent<ContinuousSpawner>().StartSpawning();
             //start the continuous spawner -- needs to be another component
         }
     }
+    
 
     private void TriggerForActorHarvest()
     {

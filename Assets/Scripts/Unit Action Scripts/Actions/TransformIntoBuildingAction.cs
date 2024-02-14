@@ -58,7 +58,7 @@ public class TransformIntoBuildingAction : UnitActionWithTarget<Building>, IObje
                 }
                 if(building.RequiredItem)
                 {
-                    actorUnit.GetComponent<Inventory>().RemoveItem(building.RequiredItem);
+                    actorUnit.GetComponent<Inventory>().RemoveItem(building.RequiredItem, building.RequiredItemAmount);
                 }
             }
             progressAmount = 0;

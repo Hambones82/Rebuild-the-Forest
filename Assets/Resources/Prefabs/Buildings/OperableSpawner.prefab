@@ -32,6 +32,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -47,6 +48,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -172,6 +174,7 @@ MonoBehaviour:
   _killActorUnit: 1
   _itemRequiredToBuild: 0
   _requiredItem: {fileID: 0}
+  _requiredItemAmount: 0
 --- !u!114 &4601632972376416442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,6 +195,7 @@ MonoBehaviour:
   exhaustedSprite: {fileID: 21300000, guid: 9c73eef44eac8b644b04a6c926a34b09, type: 3}
   mushPlantedSprite: {fileID: 21300000, guid: d20381b4d38a7dd48b8db8cfc1f90c18, type: 3}
   cleanMushroomType: {fileID: 11400000, guid: 87b657dc00d93ba4788b01acdfe95166, type: 2}
+  mushroomAmountForPlanting: 1
 --- !u!114 &8013460534515789963
 MonoBehaviour:
   m_ObjectHideFlags: 0

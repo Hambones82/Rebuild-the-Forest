@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct InventoryItem 
+public class InventoryItem 
 {
     [SerializeField]
     private InventoryItemType _itemType;
@@ -11,12 +11,15 @@ public struct InventoryItem
 
     [SerializeField]
     float amount;
+    public float Amount { get => amount; set => amount = value; }
 
+    /*
     public InventoryItem(InventoryItemType itemType)
     {
         _itemType = itemType;
         amount = 1;
     }
+    */
 
     public InventoryItem(InventoryItemType itemType, float inAmount)
     {
