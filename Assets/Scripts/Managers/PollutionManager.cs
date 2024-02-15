@@ -24,7 +24,6 @@ public class PollutionManager : MonoBehaviour
     public delegate void PollutionEvent(Vector2Int cell);
     public event Action OnInitComplete;
     public event PollutionEvent OnPollutionDead;
-    public event PollutionEvent OnPollutionAdded;
 
     private static PollutionManager _instance;
     public static PollutionManager Instance
@@ -52,8 +51,8 @@ public class PollutionManager : MonoBehaviour
         }
         foreach (PollutionTypeController controller in pollutionControllers)
         {
-            controller.OnPollutionAdd += OnPollutionAdd;
-            controller.OnPollutionDelete += OnPollutionDelete;
+            controller.OnPollutionAdd += UpdateFreePositionsForAddition;
+            controller.OnPollutionDelete += UpdateFreePositionsForRemoval;
             controller.Initialize(gridMap, this);
         }
         foreach(PollutionTypeController controller in pollutionControllers)
@@ -62,19 +61,7 @@ public class PollutionManager : MonoBehaviour
         }
     }
 
-    private void OnPollutionAdd(Vector2Int cell, int priority)
-    {
-        UpdateFreePositionsForAddition(cell, priority);
-        OnPollutionAdded?.Invoke(cell);
-    }
-
-    private void OnPollutionDelete(Vector2Int cell, int priority)
-    {
-        UpdateFreePositionsForRemoval(cell, priority);
-        OnPollutionDead?.Invoke(cell);
-    }
-
-    private void UpdateFreePositionsForAddition(Vector2Int cell, int priority)
+    public void UpdateFreePositionsForAddition(Vector2Int cell, int priority)
     {
         foreach (PollutionTypeController controller in pollutionControllers)
         {
@@ -82,7 +69,7 @@ public class PollutionManager : MonoBehaviour
         }
     }
 
-    private void UpdateFreePositionsForRemoval(Vector2Int cell, int priority)
+    public void UpdateFreePositionsForRemoval(Vector2Int cell, int priority)
     {
         foreach (PollutionTypeController controller in pollutionControllers)
         {
@@ -111,6 +98,7 @@ public class PollutionManager : MonoBehaviour
         {
             controller.RemovePollution(pollution, pollutionPosition);
         }
+        OnPollutionDead?.Invoke(pollutionPosition);
     }
 
     public void RemovePollutionSoft(Pollution pollution)
