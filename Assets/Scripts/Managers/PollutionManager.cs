@@ -24,6 +24,7 @@ public class PollutionManager : MonoBehaviour
     public delegate void PollutionEvent(Vector2Int cell);
     public event Action OnInitComplete;
     public event PollutionEvent OnPollutionDead;
+    public event PollutionEvent OnPollutionAdded;
 
     private static PollutionManager _instance;
     public static PollutionManager Instance
@@ -52,6 +53,7 @@ public class PollutionManager : MonoBehaviour
         foreach (PollutionTypeController controller in pollutionControllers)
         {
             controller.OnPollutionAdd += UpdateFreePositionsForAddition;
+            controller.OnPollutionAdd += AddPollution;
             controller.OnPollutionDelete += UpdateFreePositionsForRemoval;
             controller.Initialize(gridMap, this);
         }
@@ -59,6 +61,11 @@ public class PollutionManager : MonoBehaviour
         {
             controller.InitializePollutionState();
         }
+    }
+
+    private void AddPollution(Vector2Int cell, int priority)
+    {
+        OnPollutionAdded?.Invoke(cell);
     }
 
     public void UpdateFreePositionsForAddition(Vector2Int cell, int priority)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +25,8 @@ public class InventoryPanel : ScrollableContentPanel
         GameObject newItem = contentObjectPool.GetGameObject();
         contentObjects.Add(newItem);
         newItem.transform.SetAsLastSibling();
-        newItem.transform.GetChild(0).GetComponent<Image>().sprite = item.ItemType.InventoryImage;
+        newItem.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = item.ItemType.InventoryImage;
+        newItem.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = item.Amount.ToString() + "x";
         newItem.SetActive(true);
     }
 

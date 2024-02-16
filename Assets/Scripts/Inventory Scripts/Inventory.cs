@@ -1,14 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
     [SerializeField]
     private List<InventoryItem> inventoryItems;
-    //need to add functionality related to amount here...
-    //maybe to fix all of the problems, AddItem and RemoveItem need to specify float amount.
-    //otherwise, we might be leaving things in the code that don't properly account for the amount idea.
+    
     public void AddItem(InventoryItemType inventoryItemType, float amount)
     {
         InventoryItem itemToAdd = GetItem(inventoryItemType);
@@ -59,35 +59,13 @@ public class Inventory : MonoBehaviour
         return inventoryItems.Find(item => item.ItemType == inventoryItemType);
     }
 
-    public List<InventoryItem> GetCleanableInventoryItems()
+    public List<InventoryItem> GetItems(Func<InventoryItem, bool> test)
     {
-        List<InventoryItem> retVal = new List<InventoryItem>();
-        foreach(InventoryItem item in inventoryItems)
-        {
-            if(item.ItemType.Cleanable)
-            {
-                retVal.Add(item);
-            }
-        }
-        return retVal;
+        return inventoryItems.Where(test).ToList();        
     }
 
-    //should have clean 1 --> and have an amount...
-    public void CleanAllInventoryItems()
-    {
-        List<InventoryItem> cleanables = new List<InventoryItem>();
-        foreach (InventoryItem item in inventoryItems)
-        {
-            if (item.ItemType.Cleanable)
-            {
-                cleanables.Add(item);
-            }
-        }
-        foreach(InventoryItem item in cleanables)
-        {
-            InventoryItem cleanedItem = new InventoryItem(item.ItemType.CleanedItemType, item.Amount);
-            inventoryItems.Add(cleanedItem);
-            inventoryItems.Remove(item);
-        }
+    public bool HasItem(Func<InventoryItem, bool> test) 
+    { 
+        return inventoryItems.Select(test).Any(testVal => testVal == true);
     }
 }
