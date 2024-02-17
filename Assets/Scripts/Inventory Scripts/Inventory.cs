@@ -30,30 +30,31 @@ public class Inventory : MonoBehaviour
     }
 
     //returns whether it was removed
+    //can remove nested ifs here for simplicity...
     public bool RemoveItem(InventoryItemType inventoryItemType, float amount)
     {
         InventoryItem foundItem = GetItem(inventoryItemType);
-        if (foundItem != null)
+        if (foundItem == null) return false;
+        
+        if(foundItem.Amount >= amount)
         {
-            if(foundItem.Amount >= amount)
+            foundItem.Amount -= amount;
+            if(foundItem.Amount == 0)
             {
-                foundItem.Amount -= amount;
-                if(foundItem.Amount == 0)
-                {
-                    inventoryItems.Remove(foundItem);
-                }
-                return true;
-            }        
+                inventoryItems.Remove(foundItem);
+            }
+            return true;
         }        
+        
         return false;
     }
 
     public bool HasItem(InventoryItemType inventoryItemType)
     {
-        if (GetItem(inventoryItemType) != null) return true;
+        if (GetItem(inventoryItemType) != null) return true;        
         return false;        
     }
-
+    
     public InventoryItem GetItem(InventoryItemType inventoryItemType)
     {
         return inventoryItems.Find(item => item.ItemType == inventoryItemType);
