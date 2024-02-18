@@ -8,4 +8,8 @@ public class MapEffectType : SOType
     [SerializeField]
     private string _effectName;
     public string EffectName { get => _effectName; }
+
+    [SerializeField]
+    private int defaultRange;
+    public int DefaultRange { get => defaultRange; }
 }

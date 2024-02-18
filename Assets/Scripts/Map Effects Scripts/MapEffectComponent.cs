@@ -16,10 +16,21 @@ public class MapEffectComponent : MonoBehaviour
         return foundEffect.Enabled;
     }
 
+    //probably need to check if this is enabled... if enabled, and foundeffect.enabled, then enable..
     public void EnableEffect(MapEffectType effectType)
     {
         MapEffect foundEffect = _mapEffects.Find(effect => effect.Effect.EffectType == effectType);
-        if (foundEffect == null) return;
+        if (foundEffect == null)
+        {
+            MapEffect newEffect = new MapEffect();
+            newEffect.Effect = new MapEffectObject();
+            newEffect.Range = effectType.DefaultRange;
+            newEffect.Enabled = false;
+            newEffect.Effect.EffectType = effectType;
+            newEffect.Effect.Amount = 1;
+            _mapEffects.Add(new MapEffect());
+            foundEffect = newEffect;
+        }            
         if (foundEffect.Enabled) return;
         foundEffect.Enabled = true;
         AddEffectRegistration(foundEffect);

@@ -1,3 +1,5 @@
+- did a bunch of stuff... now what we need is the action that allows you to put fuel into the building...  
+
 - "mush dead" building can be implemented with inventory rather then the specialized bool (?) now used
 
 - refactor the pollution manager stuff?  there's way too many classes -- pollution manager, pollution type controller, basic pollution controller...  way too much stuff.  probably would benefit just from being one class, i think

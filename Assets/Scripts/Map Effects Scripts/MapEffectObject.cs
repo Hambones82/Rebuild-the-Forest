@@ -7,11 +7,11 @@ public class MapEffectObject
 {
     [SerializeField]
     protected MapEffectType _effectType;
-    public MapEffectType EffectType { get => _effectType; }
+    public MapEffectType EffectType { get => _effectType; set => _effectType = value; }
 
     [SerializeField]
     protected float _amount;
-    public float Amount { get => _amount; }
+    public float Amount { get => _amount; set => _amount = value; }
 
     //enabled...
     //range

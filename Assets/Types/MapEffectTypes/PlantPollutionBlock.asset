@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: PlantPollutionBlock
   m_EditorClassIdentifier: 
   _effectName: Plant Pollution Block
+  defaultRange: 3

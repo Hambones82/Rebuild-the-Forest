@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Pollution Spread Block
   m_EditorClassIdentifier: 
   _effectName: Pollution Spread Block
+  defaultRange: 3

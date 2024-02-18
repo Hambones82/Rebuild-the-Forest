@@ -16,6 +16,8 @@ public abstract class BuildingComponentOperator : MonoBehaviour
     private float progress = 0;
     public float Progress { get => progress; }
 
+    ///<summary>inGameObject is the gameObject of the unit _doing_ the operating.</summary>
+    
     public virtual bool Operate(float dt, GameObject inGameObject = null)
     {
         //Debug.Log("operator component: operate");

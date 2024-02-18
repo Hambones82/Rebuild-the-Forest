@@ -8,6 +8,9 @@ public class Inventory : MonoBehaviour
 {
     [SerializeField]
     private List<InventoryItem> inventoryItems;
+
+    public delegate void InventoryChangeEvent(InventoryItemType item, float resultingAmount);
+    public event InventoryChangeEvent OnInventoryChange;
     
     public void AddItem(InventoryItemType inventoryItemType, float amount)
     {
@@ -16,10 +19,12 @@ public class Inventory : MonoBehaviour
         {
             itemToAdd = new InventoryItem(inventoryItemType, amount);
             inventoryItems.Add(itemToAdd);
+            OnInventoryChange?.Invoke(inventoryItemType, amount);
         }
         else
         {
             itemToAdd.Amount += amount;
+            OnInventoryChange?.Invoke((InventoryItemType)inventoryItemType, itemToAdd.Amount);
         }
                 
     }
@@ -43,6 +48,8 @@ public class Inventory : MonoBehaviour
             {
                 inventoryItems.Remove(foundItem);
             }
+            //only invoked when there's an actual change.  the amount it's changed to is the amount left in item
+            OnInventoryChange?.Invoke(inventoryItemType, foundItem.Amount);
             return true;
         }        
         
@@ -68,5 +75,10 @@ public class Inventory : MonoBehaviour
     public bool HasItem(Func<InventoryItem, bool> test) 
     { 
         return inventoryItems.Select(test).Any(testVal => testVal == true);
+    }
+
+    public float GetItemAmount(InventoryItemType itemType)
+    {
+        return GetItem(itemType)?.Amount ?? 0;
     }
 }

@@ -14,7 +14,7 @@ public class MapEffect
 
     [SerializeField]
     private int _range;
-    public int Range { get => _range; }
+    public int Range { get => _range; set => _range = value; }
 
     
     [SerializeField]
@@ -24,5 +24,5 @@ public class MapEffect
 
     [SerializeField]
     private MapEffectObject _effect;
-    public MapEffectObject Effect { get => _effect; }
+    public MapEffectObject Effect { get => _effect; set => _effect = value; }
 }

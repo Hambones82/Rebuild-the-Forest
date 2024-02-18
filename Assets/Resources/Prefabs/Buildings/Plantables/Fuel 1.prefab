@@ -13,14 +13,9 @@ GameObject:
   - component: {fileID: 114903671657060870}
   - component: {fileID: 114603623875108166}
   - component: {fileID: 114058856135367282}
-  - component: {fileID: 1739411717824330081}
-  - component: {fileID: -2406018645506881366}
-  - component: {fileID: -761843200029746408}
-  - component: {fileID: 1530241154384086247}
-  - component: {fileID: 7679379061584227789}
-  - component: {fileID: 3229053140020958266}
+  - component: {fileID: 1506528807958607395}
   m_Layer: 0
-  m_Name: FueledBlocker
+  m_Name: Fuel 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f80cd34a551d415479ab634e9e6391e0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a82fd361958ccb84fa3018123b9fdf2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -110,8 +105,8 @@ MonoBehaviour:
   MiniMapColor: {r: 0.74509805, g: 0.72587705, b: 0.23529412, a: 1}
   useParentGrid: 1
   gridMap: {fileID: 0}
-  width: 2
-  height: 2
+  width: 1
+  height: 1
   worldHeight: 0
   worldWidth: 0
   topLeftPosMap: {x: 4, y: 8}
@@ -171,15 +166,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 703e85e645a5211489b4e380a426a873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingName: FueledBlocker
+  buildingName: Fuel 1
   buildingManager: {fileID: 0}
   statRequirements:
     setElements: []
-  _killActorUnit: 1
+  _killActorUnit: 0
   _itemRequiredToBuild: 0
   _requiredItem: {fileID: 0}
   _requiredItemAmount: 0
---- !u!114 &1739411717824330081
+--- !u!114 &1506528807958607395
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -188,101 +183,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1030047143314608}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8060cf872d0245144869b6c921bb907b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mapEffects: []
---- !u!114 &-2406018645506881366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1030047143314608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 986b70e59a40fa54d875193dad484ef0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-761843200029746408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1030047143314608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 646cea22e2f6ce24fb05f349611aa6c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputDefinitionModuleType: 1
-  inputManager: {fileID: 0}
-  inputDefinitionModule:
-    passThrough: 0
-    blockUp: 0
-    inputDefinitions:
-    - inputActionType: 11
-      unityEvent:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: -2406018645506881366}
-            m_TargetAssemblyTypeName: ActorUnitSequester, ProjectAssembly
-            m_MethodName: RestoreActorUnit
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
---- !u!114 &1530241154384086247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1030047143314608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be77865c8110c2345b53f0fdc40cf6e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryItems: []
---- !u!114 &7679379061584227789
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1030047143314608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ffe804e2be68ed4284bfd34dcd4c6bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fuelType: {fileID: 11400000, guid: a08c50e489ccbb04bb9b3837c8603993, type: 2}
-  fuelThreshold: 1
-  inventory: {fileID: 0}
-  effectComponent: {fileID: 0}
-  blockingEffectType: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
-  blockingIsEnabled: 0
---- !u!114 &3229053140020958266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1030047143314608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e49a94e1b8c81144f823918375f8f80a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3abd655b28d93f34b92cb74809e39034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _operateTimer: 0
   _operateTimerTrigger: 2
   _continuous: 0
-  allowedInventoryItems:
-  - {fileID: 11400000, guid: a08c50e489ccbb04bb9b3837c8603993, type: 2}
+  inventoryItemType: {fileID: 11400000, guid: a08c50e489ccbb04bb9b3837c8603993, type: 2}
+  amount: 1
