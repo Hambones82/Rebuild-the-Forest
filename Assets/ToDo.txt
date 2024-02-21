@@ -1,3 +1,26 @@
+- last thing is to add a visual effect where the shield depletion hits the shield.
+
+- if it doesn't exist yet, maybe add a function to gridmap that just takes a grid map rectint and gives a world rect...
+
+- ok... the fueled thing does add a bit... but...  i'm not sure it quite gets us all the way there...
+- maybe you need these blockers to help cut through the pollution more?
+
+next things:
+
+- need to subscribe an effect to MapEffectComponent.NotifyEffect
+- so there's a question of... if our lower priority pollution exists and a higher prio one would overwrite...  is it blocked...
+- i think we should call the... pollutionisblocked whenever it is blocked even if there's a potential overwrite...
+- so our effects have a "source"...  now what we need is... in our "is blocked" thing for pollution...  we need to "hit" the source of the pol.  so... a new component?  maybe yes... pollution blocked damageable?
+-- so we need to...  have a component that is supposed to do stuff when pollution would go.  call the trigger for that in our block thing...
+--- maybe that component should register with pollution manager and pollution manager will do its event thing...???  i think that might
+	be too slow??
+- deprioritize recently cleaned squares for receiving new pollution.  
+
+
+- slow down pollution spread maybe?
+
+- weird input bug with mouse -- null reference exception in ObjectSelected...
+
 - did a bunch of stuff... now what we need is the action that allows you to put fuel into the building...  
 
 - "mush dead" building can be implemented with inventory rather then the specialized bool (?) now used
@@ -135,7 +158,6 @@ WINNING/LOSING:
 BUILDINGS/PLANTING:
 - mushrooms decompose trees
 - ???
-
 INTERACTION WITH HUMANS:
 - >>>>tech is human waste -- need to research it.<<<<
 	>>>>so e.g., one drop could be a book...  clean it to learn human language.  lots of other drops possible.

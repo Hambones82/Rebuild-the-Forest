@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: L1PollutionData
   m_EditorClassIdentifier: 
   mapBlockingEffects:
-  - {fileID: 11400000, guid: d3a20ae1d30cc0f458d78972d0fa3842, type: 2}
-  - {fileID: 11400000, guid: 4b0e8e8d5b7e9ea4fb191490c8eed54c, type: 2}
   - {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
   _dropTable:
     dropChance: 10

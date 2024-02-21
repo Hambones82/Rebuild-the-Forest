@@ -70,22 +70,15 @@ public abstract class PollutionTypeController //maybe make this generic for a po
 
     protected Pollution AddPollution(Vector2Int cell)
     {
-        bool addPollution = !pollutionPrefab.PollutionData.IsBlocked(cell); //something other than isblocked?
-        Pollution pollutionAtCell = GridMap.Current.GetObjectAtCell<Pollution>(cell, MapLayer.pollution);
-        if (pollutionAtCell != null)
+        Pollution pollutionAtCell = GridMap.Current.GetObjectAtCell<Pollution>(cell, MapLayer.pollution);        
+        bool pollutionAtTargetCell = pollutionAtCell != null;
+        bool blockedByPriority = pollutionPrefab.PollutionData.Priority < (pollutionAtCell?.PollutionData?.Priority ?? 0);
+        bool blockedByEffect = pollutionPrefab.PollutionData.IsBlockedByEffect(cell); //something other than isblocked?        
+        if (pollutionAtTargetCell && !blockedByPriority && !blockedByEffect)
         {
-            if (pollutionPrefab.PollutionData.Priority < pollutionAtCell.PollutionData.Priority) //s/t is wrong...
-            {
-                //Debug.Log("this thing is happening");
-                addPollution = false;
-            }
-            else if (addPollution)
-            {
-                PollutionManager.Instance.RemovePollutionSoft(pollutionAtCell);
-                //Debug.Log($"removing pollution soft at cell: {cell}");
-            }
-        }
-        if (addPollution) //all of this can be put into base
+            PollutionManager.Instance.RemovePollutionSoft(pollutionAtCell);            
+        }        
+        if(!blockedByPriority && !blockedByEffect)        
         {
             GameObject newGO = pollutionPool.GetGameObject();
             newGO.GetComponent<GridTransform>().MoveToMapCoords(cell);
@@ -98,9 +91,10 @@ public abstract class PollutionTypeController //maybe make this generic for a po
             OnPollutionAdd?.Invoke(cell, newPollution.Priority);
             return newPollution;
         }
-        else
+        if(blockedByEffect && !blockedByPriority)
         {
-            return null;
+            pollutionPrefab.PollutionData.NotifyBlockingEffectAt(cell);
         }
+        return null;        
     }
 }

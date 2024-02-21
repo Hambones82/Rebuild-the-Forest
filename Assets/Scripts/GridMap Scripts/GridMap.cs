@@ -234,6 +234,14 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
         Vector2Int gridCoords = MapToGrid(mapCoords);
         return grid.GetCellCenterWorld(new Vector3Int(gridCoords.x, gridCoords.y, 0));
     }
+
+    public Vector2 MapSizeToWorldSize(Vector2Int mapSize)
+    {
+        Vector3 unitSize = mapCellToCellDistance;
+        float worldX = mapSize.x * unitSize.x;
+        float worldY = mapSize.y * unitSize.y;
+        return new Vector2(worldX, worldY);
+    }
     
     private void DrawMapBorders()
     {

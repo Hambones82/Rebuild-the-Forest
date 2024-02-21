@@ -39,21 +39,16 @@ public class Inventory : MonoBehaviour
     public bool RemoveItem(InventoryItemType inventoryItemType, float amount)
     {
         InventoryItem foundItem = GetItem(inventoryItemType);
-        if (foundItem == null) return false;
+        if (foundItem == null) return false;        
         
-        if(foundItem.Amount >= amount)
+        foundItem.Amount -= amount;
+        if(foundItem.Amount <= 0)
         {
-            foundItem.Amount -= amount;
-            if(foundItem.Amount == 0)
-            {
-                inventoryItems.Remove(foundItem);
-            }
-            //only invoked when there's an actual change.  the amount it's changed to is the amount left in item
-            OnInventoryChange?.Invoke(inventoryItemType, foundItem.Amount);
-            return true;
-        }        
-        
-        return false;
+            inventoryItems.Remove(foundItem);
+        }
+        //only invoked when there's an actual change.  the amount it's changed to is the amount left in item
+        OnInventoryChange?.Invoke(inventoryItemType, foundItem.Amount);
+        return true;             
     }
 
     public bool HasItem(InventoryItemType inventoryItemType)

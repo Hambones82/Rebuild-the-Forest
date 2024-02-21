@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class MapEffectComponent : MonoBehaviour
 {
@@ -16,9 +19,17 @@ public class MapEffectComponent : MonoBehaviour
         return foundEffect.Enabled;
     }
 
+    public delegate void NotifyEffectDelegate(MapEffectType effectType);
+    public event NotifyEffectDelegate NotifyEffect;
+
+    public MapEffect GetEffect(MapEffectType type)
+    {
+        return _mapEffects.Find(effect => effect.Effect.EffectType == type);
+    }
+
     //probably need to check if this is enabled... if enabled, and foundeffect.enabled, then enable..
     public void EnableEffect(MapEffectType effectType)
-    {
+    {        
         MapEffect foundEffect = _mapEffects.Find(effect => effect.Effect.EffectType == effectType);
         if (foundEffect == null)
         {
@@ -28,7 +39,7 @@ public class MapEffectComponent : MonoBehaviour
             newEffect.Enabled = false;
             newEffect.Effect.EffectType = effectType;
             newEffect.Effect.Amount = 1;
-            _mapEffects.Add(new MapEffect());
+            _mapEffects.Add(newEffect);
             foundEffect = newEffect;
         }            
         if (foundEffect.Enabled) return;
@@ -38,6 +49,15 @@ public class MapEffectComponent : MonoBehaviour
 
     public void DisableEffect(MapEffectType effectType)
     {
+        Assert.IsNotNull(_mapEffects, "map effects list is null");
+        /*
+        Debug.Log($"map effects in list: {_mapEffects.Count}");        
+        foreach(MapEffect effect in _mapEffects)
+        {
+            if (effect.Effect == null) Debug.Log("effect.Effect is null");
+            Debug.Log($"{effect.Effect.EffectType.ToString()}");
+        }
+        */
         MapEffect foundEffect = _mapEffects.Find(effect => effect.Effect.EffectType == effectType);
         if (foundEffect == null) return;
         if (!foundEffect.Enabled) return;
@@ -91,8 +111,9 @@ public class MapEffectComponent : MonoBehaviour
         localScopeTransformExtents.height += effect.Range * 2;
         if(add)
         {
+            effect.Effect.Source = this;
             foreach (Vector2Int coord in localScopeTransformExtents.allPositionsWithin)
-            {
+            {                
                 MapEffectsManager.Instance.AddEffect(effect.Effect, coord);
             }
         }
@@ -116,5 +137,10 @@ public class MapEffectComponent : MonoBehaviour
             ModifyEffectRegistration(effect, oldExtents, false);
             ModifyEffectRegistration(effect, newExtents, true);
         }
+    }
+
+    public void EffectNotified(MapEffectType effectType)
+    {
+        NotifyEffect?.Invoke(effectType);
     }
 }

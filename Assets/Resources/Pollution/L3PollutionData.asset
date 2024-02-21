@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2890a58185e8e824889406dcfbc6227e, type: 3}
   m_Name: L3PollutionData
   m_EditorClassIdentifier: 
-  treeBlockEffect: {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
-  plantBlockEffect: {fileID: 11400000, guid: 4b0e8e8d5b7e9ea4fb191490c8eed54c, type: 2}
-  mushroomBlockEffect: {fileID: 11400000, guid: d3a20ae1d30cc0f458d78972d0fa3842, type: 2}
+  mapBlockingEffects:
+  - {fileID: 11400000, guid: baaaf40e22d8ea84783a2801884d24a8, type: 2}
   _dropTable:
     dropChance: 0
     dropTableEntries: []

@@ -36,6 +36,8 @@ public class GridTransform : MonoBehaviour, IGridMapable
         get { return height; }
     }
 
+    public Vector2Int Size { get => new Vector2Int(width, height); }
+
     //these are correct
     [SerializeField]
     private float worldHeight;

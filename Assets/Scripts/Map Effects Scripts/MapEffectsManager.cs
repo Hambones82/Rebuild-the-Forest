@@ -73,7 +73,8 @@ public class MapEffectsManager : MonoBehaviour
     public List<MapEffectObject> GetEffectsAtCell(Vector2Int mapCoords)
     {
         //Debug.Log("map effect manager getting effect");
-        return mapEffects[mapCoords.x, mapCoords.y];
+        if (mapEffects[mapCoords.x, mapCoords.y] == null) return null;
+        return new List<MapEffectObject> (mapEffects[mapCoords.x, mapCoords.y]);
     }
 
     //register building effects?
