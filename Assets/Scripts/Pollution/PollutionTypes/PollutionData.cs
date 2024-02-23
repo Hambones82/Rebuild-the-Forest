@@ -48,7 +48,7 @@ public class PollutionData : ScriptableObject
         List<MapEffectObject> effectsAtCell = MapEffectsManager.Instance.GetEffectsAtCell(cell);
         foreach(MapEffectObject mapEffect in effectsAtCell)
         {
-            mapEffect.Source.EffectNotified(mapEffect.EffectType);
+            mapEffect.Source.EffectNotified(mapEffect.EffectType, cell);
         }
     }
 }

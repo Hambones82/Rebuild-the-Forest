@@ -375,7 +375,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1611990059
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d88afaaaffb34be45bd1b160aa1634b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -405,3 +405,6 @@ MonoBehaviour:
   _fullAlphaThreshold: 10
   minShieldAlpha: 0.4
   maxShieldAlpha: 1
+  _vFXManager: {fileID: 0}
+  _shieldHitVFXType: {fileID: 11400000, guid: 3efc3da5e1f6c734f8e4f37f08387642, type: 2}
+  _gridMap: {fileID: 0}

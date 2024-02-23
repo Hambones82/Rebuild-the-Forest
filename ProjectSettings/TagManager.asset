@@ -50,6 +50,9 @@ TagManager:
   - name: Player Units
     uniqueID: 550088883
     locked: 0
+  - name: Effects
+    uniqueID: 2482281373
+    locked: 0
   - name: Overlay
     uniqueID: 2682977237
     locked: 0

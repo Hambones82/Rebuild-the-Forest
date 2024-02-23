@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,14 +15,23 @@ public class PollutionShieldOverlay : MonoBehaviour
     private float minShieldAlpha;
     [SerializeField]
     private float maxShieldAlpha;
+    [SerializeField]
+    private VFXManager _vFXManager;
+    [SerializeField]
+    private VFXType _shieldHitVFXType;
+    [SerializeField]
+    private GridMap _gridMap;
 
     private void Awake()
     {
+        _gridMap = GridMap.Current;
+        _vFXManager = FindObjectOfType<VFXManager>();
         _fueledBlocker = GetComponentInParent<BuildingComponentFueledBlocker>();        
         _spriteOverlay = GetComponent<GriddedSpriteOverlay>();
         _fueledBlocker.EnableShieldEvent += OnShieldEnabled;
         _fueledBlocker.DisableShieldEvent += OnShieldDisabled;
-        _fueledBlocker.ShieldChangeEvent += OnStrengthChange;       
+        _fueledBlocker.ShieldChangeEvent += OnStrengthChange;
+        _fueledBlocker.ShieldHitEvent += OnShieldHit;
         if(_fueledBlocker.BlockingIsEnabled)
         {
             OnShieldEnabled();
@@ -30,6 +40,11 @@ public class PollutionShieldOverlay : MonoBehaviour
         {
             OnShieldDisabled();
         }
+    }
+
+    private void OnShieldHit(Vector2Int hitPosition)
+    {
+        _vFXManager.SpawnEffect(_shieldHitVFXType, _gridMap.MapToWorld(hitPosition));
     }
 
     Vector2Int GetShieldSize()

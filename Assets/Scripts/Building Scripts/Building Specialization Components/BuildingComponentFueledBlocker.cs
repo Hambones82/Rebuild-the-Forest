@@ -26,6 +26,9 @@ public class BuildingComponentFueledBlocker : MonoBehaviour
     public delegate void ShieldChangeDelegate(float strength);
     public ShieldChangeDelegate ShieldChangeEvent;
 
+    public delegate void ShieldHitDelegate(Vector2Int hitPosition);
+    public ShieldHitDelegate ShieldHitEvent;
+
     //for viewing only - not intended to be changed in the editor   
     [SerializeField]
     private bool blockingIsEnabled;
@@ -43,11 +46,12 @@ public class BuildingComponentFueledBlocker : MonoBehaviour
         effectComponent.NotifyEffect += ProcessNotifyEvent;
     }
 
-    private void ProcessNotifyEvent(MapEffectType effectType)
+    private void ProcessNotifyEvent(MapEffectType effectType, Vector2Int cell)
     {
         if(effectType == blockingEffectType)
         {
             inventory.RemoveItem(fuelType, amountLostOnFuelBlock);
+            ShieldHitEvent?.Invoke(cell);
         }
     }
 
