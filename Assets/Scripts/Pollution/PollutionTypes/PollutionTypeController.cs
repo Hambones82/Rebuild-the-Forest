@@ -93,7 +93,7 @@ public abstract class PollutionTypeController //maybe make this generic for a po
         }
         if(blockedByEffect && !blockedByPriority)
         {
-            pollutionPrefab.PollutionData.NotifyBlockingEffectAt(cell);
+            pollutionPrefab.PollutionData.TagBlockingEffect(cell);
         }
         return null;        
     }

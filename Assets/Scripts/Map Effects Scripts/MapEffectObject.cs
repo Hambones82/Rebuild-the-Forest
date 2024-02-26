@@ -19,6 +19,11 @@ public class MapEffectObject
     //enabled...
     //range
 
+    public void TagEffect(Vector2Int cell)
+    {
+        source.TagEffect(_effectType, cell);
+    }
+
     public override string ToString()
     {
         return $"Effect: {_effectType.EffectName} - Amount: {_amount} - Source: {Source.gameObject.name}";

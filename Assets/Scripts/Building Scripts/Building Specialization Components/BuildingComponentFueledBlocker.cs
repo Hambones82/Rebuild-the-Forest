@@ -43,7 +43,7 @@ public class BuildingComponentFueledBlocker : MonoBehaviour
         float fuelAmount = inventory.GetItemAmount(fuelType);
         ProcessFuelChange(fuelAmount);
         inventory.OnInventoryChange += ProcessInventoryChangeEvent;
-        effectComponent.NotifyEffect += ProcessNotifyEvent;
+        effectComponent.TagEffectEvent += ProcessNotifyEvent;
     }
 
     private void ProcessNotifyEvent(MapEffectType effectType, Vector2Int cell)

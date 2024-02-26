@@ -40741,7 +40741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 385979971367115615, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 5.0399737
+      value: 5.0399804
       objectReference: {fileID: 0}
     - target: {fileID: 1912259540184846535, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchorMax.y
@@ -40927,7 +40927,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1dc425665b8186f438095af3537f2a7f, type: 2}
   - {fileID: 11400000, guid: 09847e78b0db77f4f857fdd33e2ced88, type: 2}
   - {fileID: 11400000, guid: 893face88af731e4fabc7a74c0aab6e6, type: 2}
-  - {fileID: 11400000, guid: bd1e2c281a2f95a4fa9acc4d4db4bd43, type: 2}
+  - {fileID: 11400000, guid: 97692d3ce38d54a4a865d6618a1a3f32, type: 2}
   gridMap: {fileID: 1990238066}
   defaultSpawnCoords: {x: 0, y: 0}
   _buildings: []

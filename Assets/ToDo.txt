@@ -1,3 +1,61 @@
+- I THINK THERE IS A PROBLEM THAT THE TAG FUNCTION IS GETTING CALLED TWICE SOMEWHERE
+
+- so the most important thing is we need to tag the effect in some way.  we just tag the 
+- maybe just the map effect itself -- tag it.  mapeffect.tageffect...
+
+
+- maybe "clean pollution building" is a separate building than pollution block...  a basic building that provides the effect of you are now able to clean the pollution here...
+	- steps: make map effect: clean pollution
+	- make clean pollution building
+	- change clean pollution unit action to work only when clean pollution effect is present
+	- deplete fuel in clean pollution building when a pollution clean occurs?
+
+- next: fog of war, require "pollution block" for AU to clean pollution.
+
+
+- how about cleaner just drops fuel at a particular rate... this rate can be increased by connecting buildings to the cleaner through roots
+	- this is easy - i already have a ccomponet for this.
+- roots grow automatically but your guys can accelerate growth of roots by working on them.
+- when polluted, roots split into different graphs, reducing power...
+- ok... i think the main "roots need to be clear of pollution," "need roots to operate," and "need building to clear complex pollution" is the key here... we need to keep some clean path open to pollution, grow roots there, get a correct building, and clear it out.
+
+
+- maybe with fog of war, finding the first level growth is hard... and needing the buildings to clean pollution is also important.  
+
+- so the main thing you do is you need to continuously expand with roots, buildings, etc...
+
+- for the central building, you can select what it grows -- fuel or actor units... both very very slow but a way to avoid the "problematic RNG leading to a lack of needed drops such as AUs and fuel"
+
+- AUs can accelerate growth of thing in main building -- operate action.  improves that stat for them.  that stat, when it gets to a certain value, can let you build a new grower building with that unit.
+^ next steps
+- dead trees with dead spirits in them can be "sources" of root growth?
+
+- there we go, i think the above actually feels like a game.  if we can get to the "clean up the source of white pollution" based on the above difficulties, i think that's a workable prototype/vertical slice...
+
+
+
+
+- maybe the shields are more long (1 wide), making more of a log shaped thing?
+
+- re stats making buildings i think this needs to be more of a bonus.  you want to have your guys get high stats, but you get increasingly poewrful buildings as you stat up.  then you are left with the choice of having a powerful unit or a very powerful building...
+
+- perhaps these powerful buildings attach to roots adn impart some power to each of the buildings...
+
+- one building - makes seeds after a long time, allowing you to build more units?
+
+- but other than just digging to the pollution, what's the challenge...
+
+- i guess all those ideas i had for mamking pollution more dangerous - e.g., stuck to foot, drag it, maybe they make you slow, stop, etc...
+
+- i guess the main problem i'm having is... ok we have this blocking mechanism which is fine but... we need to make it interesting to get to the win phase...
+
+
+
+
+- maybe additional ways to get the fuel...???  e.g., growing???  maybe... but then...  we still don't really have a goal.  i guess "clean all pollution..."  maybe clean the pollution SOURCES...???
+
+- why don't we just try...  
+
 - i think roots to function would be a good idea...
 
 - i wonder if i can make an interesting game JUST from theh idea of these blockers and pollution effects???

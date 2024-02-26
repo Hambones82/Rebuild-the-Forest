@@ -20,7 +20,7 @@ public class MapEffectComponent : MonoBehaviour
     }
 
     public delegate void NotifyEffectDelegate(MapEffectType effectType, Vector2Int cell);
-    public event NotifyEffectDelegate NotifyEffect;
+    public event NotifyEffectDelegate TagEffectEvent;
 
     public MapEffect GetEffect(MapEffectType type)
     {
@@ -139,8 +139,8 @@ public class MapEffectComponent : MonoBehaviour
         }
     }
 
-    public void EffectNotified(MapEffectType effectType, Vector2Int cell)
+    public void TagEffect(MapEffectType effectType, Vector2Int cell)
     {
-        NotifyEffect?.Invoke(effectType, cell);
+        TagEffectEvent?.Invoke(effectType, cell);
     }
 }
