@@ -54,7 +54,8 @@ public class Pollution : MonoBehaviour
     {
     }
 
-    public void SetAmount(float amt)
+    //returns whether the pollution was removed
+    public bool SetAmount(float amt)
     {
         amount = Mathf.Clamp(amt, 0, maxAmount);
         float scale = amt / maxAmount;
@@ -62,7 +63,9 @@ public class Pollution : MonoBehaviour
         if (amount == 0)
         {
             pollutionManager.RemovePollution(this);
+            return true;
         }
+        return false;
     }
     
     private void OnDisable()

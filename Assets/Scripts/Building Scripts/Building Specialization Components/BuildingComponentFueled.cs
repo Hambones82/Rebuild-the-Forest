@@ -46,9 +46,9 @@ public class BuildingComponentFueled : MonoBehaviour
     private void ProcessTagEffectEvent(MapEffectType effectType, Vector2Int cell)
     {
         if (effectType == this.effectType)
-        {
+        {     
             inventory.RemoveItem(fuelType, amountLostOnMapEffectEvent);
-            EffectTagEventOut?.Invoke(cell); //this event needs to be written...
+            EffectTagEventOut?.Invoke(cell); 
         }
     }
 

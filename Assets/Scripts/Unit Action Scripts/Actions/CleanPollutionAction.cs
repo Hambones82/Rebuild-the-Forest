@@ -14,6 +14,9 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
     private bool targetHasDied;
     Pollution targetPollution;
     private bool cancel = false;
+    private GameObject objectDoingAction;
+    private MapEffectComponent mapEffectComponent;
+    private Vector2Int targetCell;
 
     public override void Cancel()
     {
@@ -29,6 +32,9 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
         inPollution.OnDisableEvent.AddListener(KillTarget);
         targetPollution = inPollution;
         cancel = false;
+        objectDoingAction = inGameObject;
+        mapEffectComponent = inGameObject.GetComponent<MapEffectComponent>();
+        targetCell = inPollution.GetComponent<GridTransform>().topLeftPosMap;
     }
 
     public void KillTarget()
@@ -84,7 +90,20 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
     private bool DoCleanPollutionTick()
     {
         float resultingAmount = target.Amount - ((CleaningSpeedStat)(cleaningStat.StatType)).AmountPerClean;
-        target.SetAmount(resultingAmount);
+        //if the pollution is cleaned,
+        if(target.SetAmount(resultingAmount))
+        {
+            List<MapEffectObject> effectsToTag = 
+                MapEffectsManager.Instance.GetEffectsAtCell(targetCell)
+                .Where(effect => targetPollution.CleanEnableEffects.Contains(effect.EffectType))
+                .ToList<MapEffectObject>();
+            foreach (MapEffectObject effect in effectsToTag)
+            {
+                effect.TagEffect(targetCell);
+            }
+            
+        }
+
         return (resultingAmount > 0);
     }
 
@@ -93,7 +112,7 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
         if (targetPollution == null) return false;
         bool enabledByEffect = true;
         List<MapEffectType> effectsAtCell = 
-            MapEffectsManager.Instance.GetEffectsAtCell(targetPollution.GetComponent<GridTransform>().topLeftPosMap)
+            MapEffectsManager.Instance.GetEffectsAtCell(targetCell)
             ?.Select(effect => effect.EffectType)?.ToList<MapEffectType>();
         List<MapEffectType> requiredEffectsForCleaning = targetPollution.CleanEnableEffects;
         if(requiredEffectsForCleaning == null) return true;
