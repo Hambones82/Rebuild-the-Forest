@@ -60,7 +60,7 @@ public class BuildBuildingPanel : ScrollableContentPanel
         BuildBuildingButton button = contentObjectPool.GetGameObject().GetComponent<BuildBuildingButton>();
         button.BType = bType;
         button.ActorUnit = currentActorUnit;
-        button.Text.text = bType.BuildingPrefab.BuildingName;
+        button.Text.text = bType.BuildingName;
         button.gameObject.SetActive(true);
         button.transform.SetAsFirstSibling();
         contentObjects.Add(button.gameObject);

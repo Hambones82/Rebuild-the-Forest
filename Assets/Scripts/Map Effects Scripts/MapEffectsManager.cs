@@ -77,5 +77,9 @@ public class MapEffectsManager : MonoBehaviour
         return new List<MapEffectObject> (mapEffects[mapCoords.x, mapCoords.y]);
     }
 
+    public bool EffectExistsAtCell(MapEffectType effectType, Vector2Int cell)
+    {
+        return mapEffects[cell.x, cell.y]?.Find(effect=> effect.EffectType == effectType) != null;
+    }
     //register building effects?
 }

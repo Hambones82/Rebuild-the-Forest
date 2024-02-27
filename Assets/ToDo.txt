@@ -1,4 +1,5 @@
-- I THINK THERE IS A PROBLEM THAT THE TAG FUNCTION IS GETTING CALLED TWICE SOMEWHERE
+- still need to tag the allow clean effect when you clean it up...
+- also new sprite for cleaning faciliator
 
 - so the most important thing is we need to tag the effect in some way.  we just tag the 
 - maybe just the map effect itself -- tag it.  mapeffect.tageffect...

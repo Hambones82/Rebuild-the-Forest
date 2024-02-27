@@ -30,6 +30,10 @@ public class Pollution : MonoBehaviour
     private float amount;
     public float Amount { get => amount; }
 
+    [SerializeField]
+    private List<MapEffectType> cleanEnableEffects;
+    public List<MapEffectType> CleanEnableEffects { get => new List<MapEffectType>(cleanEnableEffects); }
+
     public UnityEvent OnDisableEvent;
 
     private void Awake()

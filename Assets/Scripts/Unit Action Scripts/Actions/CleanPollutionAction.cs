@@ -1,5 +1,7 @@
+using PlasticPipe.PlasticProtocol.Messages;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -88,7 +90,26 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
 
     public override bool CanDo()
     {
-        return !((targetPollution == null) || (targetHasDied));
+        if (targetPollution == null) return false;
+        bool enabledByEffect = true;
+        List<MapEffectType> effectsAtCell = 
+            MapEffectsManager.Instance.GetEffectsAtCell(targetPollution.GetComponent<GridTransform>().topLeftPosMap)
+            ?.Select(effect => effect.EffectType)?.ToList<MapEffectType>();
+        List<MapEffectType> requiredEffectsForCleaning = targetPollution.CleanEnableEffects;
+        if(requiredEffectsForCleaning == null) return true;
+        else if (requiredEffectsForCleaning.Count == 0) return true;
+        else if (effectsAtCell == null) return false;
+
+        foreach(MapEffectType effectType in requiredEffectsForCleaning)
+        {
+            if(!effectsAtCell.Contains(effectType))
+            {
+                enabledByEffect = false;
+                break;
+            }
+        }
+            
+        return !targetHasDied && enabledByEffect;
     }
 
     public override void StartAction()
