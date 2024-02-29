@@ -1,28 +1,59 @@
+- the game is very broken and i don't know how to make it good...
+- ok... log is... ok?
+- so... if we have a bunch of logs, we have to dig out a new guy for each log...???  that seems tedious...
+- i think cutting off from source - grahp coloring.. need poll'n source -- cutting off from poll source would be an interesting way.
+- perhaps poll dissipates over time?  not sure...
+
+
+- maybe roots?
+
+- try making the log thing
+- technical problem: the blocking effect has a "default range" but we want to change that for the log...maybe we just add the effecct and
+	- give it range 0?
+- turn down pollution spawn rate
+- add fow???
+
+- maybe pollution spawns too fast
+- also, fuel seems depleted too quickly...
+- it's definitely kind of annoying that the pollution just KEEPS COMING BACK...
+- removed the idea that all buildings covered by pollution cannot be operated on - i think this was too restricting...
+
+- maybe turn off the idea that pollution prevents the cando on operable buildings...  it's too annoying and it also breaks the initial interaction where you need a cleaner to dig, etc...
+
+- the geometry of the cleaner leapfrogging is awkward, so that should be fixed to be more satisfying.  the problem is that you need to clear an area to build the next cleaner but you need the cleaner to build the next area...  it's not really clear what the solution to this would be...
+
+	- what's the problem here, even?  cleaner building density is too high -- feels very crowded, hard to "get anywhere..."  
+	- 
+
+
+
+	- some options for this...
+	- could also be some pipes themselves -- output some sort of cleaning material?
+	- suction of the pollution?????
+	- 
+	- could change the geometry?
+		- maybe only front facing?
+	- we could grow the cleaning area based on roots.  
+	- could add some sort of "tube" that connects the building or roots to the AU - needs to use that tube to clean poll...
+		- could use that to send back to humans...???
+- as it is, the pollution spawns too quickly and kills the fuel too quickly, such that even permanently-spawning fuel from the main building is not fast enough to keep up with needs.
+
+
+
+- i think the next thing we do should be to make the "win condition" of finding the pollution source in the white pollution, and then cleaning it up... we can use that to tune our main gameplay loop of clean/block pollution, etc...
+
+- idea: shield should use less fuel than digging.  that would give a reason to use the shield
+- maybe we could refine the shield to be thin and directional - that way it would declutter the shield stuff and also seem intuitive
+
 - pollution covering needs to turn off those aura buildings...
 
 - the idea of choosing between cleaning and blocking FEELS GOOD
 - check vfx layer -- needs to be above the other stuff
 - vfx is not spawning in some cases???
-- i think we are calling the wrong thing from our clean pollution action...?
-- ok i know what the problem is...  ingameobject is the actor unit.  it's NOT the building that's associated with the map...
-
-- depleting fuel for cleaning is not working - the effect tag is working but no depletion is happening...
 - need a better building ui
 - cleanpollutionaction.cs has a potentially duplicate thing - target and targetPollution...
-- still need to tag the allow clean effect when you clean it up...
-- also new sprite for cleaning faciliator
 
-- so the most important thing is we need to tag the effect in some way.  we just tag the 
-- maybe just the map effect itself -- tag it.  mapeffect.tageffect...
-
-
-- maybe "clean pollution building" is a separate building than pollution block...  a basic building that provides the effect of you are now able to clean the pollution here...
-	- steps: make map effect: clean pollution
-	- make clean pollution building
-	- change clean pollution unit action to work only when clean pollution effect is present
-	- deplete fuel in clean pollution building when a pollution clean occurs?
-
-- next: fog of war, require "pollution block" for AU to clean pollution.
+- next: fog of war?
 
 
 - how about cleaner just drops fuel at a particular rate... this rate can be increased by connecting buildings to the cleaner through roots

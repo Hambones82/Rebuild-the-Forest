@@ -18,6 +18,8 @@ public class BuildingComponentFueled : MonoBehaviour
     [SerializeField]
     private MapEffectComponent effectComponent;
     [SerializeField]
+    private int range;
+    [SerializeField]
     private bool effectIsEnabled;
     public bool EffectIsEnabled {get => effectIsEnabled; }
     [SerializeField]

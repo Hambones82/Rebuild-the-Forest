@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c8e7f3c6426ab748a54dc15bab1fdea, type: 3}
   m_Name: FueledBlockerGeneral
   m_EditorClassIdentifier: 
-  buildingPrefab: {fileID: 114058856135367282, guid: 44ade000e281a774d9d749be8fcfc78d, type: 3}
+  buildingPrefab: {fileID: 114058856135367282, guid: 5db2d545d9d4f0a43ba4c9466676d5e6, type: 3}
   buildingName: Fueled Blocker

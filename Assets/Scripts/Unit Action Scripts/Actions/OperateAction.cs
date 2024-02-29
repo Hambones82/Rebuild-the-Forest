@@ -11,7 +11,8 @@ public class OperateAction : UnitActionWithTarget<BuildingComponentOperator>, IO
 
     public override bool CanDo()
     {
-        return !targetBuilding.GetComponent<GridTransform>().AtLeastOneCellIsOccupiedBy(MapLayer.pollution);
+        return true;
+        //return !targetBuilding.GetComponent<GridTransform>().AtLeastOneCellIsOccupiedBy(MapLayer.pollution);
     }
 
     public override void Initialize(GameObject inGameObject, BuildingComponentOperator inBuildingComponentOperator)
