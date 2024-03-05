@@ -286,8 +286,9 @@ MonoBehaviour:
   fuelThreshold: 0.1
   inventory: {fileID: 0}
   effectComponent: {fileID: 0}
+  range: 0
   effectIsEnabled: 0
-  amountLostOnMapEffectEvent: 0.1
+  amountLostOnMapEffectEvent: 0.02
 --- !u!1 &3572949308879809517
 GameObject:
   m_ObjectHideFlags: 0

@@ -140,8 +140,7 @@ public class MapEffectComponent : MonoBehaviour
     }
 
     public void TagEffect(MapEffectType effectType, Vector2Int cell)
-    {
-        Debug.Log("calling map effect component.tag effect");
+    {       
         TagEffectEvent?.Invoke(effectType, cell);
     }
 }

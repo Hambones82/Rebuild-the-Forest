@@ -1,3 +1,59 @@
+- so the connectivity graph would be...  separate from the free positions thing but also would need to update the free positions.
+- maybe we need like a "sourced pollution type controller"?  i don't even know...  
+- i think we should combine pollution type controller and basic poll controller
+
+- so the cutoff thing...  need to figure out which pieces of the puzzle are affected...
+	- i think the "updatefreepositionsforaddition" and same for removal -- these can be used to update the connectivity graph
+	- we can also use the initializefreepositions (or whatever) to initialize this graph... this would happen after we generate all of the pollutions
+	- 
+- i think the main thing is gonna be...  the graph coloring idea... each pollution needs to indicate it belongs to a graph color
+- then we need to do the check to see 
+
+- let's try to implement 
+
+- ok, yes, bringing the pollution in much closer feels like more of a game.  i like this...  let's see if we can get this feeling going...
+- do that plus the cut off thing -- could be quite interesting...  let's IMPLEMENT THE CUT OFF
+- fun thing about cut off is it can also be ...?  not sure what i was gonna say.  definitely do cut off
+
+- then... while you're digging you can come across hazards...  that can also be interesting...
+
+- bring the poll in much closer?
+- the othe rpossibility is just to spawn in all these things randomly onto the map and then theyll be covered by th poll
+- start with multiple au's.  make the dead trees uncoverable from pollution.
+- drop tables cannot drop buildings onto already buildings
+- change "discoverable manager" to just a component for the pollution...  just a drop table
+
+feels better w drop rate turned down.  try "CUT OFF" removes pollution growth
+
+- try turning down the drop rate for fuel...
+
+- pollution over buildings - weird bug...  
+
+- feeling - forest is... almost overcome until you win...
+
+- maybe the tree allows cleaning and the tree body/roots provide shield???
+- maybe the shields are plants you pick up... you need to plant them on roots, and they consume the fuel of the tree?
+- so would it be like... a "blank" tree or something?  
+- let's try setting the shield thing to be MUCH more fuel efficient than digging.  then shield might actually be useful...
+- yes, i think this might be a very good idea...
+- cut down dead trees into logs?  honestly i really like the roots idea - i think we should really try to get that going...
+
+- maybe the next step is to lean into the "stats get you buildings" thing.  in one example, cleaning a lot of stuff gets you to be able to build a cleaner building.  these guys can clean into a particular direction, based on roots...
+
+- i really think there just needs to be hazards and random drops.
+
+- OK... so maybe this basic game loop is sufficient for now
+- i think the next thing has to be to give the map interesting stuff.  hazards, stuff to find, etc...  
+- make opening those dead trees difficult???
+- other hazards/risk-to-reward...?
+- AU's need to drop their inventory when they die (or turn into buildings)
+- maybe need a better way to control the guys like oni or at the very least a mass tile select tool
+- weird bug happens when both units try to operate the same building (speed bar goes too fast)
+- probably want to make sure AUs can't occupy the same space at end of move...
+- so i guess that what we have right now is... a sort of game that makes you trudge through the slime.  i think that's an OK place to be but
+	- it's not really very interesting...  kind of repetitive, etc...
+- maybe roots are simply the answer to "i need way too many dudes"...
+- you connect to different things with a root system and it adds the effects of those buildings there...
 - the game is very broken and i don't know how to make it good...
 - ok... log is... ok?
 - so... if we have a bunch of logs, we have to dig out a new guy for each log...???  that seems tedious...

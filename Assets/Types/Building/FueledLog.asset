@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c8e7f3c6426ab748a54dc15bab1fdea, type: 3}
   m_Name: FueledLog
   m_EditorClassIdentifier: 
-  buildingPrefab: {fileID: 0}
+  buildingPrefab: {fileID: 114058856135367282, guid: 44ade000e281a774d9d749be8fcfc78d, type: 3}
   buildingName: Fueled Log
