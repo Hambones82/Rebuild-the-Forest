@@ -43,7 +43,7 @@ public class PollutionData : ScriptableObject
         return false;
     }
 
-    public void TagBlockingEffect(Vector2Int cell)
+    public void NotifyBlockingEffectAt(Vector2Int cell)
     {
         List<MapEffectObject> effectsAtCell = MapEffectsManager.Instance.GetEffectsAtCell(cell);
         foreach(MapEffectObject mapEffect in effectsAtCell)

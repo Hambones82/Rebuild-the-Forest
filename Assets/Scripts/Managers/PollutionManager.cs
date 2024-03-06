@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public class PollutionEventInfo
+{
+    public Vector2Int cell;
+    public int priority;
+}
+
 //pollution manager needs a "change" or "overwrite" that doesn't cause the drop to be triggered...
 //do all the initialization for the controllers.
 //have flat controllers...
@@ -35,10 +41,12 @@ public class PollutionManager : MonoBehaviour
     [SerializeField]
     private GridMap gridMap;
 
-    [SerializeReference, SubclassSelector]
+    [SerializeField]
     private List<PollutionTypeController> pollutionControllers;
     public List<PollutionTypeController> PollutionControllers { get => pollutionControllers; }
     
+    
+
     //so maybe we do keep the type controllers... would make it easier i think...
     private void Awake()//so initialize...  go from highest to lowest priority...
     {
@@ -63,16 +71,12 @@ public class PollutionManager : MonoBehaviour
         }
     }
 
-    private void AddPollution(Vector2Int cell, int priority)
-    {
-        OnPollutionAdded?.Invoke(cell);
-    }
 
     public void UpdateFreePositionsForAddition(Vector2Int cell, int priority)
     {
         foreach (PollutionTypeController controller in pollutionControllers)
         {
-            controller.UpdateFreePositionsForAddition(cell, priority);
+            controller.UpdateFreePositionsForPollutionAddition(cell, priority);
         }
     }
 
@@ -80,7 +84,7 @@ public class PollutionManager : MonoBehaviour
     {
         foreach (PollutionTypeController controller in pollutionControllers)
         {
-            controller.UpdateFreePositionsForRemoval(cell, priority);
+            controller.UpdateFreePositionsForPollutionRemoval(cell, priority);
         }
     }
 
@@ -95,6 +99,16 @@ public class PollutionManager : MonoBehaviour
         {
             controller.UpdateState();
         }
+    }
+
+    //these should probably be the only ways in which pollution is added or removed...
+    //i'm not sure it makes sense to call the addpollutions of the sub-controllers using an event like this.
+    //it should probably be done correctly.
+    //the other problem is...  we are onpollutionadded-ing for all controllers?  
+    //problem is we should only do it to one of the sub-controllers and it shouldn't be based on priority...
+    private void AddPollution(Vector2Int cell, int priority)
+    {
+        OnPollutionAdded?.Invoke(cell);
     }
 
     public void RemovePollution(Pollution pollution)
@@ -118,6 +132,7 @@ public class PollutionManager : MonoBehaviour
         }
     }
 
+    //probably should get rid of this...  but not 100% sure
     public bool IsEffectAtCell(Vector2Int cell, PollutionEffect effect)
     {
         foreach (GridTransform gt in GridMap.Current.GetObjectsAtCell(cell, MapLayer.pollution))

@@ -1,3 +1,12 @@
+- for cleaning up the pollution controller stuff... maybe the way to do it is have the type controllers return true if pollution is added.
+- then call whatever necessary method on the lower priority ones (higher?)
+
+
+
+- pollutiontypecontroller.removefreeposition...  this checks against other pollutiontypecontrollers... i think we need to figure
+out a way to do this where "getallpollutiontypecontrollers" is not public, as this exposes the implementation...
+- the UI thing here should be a separate component on the pollution manager which should iterate through all its contents and see if there are any free positions there, when a change occurs...
+
 - so the connectivity graph would be...  separate from the free positions thing but also would need to update the free positions.
 - maybe we need like a "sourced pollution type controller"?  i don't even know...  
 - i think we should combine pollution type controller and basic poll controller
