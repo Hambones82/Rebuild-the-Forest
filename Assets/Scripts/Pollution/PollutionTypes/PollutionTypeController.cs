@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEngine.EventSystems.EventTrigger;
 
 [System.Serializable]
 public class PollutionTypeController //maybe make this generic for a pollution type???  not 100% sure...need to think abt it.
@@ -18,29 +20,26 @@ public class PollutionTypeController //maybe make this generic for a pollution t
     protected GridSubMap pollutionMap;
     [SerializeField]
     protected Pollution pollutionPrefab;
+    public Pollution PollutionPrefab { get => pollutionPrefab; }
     [SerializeField]
     protected List<Pollution> pollutionObjects = new List<Pollution>();
 
     protected GameObjectPool pollutionPool;
     
     [SerializeField]
-    private float spreadPeriod;
-    private Timer spreadTimer;
-    //private float spreadTimer = 0;
+    private float spreadPeriod;    
+    private float spreadTimer = 0;
 
     [SerializeField]//a lower number means higher priority...
     private int priority;
+    public int Priority { get => priority; }
     //this is a helper buffer to assist with another function.  maybe scope it to that function only
     private List<Pollution> workingPollutionObjects;
 
     [SerializeField]
     private int freeZoneWidth;
 
-    public delegate void PollutionChangeDelegate(Vector2Int cell, int priority);
-    public event PollutionChangeDelegate OnPollutionAdd;
-    public event PollutionChangeDelegate OnPollutionDelete;
-
-
+    
     //--INITIALIZATION METHODS--//
     public void Initialize(GridMap inGridMap, PollutionManager inPollutionManager)
     {
@@ -49,53 +48,95 @@ public class PollutionTypeController //maybe make this generic for a pollution t
         pollutionPool = new GameObjectPool(pollutionPrefab.gameObject, parentObj: gridMap.gameObject, activeByDefault: false);
         priority = pollutionPrefab.PollutionData.Priority;
         pollutionMap = gridMap.GetMapOfType(MapLayer.pollution);
-        freePositions = new List<Vector2Int>();
-        spreadTimer = new Timer(spreadPeriod);
-        spreadTimer.Enabled = true;
-        spreadTimer.AddEvent(UpdatePollutionState);
+        freePositions = new List<Vector2Int>();        
     }
 
+    //first, redo this.  just put the pollution where it should go.  
+    //then call a function that calculates the free positions...
     public void InitializePollutionState()
-    {        
-        for (int x = 0; x < gridMap.width; x++)
-        {
-            AddFreePosition(new Vector2Int(x, 0));
-            AddFreePosition(new Vector2Int(x, gridMap.height - 1));
-        }
-        for (int y = 1; y < gridMap.height - 1; y++)
-        {
-            AddFreePosition(new Vector2Int(0, y));
-            AddFreePosition(new Vector2Int(gridMap.width - 1, y));
-        }
-        
-        //full lines are from 0 to (gridMap.height - freeZoneWdith)/2
-        //partial lines are from (gridMap.height - freeZoneWdith)/2 to (gridMap.height + freeZoneWdith)/2
-        //partial lines have polution from 0 to (gridMap.width - freeZoneWdith)/2 and from (gridMap.width + freeZoneWdith)/2 to gridMap.width        
-
+    {
+        List<Vector2Int> pollutionsToAdd = new List<Vector2Int>();
         for (int y = 0; y < gridMap.height; y++)
         {
             if(y < (gridMap.height - freeZoneWidth) / 2 || y > (gridMap.height + freeZoneWidth) / 2)
             {
                 for (int x = 0; x < gridMap.width; x++)
                 {
-                    AddPollution(new Vector2Int(x, y));
+                    pollutionsToAdd.Add(new Vector2Int(x, y));
                 }
             }
             else
             {
                 for (int x = 0; x < (gridMap.width - freeZoneWidth) / 2; x++)
                 {
-                    AddPollution(new Vector2Int(x, y));
+                    pollutionsToAdd.Add(new Vector2Int(x, y));
                 }
                 for (int x = (gridMap.width + freeZoneWidth) / 2; x < gridMap.width; x++)
                 {
-                    AddPollution(new Vector2Int(x, y));
+                    pollutionsToAdd.Add(new Vector2Int(x, y));
                 }
+            }            
+        }
+        
+        foreach(Vector2Int cell in pollutionsToAdd)
+        {
+            Pollution existing = GetPollutionAt(cell);
+            if(existing == null)
+            {                
+                AddPollution(cell);
+                continue;
+            }
+            
+            if(existing.Priority < priority)
+            {
+                existing.pTypeController.RemovePollution(existing);
+                AddPollution(cell);        
             }            
         }
     }
 
+    public void RecalculateFreePositions()
+    {   
+        for(int i = freePositions.Count - 1; i >= 0; i--)
+        {
+            RemoveFreePosition(freePositions[i]);
+        }     
+        
+        for(int x = 0; x < gridMap.width; x++)
+        {
+            for(int y = 0; y < gridMap.height; y++)
+            {                
+                Vector2Int cell = new Vector2Int(x, y);
+                Pollution pollution = GetPollutionAt(cell);
+                if(pollution != null)
+                {
+                    if (pollution.Priority >= priority)
+                    {
+                        continue;
+                    }
+                }                
+                List<Vector2Int> neighbors = cell.GetNeighbors();
+                bool isFree = false;
+                foreach(Vector2Int neighbor in neighbors)
+                {
+                    if(GridMap.Current.IsWithinBounds(neighbor))
+                    {   
+                        isFree |= GetPollutionAt(neighbor)?.Priority == priority;
+                    }
+                }
+                if(isFree)
+                {
+                    //if((pollution?.Priority ?? -1) == 1) Debug.Log("adding free position for priority 1");
+                    AddFreePosition(cell);                    
+                }
+            }
+        }
+    }
 
+    public Pollution GetPollutionAt(Vector2Int cell)
+    {
+        return GridMap.Current.GetObjectAtCell<Pollution>(cell, MapLayer.pollution)?.GetComponent<Pollution>(); 
+    }
 
     //--METHODS FOR TRACKING WHAT POSITIONS IN THE MAP ARE AVAILABLE FOR NEXT POLLUTION SPAWN--//
     public void UpdateFreePositionsForPollutionAddition(Vector2Int cell, int inPriority)
@@ -124,7 +165,7 @@ public class PollutionTypeController //maybe make this generic for a pollution t
     }
 
     public void UpdateFreePositionsForPollutionRemoval(Vector2Int cell, int inPriority)
-    {
+    {        
         if (inPriority < priority)
         {
             return;
@@ -163,7 +204,7 @@ public class PollutionTypeController //maybe make this generic for a pollution t
         }
         if (neighborsPollution) //also...  don't add it back if the priority thing is wrong... so... 
         {
-            AddFreePosition(cell);
+            AddFreePosition(cell); //get rid of this extra iteration, put it back into the above.  do update free after all inits
         }
     }
 
@@ -190,58 +231,96 @@ public class PollutionTypeController //maybe make this generic for a pollution t
 
     }
     //--TIMING BASED METHODS FOR UPDATING POLLUTION STATE--//
-    public void UpdateState()
+    //ok for adding pollution... but removing pollution is still spaghetti
+    //we should probably do something like marking the lower priority pollution and subsequently actually removing it.
+    //is it really vector2int that i want to remove or something like controller + vector2int?
+    //or even the pollution itself that is added or removed?
+    //bool check for tick
+
+    public bool CheckForTick()
     {
-        spreadTimer.UpdateTimer();
+        spreadTimer += Time.deltaTime;
+        if (spreadTimer >= spreadPeriod)
+        {
+            spreadTimer -= spreadPeriod;
+            return true;
+        }
+        return false;
     }
 
-    protected void UpdatePollutionState()
-    {
-        if (freePositions.Count > 0)
+    public List<Vector2Int> GetCandidateCellsToAddPollution()
+    {        
+        int position = UnityEngine.Random.Range(0, freePositions.Count - 1);
+        List<Vector2Int> retval = new List<Vector2Int>();
+        if (freePositions.Count == 0)
         {
-            int position = UnityEngine.Random.Range(0, freePositions.Count);
-            AddPollution(freePositions[position]);
+            return retval;
         }
+        try
+        {
+            retval.Add(freePositions[position]);
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log($"trying to add for free positions {position}");
+            throw e;
+        }
+        return retval;
+    }
+
+    public void UpdateState(out List<Vector2Int> addedPositions, out List<Vector2Int> removedPositions)
+    {
+        addedPositions = null;
+        removedPositions = null;
+        spreadTimer += Time.deltaTime;
+        if(spreadTimer >= spreadPeriod)
+        {
+            addedPositions = new List<Vector2Int>();
+            spreadTimer -= spreadPeriod;
+            if (freePositions.Count > 0)
+            {
+                int position = UnityEngine.Random.Range(0, freePositions.Count);
+                AddPollution(freePositions[position]);
+                addedPositions.Add(freePositions[position]);
+            }
+        }
+        
     }
 
     //--METHODS FOR ADDING AND REMOVING POLLUTION, CALLED BY THE TIMING BASED UPDATES--//
-    public virtual void RemovePollution(Pollution pollution, Vector2Int pollutionPosition)
+    public void RemovePollution(Pollution pollution)
     {
-        if(pollution.pTypeController == this)//get rid of this -- it's definitely hurting performance.
+        if(pollution.pTypeController == this)
         {
             pollutionObjects.Remove(pollution);
-            pollutionPool.RecycleObject(pollution.gameObject);
-            OnPollutionDelete?.Invoke(pollutionPosition, pollution.Priority);
+            pollutionPool.RecycleObject(pollution.gameObject);            
         }
     }
 
-    protected Pollution AddPollution(Vector2Int cell)
+    public bool BlockedByEffect(Vector2Int cell)
     {
-        Pollution pollutionAtCell = GridMap.Current.GetObjectAtCell<Pollution>(cell, MapLayer.pollution);        
-        bool pollutionAtTargetCell = pollutionAtCell != null;
-        bool blockedByPriority = pollutionPrefab.PollutionData.Priority < (pollutionAtCell?.PollutionData?.Priority ?? 0);
-        bool blockedByEffect = pollutionPrefab.PollutionData.IsBlockedByEffect(cell); //something other than isblocked?        
-        if (pollutionAtTargetCell && !blockedByPriority && !blockedByEffect)
-        {
-            PollutionManager.Instance.RemovePollutionSoft(pollutionAtCell);            
-        }        
-        if(!blockedByPriority && !blockedByEffect)        
-        {
-            GameObject newGO = pollutionPool.GetGameObject();
-            newGO.GetComponent<GridTransform>().MoveToMapCoords(cell);
-            newGO.SetActive(true);
-            Pollution newPollution = newGO.GetComponent<Pollution>();
-            newPollution.pTypeController = this;
-            pollutionObjects.Add(newPollution);
-            newPollution.PollutionManager = this.pollutionManager;
-            newPollution.SetAmount(newPollution.MaxAmount);
-            OnPollutionAdd?.Invoke(cell, newPollution.Priority);
-            return newPollution;
-        }
-        if(blockedByEffect && !blockedByPriority)
-        {
-            pollutionPrefab.PollutionData.NotifyBlockingEffectAt(cell);
-        }
-        return null;        
+        return pollutionPrefab.PollutionData.IsBlockedByEffect(cell);
+    }
+
+    public bool BlockedByPriorityOf(Pollution pollutionAtCell)
+    {        
+        return pollutionPrefab.PollutionData.Priority < (pollutionAtCell?.PollutionData?.Priority ?? 0);
+    }
+
+    //i think it is OK to have the checks for priority and effect here.
+    //maybe just leave this as it is.  we are trying to add polution.  
+    // based on what we return, the pollution manager will decide what to do.
+    public Pollution AddPollution(Vector2Int cell)
+    {        
+        GameObject newGO = pollutionPool.GetGameObject();
+        newGO.GetComponent<GridTransform>().MoveToMapCoords(cell);
+        newGO.SetActive(true);
+        Pollution newPollution = newGO.GetComponent<Pollution>();
+        newPollution.pTypeController = this;
+        pollutionObjects.Add(newPollution);
+        newPollution.PollutionManager = this.pollutionManager;
+        newPollution.SetAmount(newPollution.MaxAmount);        
+            
+        return newPollution;        
     }
 }

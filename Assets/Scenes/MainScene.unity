@@ -684,48 +684,22 @@ MonoBehaviour:
   _damageEffect: {fileID: 11400000, guid: 4cc8eafe972c8864e9d3f4bf8ae8d54a, type: 2}
   gridMap: {fileID: 1990238066}
   pollutionControllers:
-  - rid: 0
-  - rid: 1
-  - rid: 2
-  references:
-    version: 2
-    RefIds:
-    - rid: 0
-      type: {class: BasicPollutionController, ns: , asm: ProjectAssembly}
-      data:
-        pollutionManager: {fileID: 415643803}
-        freePositions: []
-        gridMap: {fileID: 1990238066}
-        pollutionPrefab: {fileID: 332257860741888898, guid: a5d1b1f1f11595049b029ebf44392545, type: 3}
-        pollutionObjects: []
-        spreadPeriod: 1
-        priority: 0
-        spreadBaseProbability: 0.484
-        freeZoneWidth: 15
-    - rid: 1
-      type: {class: BasicPollutionController, ns: , asm: ProjectAssembly}
-      data:
-        pollutionManager: {fileID: 415643803}
-        freePositions: []
-        gridMap: {fileID: 1990238066}
-        pollutionPrefab: {fileID: 332257860741888898, guid: ad3a47feb21edb64e83e94ffc3fc22a3, type: 3}
-        pollutionObjects: []
-        spreadPeriod: 5
-        priority: 0
-        spreadBaseProbability: 0.666
-        freeZoneWidth: 50
-    - rid: 2
-      type: {class: BasicPollutionController, ns: , asm: ProjectAssembly}
-      data:
-        pollutionManager: {fileID: 415643803}
-        freePositions: []
-        gridMap: {fileID: 1990238066}
-        pollutionPrefab: {fileID: 332257860741888898, guid: 3de8e494b9d3d654fb961c3f1d472373, type: 3}
-        pollutionObjects: []
-        spreadPeriod: 10
-        priority: 0
-        spreadBaseProbability: 0.571
-        freeZoneWidth: 60
+  - pollutionManager: {fileID: 0}
+    freePositions: []
+    gridMap: {fileID: 0}
+    pollutionPrefab: {fileID: 332257860741888898, guid: a5d1b1f1f11595049b029ebf44392545, type: 3}
+    pollutionObjects: []
+    spreadPeriod: 1
+    priority: 0
+    freeZoneWidth: 15
+  - pollutionManager: {fileID: 0}
+    freePositions: []
+    gridMap: {fileID: 0}
+    pollutionPrefab: {fileID: 332257860741888898, guid: ad3a47feb21edb64e83e94ffc3fc22a3, type: 3}
+    pollutionObjects: []
+    spreadPeriod: 5
+    priority: 0
+    freeZoneWidth: 50
 --- !u!4 &415643804
 Transform:
   m_ObjectHideFlags: 0
@@ -40867,7 +40841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 385979971367115615, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 5.040019
+      value: 5.0399966
       objectReference: {fileID: 0}
     - target: {fileID: 1912259540184846535, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchorMax.y

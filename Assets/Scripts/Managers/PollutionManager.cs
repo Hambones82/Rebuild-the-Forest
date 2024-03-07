@@ -45,8 +45,6 @@ public class PollutionManager : MonoBehaviour
     private List<PollutionTypeController> pollutionControllers;
     public List<PollutionTypeController> PollutionControllers { get => pollutionControllers; }
     
-    
-
     //so maybe we do keep the type controllers... would make it easier i think...
     private void Awake()//so initialize...  go from highest to lowest priority...
     {
@@ -59,15 +57,13 @@ public class PollutionManager : MonoBehaviour
             throw new InvalidOperationException("can't have two pollution managers");
         }
         foreach (PollutionTypeController controller in pollutionControllers)
-        {
-            controller.OnPollutionAdd += UpdateFreePositionsForAddition;
-            controller.OnPollutionAdd += AddPollution;
-            controller.OnPollutionDelete += UpdateFreePositionsForRemoval;
+        {            
             controller.Initialize(gridMap, this);
+            controller.InitializePollutionState();
         }
         foreach(PollutionTypeController controller in pollutionControllers)
-        {
-            controller.InitializePollutionState();
+        {            
+            controller.RecalculateFreePositions();//need to write this method -- just use a scan line technique
         }
     }
 
@@ -91,33 +87,68 @@ public class PollutionManager : MonoBehaviour
     private void Start()
     {
         OnInitComplete?.Invoke();
-    }
+        //??? <-- for discoverablemanager... might want to just remove that...  
+    }    
 
     private void Update()
     {
         foreach (PollutionTypeController controller in pollutionControllers)
         {
-            controller.UpdateState();
+            if (!controller.CheckForTick())
+            {
+                continue;
+            }
+            
+            List<Vector2Int> candidateCellsToAdd = controller.GetCandidateCellsToAddPollution();
+            List<Vector2Int> confirmedCellsToAdd = new List<Vector2Int>();
+            List<Pollution> pollutionsToRemove = new List<Pollution>();
+            foreach (Vector2Int candidateCell in candidateCellsToAdd)
+            {                
+                Pollution pollutionAtTargetCell = GridMap.Current.GetObjectAtCell<Pollution>(candidateCell, MapLayer.pollution);
+                bool blockedByPriority = controller.BlockedByPriorityOf(pollutionAtTargetCell);
+                bool blockedByEffect = controller.BlockedByEffect(candidateCell);                
+                if (!blockedByPriority && !blockedByEffect) 
+                {
+                    if(pollutionAtTargetCell) pollutionsToRemove.Add(pollutionAtTargetCell);
+                    confirmedCellsToAdd.Add(candidateCell);
+                }
+                if (blockedByEffect && !blockedByPriority)
+                {
+                    controller.PollutionPrefab.PollutionData.NotifyBlockingEffectAt(candidateCell);
+                }
+            }
+            foreach (Vector2Int cell in confirmedCellsToAdd)
+            {
+                AddPollution(cell, controller);
+                UpdateFreePositionsForAddition(cell, controller.PollutionPrefab.Priority);                
+            }
+            foreach (Pollution pollution in pollutionsToRemove)
+            {
+                RemovePollutionSoft(pollution);
+                UpdateFreePositionsForRemoval(pollution.GetComponent<GridTransform>().topLeftPosMap, pollution.Priority);                
+            }            
         }
     }
 
-    //these should probably be the only ways in which pollution is added or removed...
-    //i'm not sure it makes sense to call the addpollutions of the sub-controllers using an event like this.
-    //it should probably be done correctly.
-    //the other problem is...  we are onpollutionadded-ing for all controllers?  
-    //problem is we should only do it to one of the sub-controllers and it shouldn't be based on priority...
-    private void AddPollution(Vector2Int cell, int priority)
+    private void AddPollution(Vector2Int cell, PollutionTypeController controller)
     {
+        controller.AddPollution(cell);        
         OnPollutionAdded?.Invoke(cell);
     }
+    
 
     public void RemovePollution(Pollution pollution)
     {
         Vector2Int pollutionPosition = pollution.GetComponent<GridTransform>().topLeftPosMap;
-        //for now, do this for all... but should really find the correct one...
+        
         foreach (PollutionTypeController controller in pollutionControllers)
         {
-            controller.RemovePollution(pollution, pollutionPosition);
+            //do the checks for "if it's this controller here" instead of in type
+            controller.RemovePollution(pollution);
+        }
+        foreach(PollutionTypeController controller in pollutionControllers)
+        {
+            controller.UpdateFreePositionsForPollutionRemoval(pollutionPosition, pollution.Priority);
         }
         OnPollutionDead?.Invoke(pollutionPosition);
     }
@@ -125,14 +156,16 @@ public class PollutionManager : MonoBehaviour
     public void RemovePollutionSoft(Pollution pollution)
     {
         Vector2Int pollutionPosition = pollution.GetComponent<GridTransform>().topLeftPosMap;
-        //for now, do this for all... but should really find the correct one...
         foreach (PollutionTypeController controller in pollutionControllers)
         {
-            controller.RemovePollution(pollution, pollutionPosition);
+            controller.RemovePollution(pollution);
+        }
+        foreach (PollutionTypeController controller in pollutionControllers)
+        {
+            controller.UpdateFreePositionsForPollutionRemoval(pollutionPosition, pollution.Priority);
         }
     }
 
-    //probably should get rid of this...  but not 100% sure
     public bool IsEffectAtCell(Vector2Int cell, PollutionEffect effect)
     {
         foreach (GridTransform gt in GridMap.Current.GetObjectsAtCell(cell, MapLayer.pollution))
