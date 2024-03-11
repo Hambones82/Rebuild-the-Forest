@@ -1,4 +1,26 @@
-- alright... refactored pollution and...  i think it's working 
+- let's get the sub-graphs thing going...  
+- make a data structure.  you can add new, query, and delete.  maybe we can simplify the normal union-find stuff and not add the make-set and union...
+- this would be because we can include the connections implicitly in the code, as we pretty much know what our graph structure will be.
+
+- tbh... i don't think it's that hard to do the above...  the union-find data structure doesn't seem to even care about graph structure, since what goes into it is just the connections anyway.
+
+- so what we'll do is just first create the data structure... maybe with some sort of visualizer for debugging?  alternatively we could try to do it in our game and have a debugging visualizer tilemap... maybe this thing will have like arrows to children or something...  and then maybe colors for which network the things are connected to?
+
+- so...  i think we'll have to limit the communication thing to the same type of poll.
+- at any rate, the data structure will look the same regardless of that aspect.
+- so let's just make the data structure
+
+
+
+- maybe the stuff communicates through any pollution, not just of the same type...?
+
+- bc what i'm thinking is... if we do this cutoff from source thing, then why wouldn't the player just make big cuts in the pollution to get to the end...  
+- maybe instead of sources, we want like... mass.  growth rate is related to mass.  small masses have very small growth rate.  high mass has very high growth rate.  i think this is a decent idea...  but still complicated to implement...
+
+- now to do the cutoff...  
+- so... to do the cutoff, we need to start with pollution source...  
+- probably need to change the "discoverable," "drop," etc
+- instead, we need to 
 
 - the UI thing here should be a separate component on the pollution manager which should iterate through all its contents and see if there are any free positions there, when a change occurs...
 

@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 using static UnityEngine.EventSystems.EventTrigger;
 
 [System.Serializable]
-public class PollutionTypeController //maybe make this generic for a pollution type???  not 100% sure...need to think abt it.
+public class PollutionTypeController 
 {    
     [SerializeField]
     protected PollutionManager pollutionManager;
@@ -21,6 +21,9 @@ public class PollutionTypeController //maybe make this generic for a pollution t
     [SerializeField]
     protected Pollution pollutionPrefab;
     public Pollution PollutionPrefab { get => pollutionPrefab; }
+    
+
+
     [SerializeField]
     protected List<Pollution> pollutionObjects = new List<Pollution>();
 
@@ -32,9 +35,7 @@ public class PollutionTypeController //maybe make this generic for a pollution t
 
     [SerializeField]//a lower number means higher priority...
     private int priority;
-    public int Priority { get => priority; }
-    //this is a helper buffer to assist with another function.  maybe scope it to that function only
-    private List<Pollution> workingPollutionObjects;
+    public int Priority { get => priority; }    
 
     [SerializeField]
     private int freeZoneWidth;
@@ -51,8 +52,9 @@ public class PollutionTypeController //maybe make this generic for a pollution t
         freePositions = new List<Vector2Int>();        
     }
 
-    //first, redo this.  just put the pollution where it should go.  
-    //then call a function that calculates the free positions...
+    //let's store a disjoint set with deletions data structure for keeping track of the connected sets of pollution
+    
+
     public void InitializePollutionState()
     {
         List<Vector2Int> pollutionsToAdd = new List<Vector2Int>();
@@ -125,8 +127,7 @@ public class PollutionTypeController //maybe make this generic for a pollution t
                     }
                 }
                 if(isFree)
-                {
-                    //if((pollution?.Priority ?? -1) == 1) Debug.Log("adding free position for priority 1");
+                {                    
                     AddFreePosition(cell);                    
                 }
             }
@@ -157,7 +158,7 @@ public class PollutionTypeController //maybe make this generic for a pollution t
             {
                 cellIsOccupied = pollAtCell.Priority >= priority;
             }
-            if (!freePositions.Contains(position) && gridMap.IsWithinBounds(position) && !cellIsOccupied)//don't add if priority is wrong
+            if (!freePositions.Contains(position) && gridMap.IsWithinBounds(position) && !cellIsOccupied)
             {
                 AddFreePosition(position);
             }
@@ -202,9 +203,9 @@ public class PollutionTypeController //maybe make this generic for a pollution t
                 }
             }
         }
-        if (neighborsPollution) //also...  don't add it back if the priority thing is wrong... so... 
+        if (neighborsPollution) 
         {
-            AddFreePosition(cell); //get rid of this extra iteration, put it back into the above.  do update free after all inits
+            AddFreePosition(cell); 
         }
     }
 
@@ -225,18 +226,12 @@ public class PollutionTypeController //maybe make this generic for a pollution t
         }
         if (!freePosAtCell)
         {
-            //Debug.Log("removing free pos indicator");
             DebugTilemap.Instance.RemoveTile(cell);
         }
 
     }
     //--TIMING BASED METHODS FOR UPDATING POLLUTION STATE--//
-    //ok for adding pollution... but removing pollution is still spaghetti
-    //we should probably do something like marking the lower priority pollution and subsequently actually removing it.
-    //is it really vector2int that i want to remove or something like controller + vector2int?
-    //or even the pollution itself that is added or removed?
-    //bool check for tick
-
+   
     public bool CheckForTick()
     {
         spreadTimer += Time.deltaTime;
@@ -268,24 +263,6 @@ public class PollutionTypeController //maybe make this generic for a pollution t
         return retval;
     }
 
-    public void UpdateState(out List<Vector2Int> addedPositions, out List<Vector2Int> removedPositions)
-    {
-        addedPositions = null;
-        removedPositions = null;
-        spreadTimer += Time.deltaTime;
-        if(spreadTimer >= spreadPeriod)
-        {
-            addedPositions = new List<Vector2Int>();
-            spreadTimer -= spreadPeriod;
-            if (freePositions.Count > 0)
-            {
-                int position = UnityEngine.Random.Range(0, freePositions.Count);
-                AddPollution(freePositions[position]);
-                addedPositions.Add(freePositions[position]);
-            }
-        }
-        
-    }
 
     //--METHODS FOR ADDING AND REMOVING POLLUTION, CALLED BY THE TIMING BASED UPDATES--//
     public void RemovePollution(Pollution pollution)
@@ -306,10 +283,7 @@ public class PollutionTypeController //maybe make this generic for a pollution t
     {        
         return pollutionPrefab.PollutionData.Priority < (pollutionAtCell?.PollutionData?.Priority ?? 0);
     }
-
-    //i think it is OK to have the checks for priority and effect here.
-    //maybe just leave this as it is.  we are trying to add polution.  
-    // based on what we return, the pollution manager will decide what to do.
+    
     public Pollution AddPollution(Vector2Int cell)
     {        
         GameObject newGO = pollutionPool.GetGameObject();
