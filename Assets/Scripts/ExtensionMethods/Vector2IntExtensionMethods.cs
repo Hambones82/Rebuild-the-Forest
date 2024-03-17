@@ -36,4 +36,10 @@ public static class Vector2IntExtensionMethods
         }
         return neighborsInBounds;
     }
+
+    public static bool IsInBounds(this Vector2Int position, int width, int height)
+    {
+        if(position.x < 0 || position.y < 0 || position.x >= width || position.y >= height) { return false; }
+        return true;
+    }
 }

@@ -1,3 +1,7 @@
+//instead of solid everywhere, maybe lots of little puddles and they grow and join together...?
+
+//the joining affords "powers" to the joined puddles, meaning that game difficulty gets higher as it goes on.
+
 - let's get the sub-graphs thing going...  
 - make a data structure.  you can add new, query, and delete.  maybe we can simplify the normal union-find stuff and not add the make-set and union...
 - this would be because we can include the connections implicitly in the code, as we pretty much know what our graph structure will be.

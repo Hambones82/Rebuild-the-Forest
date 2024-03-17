@@ -1,0 +1,14 @@
+C:\Users\Josh\source\RebuildTheForest\Rebuild-the-Forest\Tests\Vector2GraphSetTest\Vector2GraphSetTest\obj\Debug\net6.0\Vector2GraphSetTest.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Josh\source\RebuildTheForest\Rebuild-the-Forest\Tests\Vector2GraphSetTest\Vector2GraphSetTest\obj\Debug\net6.0\Vector2GraphSetTest.AssemblyInfoInputs.cache
+C:\Users\Josh\source\RebuildTheForest\Rebuild-the-Forest\Tests\Vector2GraphSetTest\Vector2GraphSetTest\obj\Debug\net6.0\Vector2GraphSetTest.AssemblyInfo.cs
+C:\Users\Josh\source\RebuildTheForest\Rebuild-the-Forest\Tests\Vector2GraphSetTest\Vector2GraphSetTest\obj\Debug\net6.0\Vector2GraphSetTest.csproj.CoreCompileInputs.cache
+C:\Users\Josh\source\RebuildTheForest\Rebuild-the-Forest\Tests\Vector2GraphSetTest\Vector2GraphSetTest\bin\Debug\net6.0\Vector2GraphSetTest.exe
+C:\Users\Josh\source\RebuildTheForest\Rebuild-the-Forest\Tests\Vector2GraphSetTest\Vector2GraphSetTest\bin\Debug\net6.0\Vector2GraphSetTest.deps.json
+C:\Users\Josh\source\RebuildTheForest\Rebuild-the-Forest\Tests\Vector2GraphSetTest\Vector2GraphSetTest\bin\Debug\net6.0\Vector2GraphSetTest.runtimeconfig.json
+C:\Users\Josh\source\RebuildTheForest\Rebuild-the-Forest\Tests\Vector2GraphSetTest\Vector2GraphSetTest\bin\Debug\net6.0\Vector2GraphSetTest.dll
+C:\Users\Josh\source\RebuildTheForest\Rebuild-the-Forest\Tests\Vector2GraphSetTest\Vector2GraphSetTest\bin\Debug\net6.0\Vector2GraphSetTest.pdb
+C:\Users\Josh\source\RebuildTheForest\Rebuild-the-Forest\Tests\Vector2GraphSetTest\Vector2GraphSetTest\obj\Debug\net6.0\Vector2GraphSetTest.dll
+C:\Users\Josh\source\RebuildTheForest\Rebuild-the-Forest\Tests\Vector2GraphSetTest\Vector2GraphSetTest\obj\Debug\net6.0\refint\Vector2GraphSetTest.dll
+C:\Users\Josh\source\RebuildTheForest\Rebuild-the-Forest\Tests\Vector2GraphSetTest\Vector2GraphSetTest\obj\Debug\net6.0\Vector2GraphSetTest.pdb
+C:\Users\Josh\source\RebuildTheForest\Rebuild-the-Forest\Tests\Vector2GraphSetTest\Vector2GraphSetTest\obj\Debug\net6.0\Vector2GraphSetTest.genruntimeconfig.cache
+C:\Users\Josh\source\RebuildTheForest\Rebuild-the-Forest\Tests\Vector2GraphSetTest\Vector2GraphSetTest\obj\Debug\net6.0\ref\Vector2GraphSetTest.dll
