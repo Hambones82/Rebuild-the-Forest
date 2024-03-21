@@ -1,5 +1,14 @@
 #exclude test builds
 /Tests/**/*.dll
+/Tests/**/*.exe
+/Tests/**/*.json
+/Tests/**/*.cache
+/Tests/**/*.editorconfig
+/Tests/**/*.csproj*
+/Tests/**/*.props
+/Tests/**/*.targets
+
+
 
 
 #main directories
