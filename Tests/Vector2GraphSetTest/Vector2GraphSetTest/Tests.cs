@@ -3,7 +3,7 @@ InteractiveTestGraphSet();
 
 void InteractiveTestGraphSet()
 {
-    Vector2GraphSet graphSet = new Vector2GraphSet(10, 10);
+    Vector2GraphSet <char> graphSet = new Vector2GraphSet<char>(10, 10);
     string[]? tokens;
     string command;
     Console.Clear();
@@ -20,10 +20,10 @@ void InteractiveTestGraphSet()
         command = tokens[0];
         switch(command) {
             case "add":
-                graphSet.AddPosition(new UnityEngine.Vector2Int(Int32.Parse(tokens[1]), Int32.Parse(tokens[2])));
+                graphSet.AddValue(tokens[1][0], new UnityEngine.Vector2Int(Int32.Parse(tokens[2]), Int32.Parse(tokens[3])));                
                 break;
             case "rm":
-                graphSet.RemovePosition(new UnityEngine.Vector2Int(Int32.Parse(tokens[1]), Int32.Parse(tokens[2])));
+                graphSet.RemoveValue(new UnityEngine.Vector2Int(Int32.Parse(tokens[1]), Int32.Parse(tokens[2])));
                 break;
             case "fill":
                 int x1 = Int32.Parse(tokens[1]);
@@ -57,7 +57,7 @@ void TestGraphSetAdd()
     graphSet = new Vector2GraphSet(5, 1);
     Console.WriteLine(graphSet);
     */
-    Vector2GraphSet graphSet = new Vector2GraphSet(7, 10);    
+    Vector2GraphSet<char> graphSet = new Vector2GraphSet<char>(7, 10);    
     graphSet.AddPosition(new UnityEngine.Vector2Int(3, 3));        
     graphSet.AddPosition(new UnityEngine.Vector2Int(5, 3));
     graphSet.AddPosition(new UnityEngine.Vector2Int(6, 3));        

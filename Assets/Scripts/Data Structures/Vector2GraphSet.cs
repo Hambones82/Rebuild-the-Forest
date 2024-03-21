@@ -5,28 +5,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-//let's redo this whole thing with a row-by-row technique that we optimize with a hierarchical space partition
-
-public class Vector2GraphSet 
-{   
-    /*
-    private class Node
-    {
-        public Vector2Int position;
-        public int id;
-        public override int GetHashCode()
-        {
-            return position.GetHashCode();
-        }
-    }
-
-    private class ConnectedComponent
-    {
-        public HashSet<Vector2Int> nodes;
-        public int id;
-    }
-    */    
-
+public class Vector2GraphSet <T>
+{
+    private T[,] values;
+    //keep this class is... maybe just add a payload at each node...  so setting nodes on or off is separate from adding the payload
     private int[,] nodes; //shadows the dictionary - used for fast lookups
                           //stores the id of the connected component
     Dictionary<int, List<Vector2Int>> connectedComponents;
@@ -35,6 +17,20 @@ public class Vector2GraphSet
     UniqueIDProvider uniqueIDProvider;
     
 
+    public void AddValue(T value, Vector2Int position)
+    {
+        AddPosition(position);
+        values[position.x, position.y] = value;
+    }
+
+    public void RemoveValue(Vector2Int position)
+    {
+        RemovePosition(position);
+        values[position.x, position.y] = default(T);
+    }
+
+    public T GetValue(Vector2Int position) => values[position.x, position.y];    
+
     //also need a returnID function
 
     public Vector2GraphSet(int width, int height)
@@ -42,6 +38,7 @@ public class Vector2GraphSet
         this.width = width;
         this.height = height;
         nodes = new int[width, height];
+        values = new T[width, height];
         //initialize nodes to -1
         for (int i = 0; i < width; i++)
             for (int j = 0; j < height; j++)
@@ -84,7 +81,7 @@ public class Vector2GraphSet
 
     public void AddPosition(Vector2Int position)
     {
-        //if outside, return?
+        //if outside, return
         if(!position.IsInBounds(width, height))
         {
             throw new ArgumentOutOfRangeException($"{position} is not in range 0-{width}, 0-{height}");
@@ -92,7 +89,7 @@ public class Vector2GraphSet
         //get all neighbors that are in bounds
         List<Vector2Int> candidateNeighbors = position.GetNeighborsInBounds(width, height);
         List<Vector2Int> neighbors = new List<Vector2Int>();
-        //Console.WriteLine($"adding position {position}");
+        
         foreach(Vector2Int neighbor in candidateNeighbors)
         {
             //Console.WriteLine(neighbor);
@@ -129,14 +126,12 @@ public class Vector2GraphSet
         }
         int idToJoinTo = neighborComponentIDs.Min();
         neighborComponentIDs.Remove(idToJoinTo);
-        //ok i think the above is fine -- join to the lowest numbered neighbor.  but...
-        //we have to make sure to 
+        
         AddPositionToID(idToJoinTo, position);
 
         //perform union
         foreach(int idToJoin in neighborComponentIDs)
-        {
-            //Console.WriteLine($"joining {idToJoin} to {idToJoinTo}");
+        {        
             JoinComponents(idToJoinTo, idToJoin);
         }
     }
@@ -146,11 +141,6 @@ public class Vector2GraphSet
         List<Vector2Int> positionsToJoin = new List<Vector2Int>(connectedComponents[idToJoin]);
         foreach(Vector2Int positionToJoin in positionsToJoin)
         {
-            //Console.WriteLine($"adding position {positionToJoin}");
-            //Console.WriteLine($"baseID: {baseID}; idToJoin: {idToJoin}");            
-            //maybe an optimization is to have all nodes have the id of the connected component they belong to
-            //then we can just change the id of the connected component when they are joined...?
-            //but then would breaking them off be messy...?  maybe yes but it might still be faster?
             AddPositionToID(baseID, positionToJoin);            
         }
         ReturnConnectedComponent(idToJoin);
@@ -160,32 +150,21 @@ public class Vector2GraphSet
     {
         connectedComponents[id].Clear();
         uniqueIDProvider.ReturnID(id);
-        //Console.WriteLine($"returned component {id}");
     }
-    //need remove position...
-    //removing requires potentially splitting and thus getting a new ID...
-
-    //given a list of nodes to test for connectivity, keep in list if tey connect.  if they dno't connect, move them all to a 
-    //subsequent list, then repeat for that list.
-    //the result is all of the connected components.  for the first list, we keep as is, and create new sets (?) for the rest
-
-    //NEEDS TO BE FIXED - i think we are getting an error where there is a circular traversal of the graph...
+    
     public void RemovePosition(Vector2Int position)
     {
         if (!position.IsInBounds(width, height))
         {
             throw new ArgumentOutOfRangeException($"{position} is not in range 0-{width}, 0-{height}");
         }
-        int idOfRemoved = nodes[position.x, position.y];
-        //Console.WriteLine($"num entries in {idOfRemoved}: {connectedComponents[idOfRemoved].Count()}");
-        RemovePositionFromID(idOfRemoved, position);
-        //Console.WriteLine($"num entries in {idOfRemoved}: {connectedComponents[idOfRemoved].Count()}");
+        int idOfRemoved = nodes[position.x, position.y];        
+        RemovePositionFromID(idOfRemoved, position);        
         if (connectedComponents[idOfRemoved].Count == 0)
         {
             ReturnConnectedComponent(idOfRemoved);
             return;
-        }
-        //
+        }        
         List<Vector2Int> initialNeighbors = new List<Vector2Int>();
         foreach(Vector2Int pos in position.GetNeighborsInBounds(width, height))
         {
@@ -228,7 +207,7 @@ public class Vector2GraphSet
             splitComponents.Add(componentUnderConstruction);
                     
         }
-        //for each split component, create new components
+        //for each split component other than the first, create new components
         splitComponents.RemoveAt(0);
         foreach (List<Vector2Int> component in splitComponents)
         {
@@ -253,6 +232,11 @@ public class Vector2GraphSet
         {
             retval += $" {j.ToString("D2")} ";
         }
+        retval += "              ";
+        for (int j = 0; j < width; j++)
+        {
+            retval += $" {j.ToString("D2")} ";
+        }
         retval += "\n";
         for(int i = 0; i < height; i++)
         {
@@ -264,20 +248,20 @@ public class Vector2GraphSet
                 else retval += " " + nodes[j, i].ToString("D2");
                 retval += " ";
             }
-            retval += "\n";
-        }
-        /*
-        retval += "Connected components: \n";
-        foreach(KeyValuePair<int, List<Vector2Int>> componentPositions in connectedComponents)
-        {
-            retval += $"component {componentPositions.Key}: ";
-            foreach(Vector2Int position in componentPositions.Value)
+            retval += "          ";
+            retval += $" {i.ToString("D2")} ";
+            for (int j = 0; j < width; j++)
             {
-                retval += position + " ";
+                T valueToAdd = values[j, i];
+                string valueString = valueToAdd?.ToString() ?? " ";
+                char valueChar = valueString[0];
+                if (valueChar == '\0') valueChar = ' ';
+                string stringToAdd = "  " + valueChar + " ";
+                while (stringToAdd.Length < 4) stringToAdd += " ";
+                retval += stringToAdd;                                
             }
             retval += "\n";
-        }
-        */
+        }        
         return retval;
     }    
 }
