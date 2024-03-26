@@ -67,18 +67,18 @@ void TestSplotchGenerator()
 void TestMapGenerator() {
     var parameters = new SplotchParameters
     {
-        width = 80,
+        width = 40,
         height = 30,
         numCellsHorizontal = 4,
-        numCellsVertical = 4,
-        minSplotchRadius = 2,
-        maxSplotchRadius = 3,
+        numCellsVertical = 3,
+        minSplotchRadius = 3,
+        maxSplotchRadius = 8,
         borderWidth = 1,
-        splotchProbability = 0.8f,
+        splotchProbability = 0.5f,
         seed = 1000005
     };
 
-    bool[,] splotchMap;
+    SplotchMap splotchMap;
         
 
     PerformInteractiveTest((uint seed) =>
@@ -89,7 +89,20 @@ void TestMapGenerator() {
         {
             for (int x = 0; x < parameters.width; x++)
             {
-                Console.Write(splotchMap[x, y] ? '#' : '.');
+                char printValue = ' ';
+                switch(splotchMap.splotchValues[x,y])
+                {
+                    case SplotchMap.SplotchValue.Empty:
+                        printValue = ' ';
+                        break;
+                    case SplotchMap.SplotchValue.Occupied:
+                        printValue = '#';
+                        break;
+                    case SplotchMap.SplotchValue.SplotchCenter:
+                        printValue = '@';
+                        break;
+                }
+                Console.Write(printValue);
             }
             Console.WriteLine();
         }

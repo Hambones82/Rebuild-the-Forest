@@ -11,10 +11,12 @@ public class Vector2GraphSet <T>
     //keep this class is... maybe just add a payload at each node...  so setting nodes on or off is separate from adding the payload
     private int[,] nodes; //shadows the dictionary - used for fast lookups
                           //stores the id of the connected component
-    Dictionary<int, List<Vector2Int>> connectedComponents;
-
+    private Dictionary<int, List<Vector2Int>> connectedComponents;
+    public IReadOnlyDictionary<int, List<Vector2Int>> ConnectedComponents { get { return connectedComponents; } }
     private int width, height;
     UniqueIDProvider uniqueIDProvider;
+    private HashSet<int> dirtyIDs;
+    public IReadOnlyCollection<int> DirtyIDs { get { return dirtyIDs; } }
     
 
     public void AddValue(T value, Vector2Int position)
@@ -45,18 +47,28 @@ public class Vector2GraphSet <T>
                 nodes[i, j] = -1;        
         connectedComponents = new Dictionary<int, List<Vector2Int>>();        
         uniqueIDProvider = new UniqueIDProvider();
+        dirtyIDs = new HashSet<int>();
     }
 
     private void AddPositionToID(int id, Vector2Int position)
     {
+        int oldID = nodes[position.x, position.y];
+        if(oldID != -1)
+        {
+            connectedComponents[oldID].Remove(position);
+            dirtyIDs.Add(oldID);
+        }        
         nodes[position.x, position.y] = id;
         connectedComponents[id].Add(position);
+        dirtyIDs.Add(id);
     }
 
     //problem is vector2int is a class, should be a struct...
     private void RemovePositionFromID(int id, Vector2Int position)
     {
-        nodes[position.x, position.y] = -1;
+        dirtyIDs.Add(nodes[position.x, position.y]);
+        nodes[position.x, position.y] = -1;        
+        
         /*
         foreach(Vector2Int pos in connectedComponents[id])
         {
@@ -69,6 +81,8 @@ public class Vector2GraphSet <T>
         }
     }
 
+    public void ClearDirtyIDs() { dirtyIDs.Clear(); }
+
     private int GetNewID()
     {
         int newID = uniqueIDProvider.GetNewID();
@@ -79,7 +93,7 @@ public class Vector2GraphSet <T>
         return newID;
     }
 
-    public void AddPosition(Vector2Int position)
+    private void AddPosition(Vector2Int position)
     {
         //if outside, return
         if(!position.IsInBounds(width, height))
@@ -152,7 +166,7 @@ public class Vector2GraphSet <T>
         uniqueIDProvider.ReturnID(id);
     }
     
-    public void RemovePosition(Vector2Int position)
+    private void RemovePosition(Vector2Int position)
     {
         if (!position.IsInBounds(width, height))
         {

@@ -5,6 +5,32 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+public class SplotchMap
+{
+    public enum SplotchValue
+    {
+        Empty,
+        Occupied,
+        SplotchCenter
+    }
+    public uint width;
+    public uint height;
+    public SplotchValue[,] splotchValues;
+    public SplotchMap(uint width, uint height)
+    {
+        splotchValues = new SplotchValue[width, height];
+        this.width = width;
+        this.height = height;
+        for(int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                splotchValues[i, j] = SplotchValue.Empty;
+            }
+        }
+    }
+}
+
 public class SplotchParameters
 {
     public uint width;
@@ -28,17 +54,12 @@ public static class SplotchGenerator
         return (uint) (a * seed + c);
     }
 
-    public static bool[,] GenerateSplotchMap(SplotchParameters parameters)
-    {        
+    public static SplotchMap GenerateSplotchMap(SplotchParameters parameters)
+    {
         // Initialize the bitmap
-        bool[,] map = new bool[parameters.width, parameters.height];
-        for (int i = 0; i < parameters.width; i++)
-        {
-            for (int j = 0; j < parameters.height; j++)
-            {
-                map[i, j] = false;
-            }
-        }
+        //bool[,] map = new bool[parameters.width, parameters.height];
+        SplotchMap map = new SplotchMap(parameters.width, parameters.height);
+        
         bool[,] occupiedSplotchCells = new bool[parameters.numCellsHorizontal, parameters.numCellsVertical];
         for(int i = 0; i < parameters.numCellsHorizontal; i++)
         {
@@ -73,11 +94,17 @@ public static class SplotchGenerator
                             int ycoord = startPoint.y + footprintY;
                             if(xcoord < parameters.width && ycoord < parameters.height)
                             {
-                                bool pixel = footprint[footprintX, footprintY];                                
-                                map[xcoord, ycoord] = pixel;                                
+                                bool pixel = footprint[footprintX, footprintY];
+                                map.splotchValues[xcoord, ycoord] = pixel ? SplotchMap.SplotchValue.Occupied 
+                                                                    : SplotchMap.SplotchValue.Empty;                                
                             }
                         }
                     }
+                    //add a center to the splotch
+                    int centerX = (int)(startPoint.x + randomRadius);
+                    int centerY = (int)(startPoint.y + randomRadius);
+                    if(centerX >= 0 && centerX < parameters.width && centerY >= 0 && centerY < parameters.height)
+                        map.splotchValues[centerX, centerY] = SplotchMap.SplotchValue.SplotchCenter;
                 }
             }
         }

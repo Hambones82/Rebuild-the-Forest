@@ -6,5 +6,5 @@ public class MouseoverInfo : MonoBehaviour
 {
     [SerializeField]
     private string text;
-    public string Text { get => text; }
+    public virtual string Text { get => text; }
 }

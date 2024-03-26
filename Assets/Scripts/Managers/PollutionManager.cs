@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEditor.Experimental.GraphView;
 
 public class PollutionEventInfo
 {
@@ -144,7 +145,7 @@ public class PollutionManager : MonoBehaviour
         foreach (PollutionTypeController controller in pollutionControllers)
         {
             //do the checks for "if it's this controller here" instead of in type
-            controller.RemovePollution(pollution);
+            controller.RemovePollution(pollution, pollutionPosition);
         }
         foreach(PollutionTypeController controller in pollutionControllers)
         {
@@ -153,12 +154,24 @@ public class PollutionManager : MonoBehaviour
         OnPollutionDead?.Invoke(pollutionPosition);
     }
 
+    public int GetGraphID(Vector2Int cell)
+    {
+        foreach(PollutionTypeController controller in pollutionControllers)
+        {
+            if(controller.GetPollutionAt(cell) != null)
+            {
+                return controller.GetGraphID(cell);
+            }
+        }
+        return -1;
+    }
+
     public void RemovePollutionSoft(Pollution pollution)
     {
         Vector2Int pollutionPosition = pollution.GetComponent<GridTransform>().topLeftPosMap;
         foreach (PollutionTypeController controller in pollutionControllers)
         {
-            controller.RemovePollution(pollution);
+            controller.RemovePollution(pollution, pollutionPosition);
         }
         foreach (PollutionTypeController controller in pollutionControllers)
         {

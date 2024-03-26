@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 332257860741888898}
   - component: {fileID: 8599265402863292950}
   - component: {fileID: 2455998378417550799}
-  - component: {fileID: 1832710032}
+  - component: {fileID: -1580522872824619500}
   m_Layer: 0
   m_Name: GroundPollution
   m_TagString: Untagged
@@ -72,6 +72,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pollutionManager: {fileID: 0}
+  pTypeController:
+    pollutionManager: {fileID: 0}
+    freePositions: []
+    gridMap: {fileID: 0}
+    pollutionPrefab: {fileID: 0}
+    pollutionSourcePrefab: {fileID: 0}
+    spreadPeriod: 0
+    priority: 0
+    freeZoneWidth: 0
+    pollutionSources: []
   _pollutionData: {fileID: 11400000, guid: 721458d2ec833c94e84dd31f7153c905, type: 2}
   pollutionEffects:
   - {fileID: 11400000, guid: 4cc8eafe972c8864e9d3f4bf8ae8d54a, type: 2}
@@ -153,7 +163,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   selectorImagePrefab: {fileID: 1421310361321870, guid: 167a8cae2e53cb848864ab7e135d74cd, type: 3}
---- !u!114 &1832710032
+--- !u!114 &-1580522872824619500
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,7 +172,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 13236803302261735}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c94a57efe13520b4abe031fcaf17acb9, type: 3}
+  m_Script: {fileID: 11500000, guid: 18ca489b12376f24d83f26e3d2ce7f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   text: Pollution

@@ -6,7 +6,19 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 [System.Serializable]
 public class PollutionTypeController 
-{    
+{   
+    private class PollutionGroup
+    {
+        public int collectionID;
+        public List<PollutionSource> sources;
+        public Color debugDisplayColor;
+        public PollutionGroup()
+        {            
+            sources = new List<PollutionSource>();
+            debugDisplayColor = UnityEngine.Random.ColorHSV();
+        }
+    }
+    Dictionary<int, PollutionGroup> pGroups = new Dictionary<int, PollutionGroup>();
     [SerializeField]
     protected PollutionManager pollutionManager;
 
@@ -21,11 +33,14 @@ public class PollutionTypeController
     [SerializeField]
     protected Pollution pollutionPrefab;
     public Pollution PollutionPrefab { get => pollutionPrefab; }
-    
-
-
     [SerializeField]
-    protected List<Pollution> pollutionObjects = new List<Pollution>();
+    protected PollutionSource pollutionSourcePrefab;
+    public PollutionSource PollutionSourcePrefab { get => pollutionSourcePrefab; }
+
+
+    //[SerializeField]
+    //protected List<Pollution> pollutionObjects = new List<Pollution>();
+    private Vector2GraphSet<Pollution> pollutionObjects;    
 
     protected GameObjectPool pollutionPool;
     
@@ -40,7 +55,15 @@ public class PollutionTypeController
     [SerializeField]
     private int freeZoneWidth;
 
+    [SerializeField]
+    private List<PollutionSource> pollutionSources;
+
     
+    public int GetGraphID(Vector2Int cell)
+    {
+        return pollutionObjects.GetGraphID(cell);
+    }
+
     //--INITIALIZATION METHODS--//
     public void Initialize(GridMap inGridMap, PollutionManager inPollutionManager)
     {
@@ -49,7 +72,10 @@ public class PollutionTypeController
         pollutionPool = new GameObjectPool(pollutionPrefab.gameObject, parentObj: gridMap.gameObject, activeByDefault: false);
         priority = pollutionPrefab.PollutionData.Priority;
         pollutionMap = gridMap.GetMapOfType(MapLayer.pollution);
-        freePositions = new List<Vector2Int>();        
+        freePositions = new List<Vector2Int>();  
+        pollutionObjects = new Vector2GraphSet<Pollution>(gridMap.width, gridMap.height);
+        pollutionSources = new List<PollutionSource>();
+        pGroups = new Dictionary<int, PollutionGroup>();
     }
 
     //let's store a disjoint set with deletions data structure for keeping track of the connected sets of pollution
@@ -58,24 +84,51 @@ public class PollutionTypeController
     public void InitializePollutionState()
     {
         List<Vector2Int> pollutionsToAdd = new List<Vector2Int>();
+        SplotchParameters splotchParameters = new SplotchParameters
+        {
+            width = (uint)GridMap.Current.width,
+            height = (uint)GridMap.Current.height,
+            numCellsHorizontal = 5,
+            numCellsVertical = 5,
+            minSplotchRadius = 4,
+            maxSplotchRadius = 7,
+            splotchProbability = .8f,
+            seed = (uint)(Random.Range(0f, 1f) * 10000)
+        };
+        SplotchMap splotchMap = SplotchGenerator.GenerateSplotchMap(splotchParameters);
         for (int y = 0; y < gridMap.height; y++)
         {
             if(y < (gridMap.height - freeZoneWidth) / 2 || y > (gridMap.height + freeZoneWidth) / 2)
             {
                 for (int x = 0; x < gridMap.width; x++)
                 {
-                    pollutionsToAdd.Add(new Vector2Int(x, y));
+                    SplotchMap.SplotchValue splotchValue = splotchMap.splotchValues[x, y];
+                    if (splotchValue != SplotchMap.SplotchValue.Empty)
+                    {
+                        pollutionsToAdd.Add(new Vector2Int(x, y));
+                    }                        
                 }
             }
             else
             {
                 for (int x = 0; x < (gridMap.width - freeZoneWidth) / 2; x++)
                 {
-                    pollutionsToAdd.Add(new Vector2Int(x, y));
+                    SplotchMap.SplotchValue splotchValue = splotchMap.splotchValues[x, y];
+                    if (splotchValue != SplotchMap.SplotchValue.Empty)
+                    {
+                        pollutionsToAdd.Add(new Vector2Int(x, y));
+
+                    }
+                        
                 }
                 for (int x = (gridMap.width + freeZoneWidth) / 2; x < gridMap.width; x++)
                 {
-                    pollutionsToAdd.Add(new Vector2Int(x, y));
+                    SplotchMap.SplotchValue splotchValue = splotchMap.splotchValues[x, y];
+                    if (splotchValue != SplotchMap.SplotchValue.Empty)
+                    {
+                        pollutionsToAdd.Add(new Vector2Int(x, y));
+                    }
+                        
                 }
             }            
         }
@@ -85,18 +138,88 @@ public class PollutionTypeController
             Pollution existing = GetPollutionAt(cell);
             if(existing == null)
             {                
-                AddPollution(cell);
-                continue;
+                AddPollution(cell);                
             }
             
-            if(existing.Priority < priority)
+            else if(existing.Priority < priority)
             {
-                existing.pTypeController.RemovePollution(existing);
-                AddPollution(cell);        
-            }            
+                existing.pTypeController.RemovePollution(existing, cell);
+                AddPollution(cell);
+            }
+            
+            if (splotchMap.splotchValues[cell.x, cell.y] == SplotchMap.SplotchValue.SplotchCenter)
+            {                
+                PollutionSource pollutionSource = 
+                    GameObject.Instantiate(pollutionSourcePrefab, GridMap.Current.transform);
+                pollutionSource.GetComponent<GridTransform>().MoveToMapCoords(cell);
+                pollutionSources.Add(pollutionSource);
+
+            }
+            
         }
+
+        //bug: newly added pollution not getting proper color.
+        //bug: colors flashing back and forth, no idea why...
+
+        //problem is that initialization tries to access pgroups before we actually create pgroups...
+        //probably addpollution should check if the dictionary element exists and then create it if not...
+
+        //???
+        //initialize the pollution groups...
+        
+        //this lookup should probably be the main data structure - groups are looked up by their ID in the connected components 
+        
+        foreach (var component in pollutionObjects.ConnectedComponents)
+        {
+            //i could somehow link the groups to the connected components but that feels VERY gross...
+            //but uhh... why don't we just link the groups to the group IDs?  that makes more sense...
+            
+            foreach(Vector2Int pos in component.Value)
+            {
+                DebugTilemap.Instance.AddTile(pos, pGroups[component.Key].debugDisplayColor);
+            }
+        }
+
+
+        //ISSUE -- appears to be the debug tile map, not the group ID.  possible to do w the dictionary that's in this class...
+
+        //for each source, add it to the appropriate group (if the position has a group in the connected components... if not,
+        //need a new group.
+
+
+
+
+
+        //then... at some point we need to make sure to appropriately modify the colors when the components are joined and unjoined
+
+
+
+        //add the connected components thing.  let's do a debug visualizer for this.
+
+        //so...  we need to somehow identify connected components of pollution with the pollution sources that go with it.
+        //so for one thing, we need to make pollution source - give it effects - make those effects transfer to pollution.
+
+        //so maybe the algo is... generate the splotch map.
+        //label connected components
+        //generate a pollution source for each connectedc component.  assign each to one of the squares of a corresponding
+        //connected component
+
+        //doing this needs to add the effects of the pollution source to all pollutions of the connected component.  
+        //this part may or may not be part of this initial function.
+        //for example, we might have the effect contribution occur automatically as a result of adding the source
+        //alternatively we might want to use custom functionality in this initializer to add the effects upon addition of 
+        //connected component.
+        //one option would be to, upon creation of pollution source, find associated connected component, and add the effects to all
+        //that might be the best option - so let something else handle the effects.
+        //map gen will just be... identify connected components, generate a source for each, add each source to map
+
+
+        //then we need to determine the connected components,
+        //then add the sources to each component
+        //and, outside of this method, we need to control the pollutions to have the properties of the sources...
     }
 
+   
     public void RecalculateFreePositions()
     {   
         for(int i = freePositions.Count - 1; i >= 0; i--)
@@ -224,7 +347,8 @@ public class PollutionTypeController
         {
             if (controller.FreePositions.Contains(cell)) freePosAtCell = true;
         }
-        if (!freePosAtCell)
+        if (!freePosAtCell && pollutionObjects.GetValue(cell) == null)//the second clause here is buggy...  
+                                                                      //this whole thing is kind of f'ed...
         {
             DebugTilemap.Instance.RemoveTile(cell);
         }
@@ -265,13 +389,45 @@ public class PollutionTypeController
 
 
     //--METHODS FOR ADDING AND REMOVING POLLUTION, CALLED BY THE TIMING BASED UPDATES--//
-    public void RemovePollution(Pollution pollution)
+    public void RemovePollution(Pollution pollution, Vector2Int cell)
     {
         if(pollution.pTypeController == this)
         {
-            pollutionObjects.Remove(pollution);
-            pollutionPool.RecycleObject(pollution.gameObject);            
+            pollutionObjects.RemoveValue(cell);            
+            pollutionPool.RecycleObject(pollution.gameObject);
+            DebugTilemap.Instance.RemoveTile(cell);
+            foreach(int pGroupID in pollutionObjects.DirtyIDs)
+            {
+                UpdatePGroupProperties(pGroupID);
+            }
+            pollutionObjects.ClearDirtyIDs();
         }
+    }
+
+    private void UpdatePGroupProperties(int pGroupID)
+    {
+        PollutionGroup pgroup;
+        if(!pGroups.TryGetValue(pGroupID, out var pGroup))
+        {
+            pgroup = new PollutionGroup();
+            pgroup.collectionID = pGroupID;
+            pGroups.Add(pGroupID, pgroup);
+        }
+        else
+        {
+            pgroup = pGroups[pGroupID];
+        }        
+        List<Vector2Int> cells = pollutionObjects.ConnectedComponents[pgroup.collectionID];
+        if (cells.Count == 0)
+        {
+            pGroups.Remove(pGroupID);
+            return;
+        }
+        foreach (Vector2Int cell in cells)
+        {
+            DebugTilemap.Instance.AddTile(cell, pGroups[pGroupID].debugDisplayColor);
+        }
+        
     }
 
     public bool BlockedByEffect(Vector2Int cell)
@@ -291,10 +447,16 @@ public class PollutionTypeController
         newGO.SetActive(true);
         Pollution newPollution = newGO.GetComponent<Pollution>();
         newPollution.pTypeController = this;
-        pollutionObjects.Add(newPollution);
+        pollutionObjects.AddValue(newPollution, cell);
         newPollution.PollutionManager = this.pollutionManager;
-        newPollution.SetAmount(newPollution.MaxAmount);        
-            
+        newPollution.SetAmount(newPollution.MaxAmount);
+
+        foreach (int pGroupID in pollutionObjects.DirtyIDs)
+        {
+            UpdatePGroupProperties(pGroupID);
+        }
+        pollutionObjects.ClearDirtyIDs();
+
         return newPollution;        
     }
 }
