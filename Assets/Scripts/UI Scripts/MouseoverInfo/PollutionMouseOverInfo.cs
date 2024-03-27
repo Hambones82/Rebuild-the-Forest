@@ -10,8 +10,8 @@ public class PollutionMouseOverInfo : MouseoverInfo
         {
             //the group id
             Vector2Int pos = GetComponent<GridTransform>().topLeftPosMap;
-            string retval = base.Text;
-            retval += $"pollution group: {PollutionManager.Instance.GetGraphID(pos)}\n";
+            string retval = "";
+            retval += $"pollution group: {PollutionManager.Instance.GetGraphID(pos)}";
             return retval;
         }
     }

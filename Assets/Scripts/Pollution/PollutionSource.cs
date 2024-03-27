@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class PollutionSource : MonoBehaviour
 {
-    
+    private void OnDisable()
+    {
+        PollutionManager.Instance.NotifyOfSourceDeletion(this);
+    }
 }

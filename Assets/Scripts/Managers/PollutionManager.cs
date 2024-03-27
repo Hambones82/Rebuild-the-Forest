@@ -179,6 +179,14 @@ public class PollutionManager : MonoBehaviour
         }
     }
 
+    public void NotifyOfSourceDeletion(PollutionSource source)
+    {
+        foreach(PollutionTypeController controller in pollutionControllers)
+        {
+            controller.NotifyOfSourceDeletion(source);
+        }
+    }
+
     public bool IsEffectAtCell(Vector2Int cell, PollutionEffect effect)
     {
         foreach (GridTransform gt in GridMap.Current.GetObjectsAtCell(cell, MapLayer.pollution))

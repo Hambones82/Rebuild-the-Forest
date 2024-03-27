@@ -1,76 +1,15 @@
-//instead of solid everywhere, maybe lots of little puddles and they grow and join together...?
+--> we destroy the pollution source but the pollution manager still has a ref to it...
+--> need like an on psource destroy and get rid of reference...
 
-//the joining affords "powers" to the joined puddles, meaning that game difficulty gets higher as it goes on.
-
-- let's get the sub-graphs thing going...  
-- make a data structure.  you can add new, query, and delete.  maybe we can simplify the normal union-find stuff and not add the make-set and union...
-- this would be because we can include the connections implicitly in the code, as we pretty much know what our graph structure will be.
-
-- tbh... i don't think it's that hard to do the above...  the union-find data structure doesn't seem to even care about graph structure, since what goes into it is just the connections anyway.
-
-- so what we'll do is just first create the data structure... maybe with some sort of visualizer for debugging?  alternatively we could try to do it in our game and have a debugging visualizer tilemap... maybe this thing will have like arrows to children or something...  and then maybe colors for which network the things are connected to?
-
-- so...  i think we'll have to limit the communication thing to the same type of poll.
-- at any rate, the data structure will look the same regardless of that aspect.
-- so let's just make the data structure
+--> so the first thing we need to do is...  get the sources to have effects, and then...  add them to the pollutions based on the pollution sources.
+--> so importantly we need to make sure we actually have the pollution sources in the pgroup
 
 
+NEW IDEA: PLAYER CAN ADD EFFECTS TO PUDDLES -> COOL IDEA I THINK.
+-- maybe: THAT'S WHAT THE PLAYER LEVELING UP IS GOOD FOR?!!!  PLAYER LEVEL UP TURNS INTO POLL ADJACENT BUILDING THING. --> ROOTS can extend this effect...
+--> this is a perfect idea because it gives you a trump card...
+--> would still need "reversibility" to some aspect of building creation so that making advanced unit into building doesn't just sap all of your abilities?
 
-- maybe the stuff communicates through any pollution, not just of the same type...?
-
-- bc what i'm thinking is... if we do this cutoff from source thing, then why wouldn't the player just make big cuts in the pollution to get to the end...  
-- maybe instead of sources, we want like... mass.  growth rate is related to mass.  small masses have very small growth rate.  high mass has very high growth rate.  i think this is a decent idea...  but still complicated to implement...
-
-- now to do the cutoff...  
-- so... to do the cutoff, we need to start with pollution source...  
-- probably need to change the "discoverable," "drop," etc
-- instead, we need to 
-
-- the UI thing here should be a separate component on the pollution manager which should iterate through all its contents and see if there are any free positions there, when a change occurs...
-
-- so the connectivity graph would be...  separate from the free positions thing but also would need to update the free positions.
-
-- so the cutoff thing...  need to figure out which pieces of the puzzle are affected...
-	- i think the "updatefreepositionsforaddition" and same for removal -- these can be used to update the connectivity graph
-	- we can also use the initializefreepositions (or whatever) to initialize this graph... this would happen after we generate all of the pollutions
-	- 
-- i think the main thing is gonna be...  the graph coloring idea... each pollution needs to indicate it belongs to a graph color
-- then we need to do the check to see 
-
-- let's try to implement 
-
-- ok, yes, bringing the pollution in much closer feels like more of a game.  i like this...  let's see if we can get this feeling going...
-- do that plus the cut off thing -- could be quite interesting...  let's IMPLEMENT THE CUT OFF
-- fun thing about cut off is it can also be ...?  not sure what i was gonna say.  definitely do cut off
-
-- then... while you're digging you can come across hazards...  that can also be interesting...
-
-- bring the poll in much closer?
-- the othe rpossibility is just to spawn in all these things randomly onto the map and then theyll be covered by th poll
-- start with multiple au's.  make the dead trees uncoverable from pollution.
-- drop tables cannot drop buildings onto already buildings
-- change "discoverable manager" to just a component for the pollution...  just a drop table
-
-feels better w drop rate turned down.  try "CUT OFF" removes pollution growth
-
-- try turning down the drop rate for fuel...
-
-- pollution over buildings - weird bug...  
-
-- feeling - forest is... almost overcome until you win...
-
-- maybe the tree allows cleaning and the tree body/roots provide shield???
-- maybe the shields are plants you pick up... you need to plant them on roots, and they consume the fuel of the tree?
-- so would it be like... a "blank" tree or something?  
-- let's try setting the shield thing to be MUCH more fuel efficient than digging.  then shield might actually be useful...
-- yes, i think this might be a very good idea...
-- cut down dead trees into logs?  honestly i really like the roots idea - i think we should really try to get that going...
-
-- maybe the next step is to lean into the "stats get you buildings" thing.  in one example, cleaning a lot of stuff gets you to be able to build a cleaner building.  these guys can clean into a particular direction, based on roots...
-
-- i really think there just needs to be hazards and random drops.
-
-- OK... so maybe this basic game loop is sufficient for now
 - i think the next thing has to be to give the map interesting stuff.  hazards, stuff to find, etc...  
 - make opening those dead trees difficult???
 - other hazards/risk-to-reward...?

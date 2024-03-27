@@ -153,7 +153,7 @@ public class PollutionTypeController
                     GameObject.Instantiate(pollutionSourcePrefab, GridMap.Current.transform);
                 pollutionSource.GetComponent<GridTransform>().MoveToMapCoords(cell);
                 pollutionSources.Add(pollutionSource);
-
+                //also add to pgroup.sources???
             }
             
         }
@@ -418,16 +418,73 @@ public class PollutionTypeController
             pgroup = pGroups[pGroupID];
         }        
         List<Vector2Int> cells = pollutionObjects.ConnectedComponents[pgroup.collectionID];
-        if (cells.Count == 0)
+        
+
+        //maybe... find all the sources that are affected, adjust as appropriate?
+        List<PollutionSource> sourcesThatShouldBeInPGroup = new List<PollutionSource>();
+        List<PollutionSource> sourcesThatShouldBeRemovedFromPGroup = new List<PollutionSource>();
+        foreach (PollutionSource psource in pollutionSources)
         {
-            pGroups.Remove(pGroupID);
-            return;
+            Vector2Int psourcePos = psource.GetComponent<GridTransform>().topLeftPosMap;
+            if(pollutionObjects.GetGraphID(psourcePos) == pGroupID)
+            {
+                sourcesThatShouldBeInPGroup.Add(psource);
+            }
+            else if (pGroups[pGroupID].sources.Contains(psource))
+            {
+                sourcesThatShouldBeRemovedFromPGroup.Add(psource);
+            }
         }
+        foreach(PollutionSource psource in sourcesThatShouldBeInPGroup)
+        {
+            AddSourceToGroup(psource, pGroupID);
+        }
+        foreach(PollutionSource psource in sourcesThatShouldBeRemovedFromPGroup)
+        {
+            RemoveSourceFromGroup(psource, pGroupID);
+        }
+
         foreach (Vector2Int cell in cells)
         {
             DebugTilemap.Instance.AddTile(cell, pGroups[pGroupID].debugDisplayColor);
         }
-        
+
+        if (cells.Count == 0)
+        {
+            pGroups.Remove(pGroupID);            
+        }
+    }
+
+    public void NotifyOfSourceDeletion(PollutionSource psource)
+    {
+        Vector2Int psourcePos = psource.GetComponent<GridTransform>().topLeftPosMap;
+        foreach(var group in pGroups)
+        {
+            if(group.Value.sources.Contains(psource))
+            {
+                RemoveSourceFromGroup(psource, group.Key);
+            }
+        }
+        pollutionSources.Remove(psource);
+    }
+
+    private void RemoveSourceFromGroup(PollutionSource psource, int groupID)
+    {
+        pGroups[groupID].sources.Remove(psource);
+    }
+
+    private void AddSourceToGroup(PollutionSource psource, int groupID)
+    {
+        pGroups[groupID].sources.Add(psource);
+    }
+
+    public int GetPSourceGroupID(PollutionSource psource)
+    {
+        foreach(var p in pGroups)
+        {
+            if(p.Value.sources.Contains(psource)) return p.Key;
+        }
+        return -1;
     }
 
     public bool BlockedByEffect(Vector2Int cell)
