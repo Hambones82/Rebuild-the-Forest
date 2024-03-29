@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 
 public class PollutionEventInfo
@@ -186,6 +187,19 @@ public class PollutionManager : MonoBehaviour
             controller.NotifyOfSourceDeletion(source);
         }
     }
+    public int GetPSourceGroupID(PollutionSource psource)
+    {        
+        foreach(PollutionTypeController controller in pollutionControllers)
+        {
+            int currentRetVal = controller.GetPSourceGroupID(psource);
+            if (currentRetVal == -1)
+            {
+                continue;
+            }
+            else return currentRetVal;
+        }
+        return -1;
+    }
 
     public bool IsEffectAtCell(Vector2Int cell, PollutionEffect effect)
     {
@@ -194,7 +208,7 @@ public class PollutionManager : MonoBehaviour
             Pollution subjectPol = gt.GetComponent<Pollution>();
             if (subjectPol != null)
             {
-                if (subjectPol.pollutionEffects.Contains(effect))
+                if (subjectPol.PollutionEffects.Contains(effect))
                 {
                     return true;
                 }

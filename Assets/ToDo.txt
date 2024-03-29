@@ -1,6 +1,42 @@
---> we destroy the pollution source but the pollution manager still has a ref to it...
---> need like an on psource destroy and get rid of reference...
+- the effects can have one of a variety of types.
+- on add effect (maybe spawn a map effect)...
+- continuous? on-unit-update? (e.g., damage)
+- on unit enter? <-- not necessary - already have map effects
+- on unit exit? <-- not necessary - already have map effects
+- on pollution clean start?
+- on pollution clean successfully?
+- notify effect???  (how...?
+- some of these are pretty easy...
 
+- i think the biggest thing is just...  don't try to fit a square peg in a round hole
+- if we need an "is blocked" just make it that, don't make it abstract.  "is blocked" is fine.  
+lets do these i guess?
+
+-- so for each effect... then can put data and code on that so...
+
+
+
+
+
+
+
+-- so maybe the new architecture will be something like...
+pollution has some basic info plus a list of pollution effects.
+
+perhaps each pollution effect has a type.
+then, whatever needs to know about the pollution effect can just query whether the pollution has it...
+
+- so for example we could have a cleanable modification type that indicates requirements for it to be cleanable.
+- we could have a damages guy effect type that adds a map effect when the p-effect is added or spawns...
+
+
+
+-- so the main thing i think we need to do is...  impart effects to the pollution.  those effects can themselves do their own things...
+
+-- ok... i need to rework pollution to a large degree because it looks stupid...
+-- pollution and pollution data both exist and they seem to pretty unintelligently split responsibilities.
+
+--> yes next is to have the psources have effects and impart them to their pollution...
 --> so the first thing we need to do is...  get the sources to have effects, and then...  add them to the pollutions based on the pollution sources.
 --> so importantly we need to make sure we actually have the pollution sources in the pgroup
 

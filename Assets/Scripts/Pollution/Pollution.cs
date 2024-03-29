@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class Pollution : MonoBehaviour
 {
@@ -19,9 +20,8 @@ public class Pollution : MonoBehaviour
     public int Priority { get => _pollutionData.Priority; }
 
     [SerializeField]
-    public List<PollutionEffect> pollutionEffects;
-
-    private SpriteRenderer spriteRenderer;
+    private List<PollutionEffect> pollutionEffects;
+    public IReadOnlyList<PollutionEffect> PollutionEffects { get => pollutionEffects; }
 
     [SerializeField]
     private float maxAmount = 100;
@@ -37,8 +37,7 @@ public class Pollution : MonoBehaviour
     public UnityEvent OnDisableEvent;
 
     private void Awake()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+    {        
         SetAmount(maxAmount);
     }
 

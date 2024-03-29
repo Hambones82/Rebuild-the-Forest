@@ -18,10 +18,7 @@ public class PollutionData : ScriptableObject
     [SerializeField]
     private int _priority;
     public int Priority { get => _priority; }
-    //a/t else?
-    
-    [SerializeField]
-    public List<PollutionEffect> pollutionEffects;
+    //a/t else?    
     
     public bool IsBlockedByEffect(Vector2Int cell)
     {

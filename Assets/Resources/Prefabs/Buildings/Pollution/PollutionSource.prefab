@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 114058856135367282}
   - component: {fileID: 4293550278123150882}
   - component: {fileID: -1624341172727737937}
+  - component: {fileID: 4252009725610246823}
   m_Layer: 0
   m_Name: PollutionSource
   m_TagString: Untagged
@@ -32,6 +33,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -47,6 +49,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -172,6 +175,7 @@ MonoBehaviour:
   _killActorUnit: 0
   _itemRequiredToBuild: 0
   _requiredItem: {fileID: 0}
+  _requiredItemAmount: 0
 --- !u!114 &4293550278123150882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,3 +203,16 @@ MonoBehaviour:
   _operateTimer: 0
   _operateTimerTrigger: 2
   _continuous: 0
+--- !u!114 &4252009725610246823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030047143314608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf7d53a59a492e447a14cc2b0cb3e134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: 

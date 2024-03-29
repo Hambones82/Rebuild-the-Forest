@@ -6,7 +6,8 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 [System.Serializable]
 public class PollutionTypeController 
-{   
+{
+    [System.Serializable]
     private class PollutionGroup
     {
         public int collectionID;
@@ -475,7 +476,11 @@ public class PollutionTypeController
 
     private void AddSourceToGroup(PollutionSource psource, int groupID)
     {
-        pGroups[groupID].sources.Add(psource);
+        List<PollutionSource> sources = pGroups[groupID].sources;
+        if(!sources.Contains(psource))
+        {
+            pGroups[groupID].sources.Add(psource);
+        }        
     }
 
     public int GetPSourceGroupID(PollutionSource psource)
@@ -486,7 +491,7 @@ public class PollutionTypeController
         }
         return -1;
     }
-
+    
     public bool BlockedByEffect(Vector2Int cell)
     {
         return pollutionPrefab.PollutionData.IsBlockedByEffect(cell);
