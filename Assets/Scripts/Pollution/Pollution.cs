@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Linq;
 
 public class Pollution : MonoBehaviour
 {
@@ -40,54 +41,42 @@ public class Pollution : MonoBehaviour
 
     public bool IsCleanable(Vector2Int cell)
     {        
-        foreach(var effect in pollutionEffects)
-        {
-            if(effect is IPollutionCleanable cleanableEffect)
+        foreach(var cleanableEffect in pollutionEffects.OfType<IPollutionCleanable>())
+        {            
+            if(!cleanableEffect.IsCleanable(cell))
             {
-                if(!cleanableEffect.IsCleanable(cell))
-                {
-                    return false;
-                }
-            }
+                return false;
+            }            
         }
         return true;
     }
 
     public void OnClean()
     {
-        foreach(var effect in pollutionEffects)
-        {
-            if(effect is IPollutionCleanable cleanableEffect)
-            {
-                cleanableEffect.OnClean(GetComponent<GridTransform>().topLeftPosMap); //COME BACK HERE!!!
-            }
+        foreach(var cleanableEffect in pollutionEffects.OfType<IPollutionCleanable>())
+        {    
+            cleanableEffect.OnClean(GetComponent<GridTransform>().topLeftPosMap); //COME BACK HERE!!!            
         }
     }
 
     public bool IsSpawnBlocked(Vector2Int cell)
     {        
-        foreach(var effect in pollutionEffects)
-        {
-            if(effect is IPollutionSpawnBlock blocker)
+        foreach(var blocker in pollutionEffects.OfType<IPollutionSpawnBlock>())
+        {            
+            if(blocker.BlocksPollutionGrowth(cell))
             {
-                if(blocker.BlocksPollutionGrowth(cell))
-                {
-                    return true;
-                }
-            }
+                return true;
+            }            
         }
         return false;
     }
 
     public void OnSpawnBlocked(Vector2Int cell)
-    {
-        foreach(var effect in pollutionEffects)
+    {        
+        foreach (var blocker in pollutionEffects.OfType<IPollutionSpawnBlock>())
         {
-            if(effect is IPollutionSpawnBlock blocker)
-            {
-                blocker.OnSpawnBlocked(cell);
-            }
-        }
+            blocker.OnSpawnBlocked(cell);
+        }        
     }
 
     private void Awake()
@@ -97,7 +86,7 @@ public class Pollution : MonoBehaviour
 
     private void OnEnable()
     {
-        foreach(PollutionEffect effect in pollutionEffects)
+        foreach(IPollutionOnSpawn effect in pollutionEffects.OfType<IPollutionOnSpawn>())
         {
             effect.OnSpawn(this);
         }
@@ -129,7 +118,7 @@ public class Pollution : MonoBehaviour
             OnDisableEvent.Invoke();
             OnDisableEvent.RemoveAllListeners();
         }
-        foreach (PollutionEffect effect in pollutionEffects)
+        foreach (IPollutionOnDeath effect in pollutionEffects.OfType<IPollutionOnDeath>())
         {
             effect.OnDeath(this);
         }

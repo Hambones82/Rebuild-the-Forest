@@ -7,8 +7,5 @@ public class DamageEffect : PollutionEffect
 {
     [SerializeField]
     private float _damageAmount;
-    public float DamageAmount { get => _damageAmount; }
-    public override void OnDeath(Pollution pollution) { }
-
-    public override void OnSpawn(Pollution pollution) { }
+    public float DamageAmount { get => _damageAmount; }    
 }

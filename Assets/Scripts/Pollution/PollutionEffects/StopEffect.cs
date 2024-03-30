@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "StopPollutionEffect", menuName = "ScriptableObjects/Types/PollutionEffects/Stop Effect")]
-public class StopEffect : PollutionEffect
+public class StopEffect : PollutionEffect, IPollutionOnDeath, IPollutionOnSpawn
 {
-    public override void OnDeath(Pollution pollution)
+    public void OnDeath(Pollution pollution)
     {
         PathingController.Instance.UpdatePassable(pollution.GetComponent<GridTransform>().topLeftPosMap, true);
     }
 
-    public override void OnSpawn(Pollution pollution)
+    public void OnSpawn(Pollution pollution)
     {
         //Debug.Log("spawning pollution");
         PathingController.Instance.UpdatePassable(pollution.GetComponent<GridTransform>().topLeftPosMap, false);

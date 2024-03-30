@@ -46,7 +46,4 @@ public class CleanableByMapEffect_Effect : PollutionEffect, IPollutionCleanable
             effect.TagEffect(targetCell);
         }
     }
-
-    public override void OnDeath(Pollution pollution) { }
-    public override void OnSpawn(Pollution pollution) { }
 }

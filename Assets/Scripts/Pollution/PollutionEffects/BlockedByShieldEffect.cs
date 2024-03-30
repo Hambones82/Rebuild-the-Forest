@@ -39,8 +39,4 @@ public class BlockedByShieldEffect : PollutionEffect, IPollutionSpawnBlock
             mapEffect.TagEffect(cell);
         }
     }
-
-
-    public override void OnDeath(Pollution pollution) { }
-    public override void OnSpawn(Pollution pollution) { }
 }
