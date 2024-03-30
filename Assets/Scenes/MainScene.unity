@@ -621,8 +621,8 @@ MonoBehaviour:
   _stopEffect: {fileID: 11400000, guid: 14ebbd1eb4c5c854db9f7aba7da7339e, type: 2}
   _damageEffect: {fileID: 11400000, guid: 4cc8eafe972c8864e9d3f4bf8ae8d54a, type: 2}
   gridMap: {fileID: 1990238066}
-  pollutionControllers:
-  - pollutionManager: {fileID: 0}
+  controller:
+    pollutionManager: {fileID: 0}
     freePositions: []
     gridMap: {fileID: 0}
     pollutionPrefab: {fileID: 332257860741888898, guid: a5d1b1f1f11595049b029ebf44392545, type: 3}
@@ -40708,7 +40708,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 385979971367115615, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 5.0399985
+      value: 5.0399904
       objectReference: {fileID: 0}
     - target: {fileID: 1912259540184846535, guid: 938b48254f8c1cb499bbb054b4b6b575, type: 3}
       propertyPath: m_AnchorMax.y

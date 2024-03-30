@@ -12,7 +12,7 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
     private float cleanPeriod = 1;
     private StatLine cleaningStat;
     private bool targetHasDied;
-    Pollution targetPollution;
+    //Pollution targetPollution;
     private bool cancel = false;
     private GameObject objectDoingAction;
     private MapEffectComponent mapEffectComponent;
@@ -30,7 +30,7 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
         //register for clearing...
         targetHasDied = false;
         inPollution.OnDisableEvent.AddListener(KillTarget);
-        targetPollution = inPollution;
+        target = inPollution;
         cancel = false;
         objectDoingAction = inGameObject;
         mapEffectComponent = inGameObject.GetComponent<MapEffectComponent>();
@@ -49,7 +49,7 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
 
     public override void EndAction()
     {
-        targetPollution.OnDisableEvent.RemoveListener(KillTarget);
+        target.OnDisableEvent.RemoveListener(KillTarget);
         ObjectPool.Return(this);
     }
 
@@ -78,7 +78,7 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
             retVal = DoCleanPollutionTick();
             if (!retVal) break; //if the tick fully cleans up the pollution, don't continue the while loop
         }
-        progressAmount = 1 - targetPollution.Amount / targetPollution.MaxAmount;
+        progressAmount = 1 - target.Amount / target.MaxAmount;
         return retVal;
     }
 
@@ -91,44 +91,16 @@ public class CleanPollutionAction : UnitActionWithTarget<Pollution>, IObjectPool
     {
         float resultingAmount = target.Amount - ((CleaningSpeedStat)(cleaningStat.StatType)).AmountPerClean;
         //if the pollution is cleaned,
-        if(target.SetAmount(resultingAmount))
-        {
-            List<MapEffectObject> effectsToTag = 
-                MapEffectsManager.Instance.GetEffectsAtCell(targetCell)
-                .Where(effect => targetPollution.CleanEnableEffects.Contains(effect.EffectType))
-                .ToList<MapEffectObject>();
-            foreach (MapEffectObject effect in effectsToTag)
-            {
-                effect.TagEffect(targetCell);
-            }
-            
-        }
+        target.SetAmount(resultingAmount);        
 
         return (resultingAmount > 0);
     }
 
     public override bool CanDo()
     {
-        if (targetPollution == null) return false;
-        bool enabledByEffect = true;
-        List<MapEffectType> effectsAtCell = 
-            MapEffectsManager.Instance.GetEffectsAtCell(targetCell)
-            ?.Select(effect => effect.EffectType)?.ToList<MapEffectType>();
-        List<MapEffectType> requiredEffectsForCleaning = targetPollution.CleanEnableEffects;
-        if(requiredEffectsForCleaning == null) return true;
-        else if (requiredEffectsForCleaning.Count == 0) return true;
-        else if (effectsAtCell == null) return false;
+        if (target == null) return false;                
 
-        foreach(MapEffectType effectType in requiredEffectsForCleaning)
-        {
-            if(!effectsAtCell.Contains(effectType))
-            {
-                enabledByEffect = false;
-                break;
-            }
-        }
-            
-        return !targetHasDied && enabledByEffect;
+        return !targetHasDied && target.IsCleanable(targetCell);
     }
 
     public override void StartAction()

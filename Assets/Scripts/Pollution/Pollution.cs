@@ -36,9 +36,63 @@ public class Pollution : MonoBehaviour
 
     public UnityEvent OnDisableEvent;
 
+    //just have a pollution.IsCleanable, use an effect...
+
+    public bool IsCleanable(Vector2Int cell)
+    {        
+        foreach(var effect in pollutionEffects)
+        {
+            if(effect is IPollutionCleanable cleanableEffect)
+            {
+                if(!cleanableEffect.IsCleanable(cell))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void OnClean()
+    {
+        foreach(var effect in pollutionEffects)
+        {
+            if(effect is IPollutionCleanable cleanableEffect)
+            {
+                cleanableEffect.OnClean(GetComponent<GridTransform>().topLeftPosMap); //COME BACK HERE!!!
+            }
+        }
+    }
+
+    public bool IsSpawnBlocked(Vector2Int cell)
+    {        
+        foreach(var effect in pollutionEffects)
+        {
+            if(effect is IPollutionSpawnBlock blocker)
+            {
+                if(blocker.BlocksPollutionGrowth(cell))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void OnSpawnBlocked(Vector2Int cell)
+    {
+        foreach(var effect in pollutionEffects)
+        {
+            if(effect is IPollutionSpawnBlock blocker)
+            {
+                blocker.OnSpawnBlocked(cell);
+            }
+        }
+    }
+
     private void Awake()
     {        
-        SetAmount(maxAmount);
+        SetAmount(maxAmount);        
     }
 
     private void OnEnable()
@@ -61,6 +115,7 @@ public class Pollution : MonoBehaviour
         transform.localScale = new Vector3(scale, scale);
         if (amount == 0)
         {
+            OnClean();
             pollutionManager.RemovePollution(this);
             return true;
         }

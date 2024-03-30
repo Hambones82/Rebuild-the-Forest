@@ -1,3 +1,18 @@
+- keep going with the "blockedbyshieldeffect" effect...  add it to the pollution, remove from pollution data.
+
+- so "pollutiondata" needs to shed:
+	- droptable
+	- map blocking effects (with isblockedbyeffect)
+	- isn't pollution spread block more of a map effect?  
+
+--> yes, let's... make pollution spread block a map effect, put the functionailty there...
+
+-- nvm let's just keep it in the pollution effect...
+
+- i think i should do a major refactoring of pollution manager/pollution type/pollution effects/map effects.
+
+- pollution effects should add map effects.  map effects should include things like slow, stop, damage...
+
 - the effects can have one of a variety of types.
 - on add effect (maybe spawn a map effect)...
 - continuous? on-unit-update? (e.g., damage)
@@ -13,12 +28,6 @@
 lets do these i guess?
 
 -- so for each effect... then can put data and code on that so...
-
-
-
-
-
-
 
 -- so maybe the new architecture will be something like...
 pollution has some basic info plus a list of pollution effects.

@@ -5,15 +5,7 @@ using System;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
 
-public class PollutionEventInfo
-{
-    public Vector2Int cell;
-    public int priority;
-}
 
-//pollution manager needs a "change" or "overwrite" that doesn't cause the drop to be triggered...
-//do all the initialization for the controllers.
-//have flat controllers...
 [DefaultExecutionOrder(-3)]
 public class PollutionManager : MonoBehaviour
 {
@@ -44,10 +36,9 @@ public class PollutionManager : MonoBehaviour
     private GridMap gridMap;
 
     [SerializeField]
-    private List<PollutionTypeController> pollutionControllers;
-    public List<PollutionTypeController> PollutionControllers { get => pollutionControllers; }
-    
-    //so maybe we do keep the type controllers... would make it easier i think...
+    private PollutionTypeController controller;
+    public PollutionTypeController PollutionController {  get => controller; }
+
     private void Awake()//so initialize...  go from highest to lowest priority...
     {
         if (_instance == null)
@@ -57,33 +48,21 @@ public class PollutionManager : MonoBehaviour
         else
         {
             throw new InvalidOperationException("can't have two pollution managers");
-        }
-        foreach (PollutionTypeController controller in pollutionControllers)
-        {            
-            controller.Initialize(gridMap, this);
-            controller.InitializePollutionState();
-        }
-        foreach(PollutionTypeController controller in pollutionControllers)
-        {            
-            controller.RecalculateFreePositions();//need to write this method -- just use a scan line technique
-        }
+        }        
+        controller.Initialize(gridMap, this);
+        controller.InitializePollutionState();        
+        controller.RecalculateFreePositions();//need to write this method -- just use a scan line technique        
     }
 
 
     public void UpdateFreePositionsForAddition(Vector2Int cell, int priority)
-    {
-        foreach (PollutionTypeController controller in pollutionControllers)
-        {
-            controller.UpdateFreePositionsForPollutionAddition(cell, priority);
-        }
+    {        
+        controller.UpdateFreePositionsForPollutionAddition(cell, priority);        
     }
 
     public void UpdateFreePositionsForRemoval(Vector2Int cell, int priority)
     {
-        foreach (PollutionTypeController controller in pollutionControllers)
-        {
-            controller.UpdateFreePositionsForPollutionRemoval(cell, priority);
-        }
+        controller.UpdateFreePositionsForPollutionRemoval(cell, priority);
     }
 
     private void Start()
@@ -93,43 +72,40 @@ public class PollutionManager : MonoBehaviour
     }    
 
     private void Update()
-    {
-        foreach (PollutionTypeController controller in pollutionControllers)
+    {    
+        if (!controller.CheckForTick())
         {
-            if (!controller.CheckForTick())
-            {
-                continue;
-            }
-            
-            List<Vector2Int> candidateCellsToAdd = controller.GetCandidateCellsToAddPollution();
-            List<Vector2Int> confirmedCellsToAdd = new List<Vector2Int>();
-            List<Pollution> pollutionsToRemove = new List<Pollution>();
-            foreach (Vector2Int candidateCell in candidateCellsToAdd)
-            {                
-                Pollution pollutionAtTargetCell = GridMap.Current.GetObjectAtCell<Pollution>(candidateCell, MapLayer.pollution);
-                bool blockedByPriority = controller.BlockedByPriorityOf(pollutionAtTargetCell);
-                bool blockedByEffect = controller.BlockedByEffect(candidateCell);                
-                if (!blockedByPriority && !blockedByEffect) 
-                {
-                    if(pollutionAtTargetCell) pollutionsToRemove.Add(pollutionAtTargetCell);
-                    confirmedCellsToAdd.Add(candidateCell);
-                }
-                if (blockedByEffect && !blockedByPriority)
-                {
-                    controller.PollutionPrefab.PollutionData.NotifyBlockingEffectAt(candidateCell);
-                }
-            }
-            foreach (Vector2Int cell in confirmedCellsToAdd)
-            {
-                AddPollution(cell, controller);
-                UpdateFreePositionsForAddition(cell, controller.PollutionPrefab.Priority);                
-            }
-            foreach (Pollution pollution in pollutionsToRemove)
-            {
-                RemovePollutionSoft(pollution);
-                UpdateFreePositionsForRemoval(pollution.GetComponent<GridTransform>().topLeftPosMap, pollution.Priority);                
-            }            
+            return;
         }
+            
+        List<Vector2Int> candidateCellsToAdd = controller.GetCandidateCellsToAddPollution();
+        List<Vector2Int> confirmedCellsToAdd = new List<Vector2Int>();
+        List<Pollution> pollutionsToRemove = new List<Pollution>();
+        foreach (Vector2Int candidateCell in candidateCellsToAdd)
+        {                
+            Pollution pollutionAtTargetCell = GridMap.Current.GetObjectAtCell<Pollution>(candidateCell, MapLayer.pollution);
+            bool blockedByPriority = controller.BlockedByPriorityOf(pollutionAtTargetCell);
+            bool blockedByEffect = controller.BlockedByEffect(candidateCell);                
+            if (!blockedByPriority && !blockedByEffect) 
+            {
+                if(pollutionAtTargetCell) pollutionsToRemove.Add(pollutionAtTargetCell);
+                confirmedCellsToAdd.Add(candidateCell);
+            }
+            if (blockedByEffect && !blockedByPriority)
+            {                
+                controller.PollutionPrefab.OnSpawnBlocked(candidateCell);
+            }
+        }
+        foreach (Vector2Int cell in confirmedCellsToAdd)
+        {
+            AddPollution(cell, controller);
+            UpdateFreePositionsForAddition(cell, controller.PollutionPrefab.Priority);                
+        }
+        foreach (Pollution pollution in pollutionsToRemove)
+        {
+            RemovePollutionSoft(pollution);
+            UpdateFreePositionsForRemoval(pollution.GetComponent<GridTransform>().topLeftPosMap, pollution.Priority);                
+        }                
     }
 
     private void AddPollution(Vector2Int cell, PollutionTypeController controller)
@@ -143,62 +119,34 @@ public class PollutionManager : MonoBehaviour
     {
         Vector2Int pollutionPosition = pollution.GetComponent<GridTransform>().topLeftPosMap;
         
-        foreach (PollutionTypeController controller in pollutionControllers)
-        {
-            //do the checks for "if it's this controller here" instead of in type
-            controller.RemovePollution(pollution, pollutionPosition);
-        }
-        foreach(PollutionTypeController controller in pollutionControllers)
-        {
-            controller.UpdateFreePositionsForPollutionRemoval(pollutionPosition, pollution.Priority);
-        }
+        controller.RemovePollution(pollution, pollutionPosition);        
+        controller.UpdateFreePositionsForPollutionRemoval(pollutionPosition, pollution.Priority);        
         OnPollutionDead?.Invoke(pollutionPosition);
     }
 
     public int GetGraphID(Vector2Int cell)
-    {
-        foreach(PollutionTypeController controller in pollutionControllers)
+    {        
+        if(controller.GetPollutionAt(cell) != null)
         {
-            if(controller.GetPollutionAt(cell) != null)
-            {
-                return controller.GetGraphID(cell);
-            }
-        }
+            return controller.GetGraphID(cell);
+        }        
         return -1;
     }
 
     public void RemovePollutionSoft(Pollution pollution)
     {
         Vector2Int pollutionPosition = pollution.GetComponent<GridTransform>().topLeftPosMap;
-        foreach (PollutionTypeController controller in pollutionControllers)
-        {
-            controller.RemovePollution(pollution, pollutionPosition);
-        }
-        foreach (PollutionTypeController controller in pollutionControllers)
-        {
-            controller.UpdateFreePositionsForPollutionRemoval(pollutionPosition, pollution.Priority);
-        }
+        controller.RemovePollution(pollution, pollutionPosition);
+        controller.UpdateFreePositionsForPollutionRemoval(pollutionPosition, pollution.Priority);        
     }
 
     public void NotifyOfSourceDeletion(PollutionSource source)
-    {
-        foreach(PollutionTypeController controller in pollutionControllers)
-        {
-            controller.NotifyOfSourceDeletion(source);
-        }
+    {        
+        controller.NotifyOfSourceDeletion(source);        
     }
     public int GetPSourceGroupID(PollutionSource psource)
-    {        
-        foreach(PollutionTypeController controller in pollutionControllers)
-        {
-            int currentRetVal = controller.GetPSourceGroupID(psource);
-            if (currentRetVal == -1)
-            {
-                continue;
-            }
-            else return currentRetVal;
-        }
-        return -1;
+    {                
+        return controller.GetPSourceGroupID(psource);            
     }
 
     public bool IsEffectAtCell(Vector2Int cell, PollutionEffect effect)

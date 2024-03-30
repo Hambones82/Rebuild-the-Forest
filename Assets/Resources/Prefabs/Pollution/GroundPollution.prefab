@@ -85,6 +85,8 @@ MonoBehaviour:
   _pollutionData: {fileID: 11400000, guid: 721458d2ec833c94e84dd31f7153c905, type: 2}
   pollutionEffects:
   - {fileID: 11400000, guid: 4cc8eafe972c8864e9d3f4bf8ae8d54a, type: 2}
+  - {fileID: 11400000, guid: 75e798ee34ae45f44a5eb43346e86d26, type: 2}
+  - {fileID: 11400000, guid: 4a419e71912da6c4eaa4ef401d0b8a04, type: 2}
   maxAmount: 100
   amount: 0
   cleanEnableEffects:

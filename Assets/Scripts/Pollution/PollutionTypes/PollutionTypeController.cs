@@ -79,9 +79,6 @@ public class PollutionTypeController
         pGroups = new Dictionary<int, PollutionGroup>();
     }
 
-    //let's store a disjoint set with deletions data structure for keeping track of the connected sets of pollution
-    
-
     public void InitializePollutionState()
     {
         List<Vector2Int> pollutionsToAdd = new List<Vector2Int>();
@@ -159,16 +156,6 @@ public class PollutionTypeController
             
         }
 
-        //bug: newly added pollution not getting proper color.
-        //bug: colors flashing back and forth, no idea why...
-
-        //problem is that initialization tries to access pgroups before we actually create pgroups...
-        //probably addpollution should check if the dictionary element exists and then create it if not...
-
-        //???
-        //initialize the pollution groups...
-        
-        //this lookup should probably be the main data structure - groups are looked up by their ID in the connected components 
         
         foreach (var component in pollutionObjects.ConnectedComponents)
         {
@@ -180,44 +167,6 @@ public class PollutionTypeController
                 DebugTilemap.Instance.AddTile(pos, pGroups[component.Key].debugDisplayColor);
             }
         }
-
-
-        //ISSUE -- appears to be the debug tile map, not the group ID.  possible to do w the dictionary that's in this class...
-
-        //for each source, add it to the appropriate group (if the position has a group in the connected components... if not,
-        //need a new group.
-
-
-
-
-
-        //then... at some point we need to make sure to appropriately modify the colors when the components are joined and unjoined
-
-
-
-        //add the connected components thing.  let's do a debug visualizer for this.
-
-        //so...  we need to somehow identify connected components of pollution with the pollution sources that go with it.
-        //so for one thing, we need to make pollution source - give it effects - make those effects transfer to pollution.
-
-        //so maybe the algo is... generate the splotch map.
-        //label connected components
-        //generate a pollution source for each connectedc component.  assign each to one of the squares of a corresponding
-        //connected component
-
-        //doing this needs to add the effects of the pollution source to all pollutions of the connected component.  
-        //this part may or may not be part of this initial function.
-        //for example, we might have the effect contribution occur automatically as a result of adding the source
-        //alternatively we might want to use custom functionality in this initializer to add the effects upon addition of 
-        //connected component.
-        //one option would be to, upon creation of pollution source, find associated connected component, and add the effects to all
-        //that might be the best option - so let something else handle the effects.
-        //map gen will just be... identify connected components, generate a source for each, add each source to map
-
-
-        //then we need to determine the connected components,
-        //then add the sources to each component
-        //and, outside of this method, we need to control the pollutions to have the properties of the sources...
     }
 
    
@@ -343,13 +292,8 @@ public class PollutionTypeController
     private void RemoveFreePosition(Vector2Int cell)
     {
         freePositions.Remove(cell);
-        bool freePosAtCell = false;
-        foreach (PollutionTypeController controller in PollutionManager.Instance.PollutionControllers)
-        {
-            if (controller.FreePositions.Contains(cell)) freePosAtCell = true;
-        }
-        if (!freePosAtCell && pollutionObjects.GetValue(cell) == null)//the second clause here is buggy...  
-                                                                      //this whole thing is kind of f'ed...
+        
+        if (pollutionObjects.GetValue(cell) == null)                                                    
         {
             DebugTilemap.Instance.RemoveTile(cell);
         }
@@ -493,8 +437,8 @@ public class PollutionTypeController
     }
     
     public bool BlockedByEffect(Vector2Int cell)
-    {
-        return pollutionPrefab.PollutionData.IsBlockedByEffect(cell);
+    {        
+        return pollutionPrefab.IsSpawnBlocked(cell);
     }
 
     public bool BlockedByPriorityOf(Pollution pollutionAtCell)
