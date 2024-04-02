@@ -12,7 +12,8 @@ public class Pollution : MonoBehaviour
     private PollutionManager pollutionManager;
     public PollutionManager PollutionManager { get => pollutionManager; set => pollutionManager = value; }
 
-    public PollutionTypeController pTypeController;
+    private PollutionTypeController pTypeController;
+    public PollutionTypeController PTypeController { get => pTypeController; set => pTypeController = value; }
 
     [SerializeField]
     private PollutionData _pollutionData;
@@ -21,8 +22,20 @@ public class Pollution : MonoBehaviour
     public int Priority { get => _pollutionData.Priority; }
 
     [SerializeField]
-    private List<PollutionEffect> pollutionEffects;
-    public IReadOnlyList<PollutionEffect> PollutionEffects { get => pollutionEffects; }
+    private List<PollutionEffect> innatePollutionEffects;
+    public IReadOnlyList<PollutionEffect> PollutionEffects 
+    {
+        get
+        {
+            List <PollutionEffect> retval = new List<PollutionEffect>(innatePollutionEffects);
+            //if pollutionManager != null is a hack and i'm not sure how to fix it...
+            if(pollutionManager != null)
+            {
+                retval.AddRange(pTypeController.GetSourceEffectsAt(GetComponent<GridTransform>().topLeftPosMap));
+            }            
+            return retval;
+        }
+    }
 
     [SerializeField]
     private float maxAmount = 100;
@@ -41,7 +54,7 @@ public class Pollution : MonoBehaviour
 
     public bool IsCleanable(Vector2Int cell)
     {        
-        foreach(var cleanableEffect in pollutionEffects.OfType<IPollutionCleanable>())
+        foreach(var cleanableEffect in PollutionEffects.OfType<IPollutionCleanable>())
         {            
             if(!cleanableEffect.IsCleanable(cell))
             {
@@ -53,15 +66,16 @@ public class Pollution : MonoBehaviour
 
     public void OnClean()
     {
-        foreach(var cleanableEffect in pollutionEffects.OfType<IPollutionCleanable>())
+        foreach(var cleanableEffect in PollutionEffects.OfType<IPollutionCleanable>())
         {    
             cleanableEffect.OnClean(GetComponent<GridTransform>().topLeftPosMap); //COME BACK HERE!!!            
         }
     }
 
+    //this thing...  i'm not sure it makes sense to be a 
     public bool IsSpawnBlocked(Vector2Int cell)
     {        
-        foreach(var blocker in pollutionEffects.OfType<IPollutionSpawnBlock>())
+        foreach(var blocker in PollutionEffects.OfType<IPollutionSpawnBlock>())
         {            
             if(blocker.BlocksPollutionGrowth(cell))
             {
@@ -73,7 +87,7 @@ public class Pollution : MonoBehaviour
 
     public void OnSpawnBlocked(Vector2Int cell)
     {        
-        foreach (var blocker in pollutionEffects.OfType<IPollutionSpawnBlock>())
+        foreach (var blocker in PollutionEffects.OfType<IPollutionSpawnBlock>())
         {
             blocker.OnSpawnBlocked(cell);
         }        
@@ -86,10 +100,12 @@ public class Pollution : MonoBehaviour
 
     private void OnEnable()
     {
-        foreach(IPollutionOnSpawn effect in pollutionEffects.OfType<IPollutionOnSpawn>())
+        //maybe don't do this?
+        /*
+        foreach(IPollutionOnSpawn effect in PollutionEffects.OfType<IPollutionOnSpawn>())
         {
             effect.OnSpawn(this);
-        }
+        }*/
     }
 
     private void Update()
@@ -118,9 +134,12 @@ public class Pollution : MonoBehaviour
             OnDisableEvent.Invoke();
             OnDisableEvent.RemoveAllListeners();
         }
-        foreach (IPollutionOnDeath effect in pollutionEffects.OfType<IPollutionOnDeath>())
+        /*
+        foreach (IPollutionOnDeath effect in PollutionEffects.OfType<IPollutionOnDeath>())
         {
             effect.OnDeath(this);
-        }
+        }*/
     }
+
+    //effect onspawn and effect ondeath should also be called when the pollution effects get removed or added to the pollution
 }

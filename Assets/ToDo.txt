@@ -1,7 +1,19 @@
-- refactor sloweffect, stopeffect, damageeffect to simply add map effects.
-- stopeffect probably needs to be fixed, because it directly updates the pathfinder internal structures...
+-- played through game the first time, took maybe 5-10 minutes.  definitely interesting and something that can be built on.
 
-- could try to systematize the map effects in a similar manner as pollution effects...  not sure right now...
+-- problem with checking the prefab thing...  i'm not sure it's working.  i have to check everything...
+
+-- also need to fix random.
+
+-- let's just go forward with...  adding the pollution effects when two connected components are joined.
+
+- in pollution, need to add the effects and then call on spawn as appropriate
+- also include remove effects, call on death as appropriate
+- in the pollution controller, we need to cause each pollution to get the appropriate pollution effects (from pollution sources) when a connection occurs and they need to be removed when a connection is split.
+
+
+-- mapeffect is actually pretty convoluted bc it needs a map effect component...
+-- it's not like we're adding the effects to the map or terrain or w/e...
+-- 
 
 - so "pollutiondata" needs to shed:
 	- droptable

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEngine.EventSystems.EventTrigger;
@@ -59,9 +60,22 @@ public class PollutionTypeController
     [SerializeField]
     private List<PollutionSource> pollutionSources;
 
-    
+    [SerializeField]
+    private List<PollutionEffect> sourceEffects;
+
+    public IReadOnlyList<PollutionEffect> GetSourceEffectsAt(Vector2Int cell)
+    {
+        List<PollutionEffect> retval = new List<PollutionEffect>();
+        int graphID = GetGraphID(cell);
+        foreach(PollutionSource psource in pGroups[graphID].sources)
+        {
+            retval.AddRange(psource.Effects);
+        }
+        return retval;
+    }
     public int GetGraphID(Vector2Int cell)
     {
+        if (pollutionObjects == null) Debug.Log("somehow, pollution objects is null");        
         return pollutionObjects.GetGraphID(cell);
     }
 
@@ -69,14 +83,14 @@ public class PollutionTypeController
     public void Initialize(GridMap inGridMap, PollutionManager inPollutionManager)
     {
         gridMap = inGridMap;
-        pollutionManager = inPollutionManager;
-        pollutionPool = new GameObjectPool(pollutionPrefab.gameObject, parentObj: gridMap.gameObject, activeByDefault: false);
+        pollutionManager = inPollutionManager;        
         priority = pollutionPrefab.PollutionData.Priority;
         pollutionMap = gridMap.GetMapOfType(MapLayer.pollution);
         freePositions = new List<Vector2Int>();  
         pollutionObjects = new Vector2GraphSet<Pollution>(gridMap.width, gridMap.height);
         pollutionSources = new List<PollutionSource>();
         pGroups = new Dictionary<int, PollutionGroup>();
+        pollutionPool = new GameObjectPool(pollutionPrefab.gameObject, parentObj: gridMap.gameObject, activeByDefault: false);
     }
 
     public void InitializePollutionState()
@@ -141,7 +155,7 @@ public class PollutionTypeController
             
             else if(existing.Priority < priority)
             {
-                existing.pTypeController.RemovePollution(existing, cell);
+                existing.PTypeController.RemovePollution(existing, cell);
                 AddPollution(cell);
             }
             
@@ -151,7 +165,13 @@ public class PollutionTypeController
                     GameObject.Instantiate(pollutionSourcePrefab, GridMap.Current.transform);
                 pollutionSource.GetComponent<GridTransform>().MoveToMapCoords(cell);
                 pollutionSources.Add(pollutionSource);
-                //also add to pgroup.sources???
+                // ADD A RANDOM EFFECT TO THE SOURCE
+                if(pollutionSources.Count > 0)
+                {
+                    int numEffects = sourceEffects.Count;
+                    int randomIndex = UnityEngine.Random.Range(0, numEffects);
+                    pollutionSource.AddEffect(sourceEffects.ElementAt(randomIndex));
+                }                
             }
             
         }
@@ -336,7 +356,7 @@ public class PollutionTypeController
     //--METHODS FOR ADDING AND REMOVING POLLUTION, CALLED BY THE TIMING BASED UPDATES--//
     public void RemovePollution(Pollution pollution, Vector2Int cell)
     {
-        if(pollution.pTypeController == this)
+        if(pollution.PTypeController == this)
         {
             pollutionObjects.RemoveValue(cell);            
             pollutionPool.RecycleObject(pollution.gameObject);
@@ -382,11 +402,12 @@ public class PollutionTypeController
         }
         foreach(PollutionSource psource in sourcesThatShouldBeInPGroup)
         {
-            AddSourceToGroup(psource, pGroupID);
+            AddSourceToGroup(psource, pGroupID);                        
+            //apply the effects of the source to the pollutions in the group
         }
         foreach(PollutionSource psource in sourcesThatShouldBeRemovedFromPGroup)
         {
-            RemoveSourceFromGroup(psource, pGroupID);
+            RemoveSourceFromGroup(psource, pGroupID);            
         }
 
         foreach (Vector2Int cell in cells)
@@ -421,10 +442,21 @@ public class PollutionTypeController
     private void AddSourceToGroup(PollutionSource psource, int groupID)
     {
         List<PollutionSource> sources = pGroups[groupID].sources;
+        List<PollutionSource> addedSources = new List<PollutionSource>();
         if(!sources.Contains(psource))
         {
             pGroups[groupID].sources.Add(psource);
-        }        
+            addedSources.Add(psource);
+        }
+        /*//can we just have the pollution controller (the pollution?) iterate through all of the connected psources???
+        foreach(var source in addedSources)
+        {
+            foreach(PollutionEffect effect in source.Effects)
+            {
+                //add that effect to all pollutions of the group, if that group does not already contain that effect
+            }
+        }
+        */
     }
 
     public int GetPSourceGroupID(PollutionSource psource)
@@ -452,7 +484,7 @@ public class PollutionTypeController
         newGO.GetComponent<GridTransform>().MoveToMapCoords(cell);
         newGO.SetActive(true);
         Pollution newPollution = newGO.GetComponent<Pollution>();
-        newPollution.pTypeController = this;
+        newPollution.PTypeController = this;
         pollutionObjects.AddValue(newPollution, cell);
         newPollution.PollutionManager = this.pollutionManager;
         newPollution.SetAmount(newPollution.MaxAmount);

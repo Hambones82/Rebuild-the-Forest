@@ -12,6 +12,11 @@ public class PollutionMouseOverInfo : MouseoverInfo
             Vector2Int pos = GetComponent<GridTransform>().topLeftPosMap;
             string retval = "";
             retval += $"pollution group: {PollutionManager.Instance.GetGraphID(pos)}";
+            foreach(PollutionEffect effect in GetComponent <Pollution>().PollutionEffects)
+            {
+                retval += $"\nPollutionEffect: {effect}";
+            }
+            
             return retval;
         }
     }

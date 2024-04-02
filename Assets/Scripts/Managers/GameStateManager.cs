@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-[DefaultExecutionOrder(-7)]
+[DefaultExecutionOrder(0)]
 public class GameStateManager : MonoBehaviour
 {
     [SerializeField]
-    List<BuildingComponentPollutionSource> pollutionSources;
+    List<PollutionSource> pollutionSources;
     [SerializeField]
     ActorUnitManager unitManager;
     [SerializeField]
@@ -19,7 +19,7 @@ public class GameStateManager : MonoBehaviour
     //get references to all
     private void Awake()
     {
-        pollutionSources = FindObjectsOfType<BuildingComponentPollutionSource>().ToList();
+        pollutionSources = FindObjectsOfType<PollutionSource>().ToList();
         BuildingManager.Instance.OnBuildingDelete += BuildingIsDeleted;
         unitManager = FindObjectOfType<ActorUnitManager>();
         unitManager.OnActorUnitDeath += ActorUnitDies;
@@ -39,7 +39,7 @@ public class GameStateManager : MonoBehaviour
 
     private void BuildingIsDeleted(Building building)
     {
-        BuildingComponentPollutionSource pSource = building.GetComponent<BuildingComponentPollutionSource>();
+        PollutionSource pSource = building.GetComponent<PollutionSource>();
         if (pSource != null)
         {
             if(pollutionSources.Contains(pSource))
