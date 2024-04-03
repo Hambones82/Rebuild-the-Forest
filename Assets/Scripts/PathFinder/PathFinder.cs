@@ -142,9 +142,13 @@ public class PathFinder
 
     //getpath
     public bool GetPath(Vector2Int start, Vector2Int end, out List<Vector2Int> result)
-    {
+    {        
         Reset();
         result = new List<Vector2Int>();
+        if (end.x < 0 || end.y < 0 || end.x >= grid.width || end.y >= grid.height)
+        {
+            return false;
+        }
         PFTile startTile = grid.tiles[start.x, start.y];
         startTile.g_score = 0;
         PFTile endTile = grid.tiles[end.x, end.y];

@@ -1,3 +1,11 @@
+-- some ideas to implement:
+	- fog of war
+	- pollution should hide the sources so you need to dig to find
+	- heatlh damage effect should be stronger
+	- map gen should be better -- initial splotches should (all?) be unconnected
+	- new effects - implement as i think of them.
+	- get some reasonable graphics, fix the ui which is stupidly unreadable
+
 -- played through game the first time, took maybe 5-10 minutes.  definitely interesting and something that can be built on.
 
 -- problem with checking the prefab thing...  i'm not sure it's working.  i have to check everything...
