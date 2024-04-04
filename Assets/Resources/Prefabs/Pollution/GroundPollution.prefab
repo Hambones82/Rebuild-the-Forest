@@ -72,21 +72,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pollutionManager: {fileID: 0}
-  pTypeController:
-    pollutionManager: {fileID: 0}
-    freePositions: []
-    gridMap: {fileID: 0}
-    pollutionPrefab: {fileID: 0}
-    pollutionSourcePrefab: {fileID: 0}
-    spreadPeriod: 0
-    priority: 0
-    freeZoneWidth: 0
-    pollutionSources: []
   _pollutionData: {fileID: 11400000, guid: 721458d2ec833c94e84dd31f7153c905, type: 2}
-  pollutionEffects:
-  - {fileID: 11400000, guid: 4cc8eafe972c8864e9d3f4bf8ae8d54a, type: 2}
-  - {fileID: 11400000, guid: 75e798ee34ae45f44a5eb43346e86d26, type: 2}
-  - {fileID: 11400000, guid: 4a419e71912da6c4eaa4ef401d0b8a04, type: 2}
+  innatePollutionEffects: []
   maxAmount: 100
   amount: 0
   cleanEnableEffects:
@@ -135,7 +122,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e0be2fc4ca155ac4d81994b874741a0a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4d5c57cc86654af4a845de3163629f43, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

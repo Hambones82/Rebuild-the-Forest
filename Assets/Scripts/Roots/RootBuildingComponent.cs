@@ -29,7 +29,7 @@ public class RootBuildingComponent : MonoBehaviour
 
     private void Start()
     {
-        SetRootGrowthTarget(new Vector2Int(35, 33));
+        //SetRootGrowthTarget(new Vector2Int(35, 33));
     }
     //to test, set to 35,30.
     public void SetRootGrowthTarget(Vector2Int inTarget)
@@ -58,11 +58,12 @@ public class RootBuildingComponent : MonoBehaviour
     float period;
     private void Update()
     {
-        
+        /*
         if(Input.GetKeyDown(KeyCode.P))
         {
             SetRootGrowthTarget(new Vector2Int(35, 30));
         }
+        */
         if(positionSet)
         {
             time += Time.deltaTime;

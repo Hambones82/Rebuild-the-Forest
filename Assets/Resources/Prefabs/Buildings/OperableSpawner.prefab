@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 314def20ab0680a4786e294fb94f5e7a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f8043f5be0c894a44ae6221e88c9ead8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -190,8 +190,4 @@ MonoBehaviour:
   _operateTimerTrigger: 2
   _continuous: 0
   _exhausted: 0
-  _mushroomPlanted: 0
-  exhaustedSprite: {fileID: 21300000, guid: 9c73eef44eac8b644b04a6c926a34b09, type: 3}
-  mushPlantedSprite: {fileID: 21300000, guid: d20381b4d38a7dd48b8db8cfc1f90c18, type: 3}
-  cleanMushroomType: {fileID: 11400000, guid: 87b657dc00d93ba4788b01acdfe95166, type: 2}
-  mushroomAmountForPlanting: 1
+  exhaustedSprite: {fileID: 21300000, guid: 87da5395e93701e41adc8a2994e17aae, type: 3}

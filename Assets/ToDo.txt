@@ -1,3 +1,17 @@
+-- weird pathfinder bug??? -- not a pathfinder bug.  instead, it seems the passability of the stored map is never changed back to "passable" when a passable tile is dynamically placed there.
+
+need to have a clearer way to fix this passability issue...
+
+-- actually have to carry the pollution, bring it somewhere, clean it...???
+	- maybe the individual guys have a max carry size, need to drop it somewhere... then those things have a buffer that takes time to process the pollution...?  i think that's a decent idea tbh, it would slow down the cleaning.  you can put pollution down but it'll continue to spread...?  maybe not, but it'll still take up a tile.
+
+
+- having roots that can clean pollution and decrease the size of the pollution blob seems nice -- it'll delete a random one at the border and if it deletes the one you're drawing from, then you need to have the roots go further...
+
+-- drops from sources can give you powers.  also can let you turn into super trees.
+
+-- increase difficulty of design until i can't beat it without extra powers.
+
 -- some ideas to implement:
 	- fog of war
 	- pollution should hide the sources so you need to dig to find
@@ -7,8 +21,6 @@
 	- get some reasonable graphics, fix the ui which is stupidly unreadable
 
 -- played through game the first time, took maybe 5-10 minutes.  definitely interesting and something that can be built on.
-
--- problem with checking the prefab thing...  i'm not sure it's working.  i have to check everything...
 
 -- also need to fix random.
 
