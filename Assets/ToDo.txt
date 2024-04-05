@@ -1,6 +1,4 @@
--- weird pathfinder bug??? -- not a pathfinder bug.  instead, it seems the passability of the stored map is never changed back to "passable" when a passable tile is dynamically placed there.
-
-need to have a clearer way to fix this passability issue...
+- one issue w the pixel art is that the pixels are of conflicting sizes.  
 
 -- actually have to carry the pollution, bring it somewhere, clean it...???
 	- maybe the individual guys have a max carry size, need to drop it somewhere... then those things have a buffer that takes time to process the pollution...?  i think that's a decent idea tbh, it would slow down the cleaning.  you can put pollution down but it'll continue to spread...?  maybe not, but it'll still take up a tile.
@@ -14,11 +12,11 @@ need to have a clearer way to fix this passability issue...
 
 -- some ideas to implement:
 	- fog of war
-	- pollution should hide the sources so you need to dig to find
 	- heatlh damage effect should be stronger
 	- map gen should be better -- initial splotches should (all?) be unconnected
 	- new effects - implement as i think of them.
 	- get some reasonable graphics, fix the ui which is stupidly unreadable
+
 
 -- played through game the first time, took maybe 5-10 minutes.  definitely interesting and something that can be built on.
 
