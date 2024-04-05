@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8599265402863292950}
   - component: {fileID: 2455998378417550799}
   - component: {fileID: -1580522872824619500}
+  - component: {fileID: 2096599411706065858}
   m_Layer: 0
   m_Name: GroundPollution
   m_TagString: Untagged
@@ -165,3 +166,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: Pollution
+--- !u!114 &2096599411706065858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13236803302261735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36bd8240705bc6f47935bec04674a716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 75d03de0db164a343a93984ca3f6b704, type: 3}
+  - {fileID: 21300000, guid: c1a248c38c2d0454c8f5096a360b9f86, type: 3}
+  - {fileID: 21300000, guid: d57d71e4201a61d43aa6f75e04313fb4, type: 3}
+  - {fileID: 21300000, guid: ba8975539aa2902419bd9f78ab19510b, type: 3}
+  - {fileID: 21300000, guid: 8123edac6dabba04f97f4d0ab0ac5672, type: 3}
+  - {fileID: 21300000, guid: 5822b2952f3b14f44a3e052449609eba, type: 3}
+  - {fileID: 21300000, guid: d21737e36dd5cf8438988a8e0783d6db, type: 3}
+  - {fileID: 21300000, guid: f00946dd7840be146bb372a73cf20b71, type: 3}
+  - {fileID: 21300000, guid: e5bb0a90dfbcb4e409f260860fc797fe, type: 3}
+  - {fileID: 21300000, guid: 36c5af57478a8924f9563e9564d9eec2, type: 3}
+  - {fileID: 21300000, guid: 07314575cc054414fb4b6491c9626eb9, type: 3}
+  - {fileID: 21300000, guid: 6ea0148acfe789345968fd736e92dd8f, type: 3}
+  - {fileID: 21300000, guid: e623fe58d105feb488b69157b0e55bd9, type: 3}
+  - {fileID: 21300000, guid: 5cb530d3962e6a04cb0da94f741d3721, type: 3}
+  - {fileID: 21300000, guid: c3e997f41d13b2b498ccfe86ff8e3165, type: 3}
+  - {fileID: 21300000, guid: 4d5c57cc86654af4a845de3163629f43, type: 3}

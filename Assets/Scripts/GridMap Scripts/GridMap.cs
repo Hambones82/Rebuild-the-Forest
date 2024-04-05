@@ -146,7 +146,7 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
             }
         }
         return false;
-    }
+    }    
 
     //the above stuff needs to be implemented in grid sub map.  then we need wrappers i guess
 
@@ -299,6 +299,17 @@ public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for
             T component = gt.GetComponent<T>();
             if (component != null)
                 return component;
+        }
+        return default(T);
+    }
+
+    public T GetObjectAtCell<T>(Vector2Int cellPos)
+    {
+        List<GridTransform> objectsAtCell = GetObjectsAtCell(cellPos);
+        foreach( GridTransform gt in objectsAtCell)
+        {
+            T retval = gt.GetComponent<T>();
+            if (retval != null) return retval;
         }
         return default(T);
     }
