@@ -74,7 +74,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pollutionManager: {fileID: 0}
   _pollutionData: {fileID: 11400000, guid: 721458d2ec833c94e84dd31f7153c905, type: 2}
-  innatePollutionEffects: []
+  innatePollutionEffects:
+  - {fileID: 11400000, guid: 4cc8eafe972c8864e9d3f4bf8ae8d54a, type: 2}
   maxAmount: 100
   amount: 0
   cleanEnableEffects:

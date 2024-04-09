@@ -54,14 +54,14 @@ public class PollutionManager : MonoBehaviour
     }
 
 
-    public void UpdateFreePositionsForAddition(Vector2Int cell, int priority)
+    public void UpdateFreePositionsForAddition(Vector2Int cell)
     {        
-        controller.UpdateFreePositionsForPollutionAddition(cell, priority);        
+        controller.UpdateFreePositionsForPollutionAddition(cell);        
     }
 
-    public void UpdateFreePositionsForRemoval(Vector2Int cell, int priority)
+    public void UpdateFreePositionsForRemoval(Vector2Int cell)
     {
-        controller.UpdateFreePositionsForPollutionRemoval(cell, priority);
+        controller.UpdateFreePositionsForPollutionRemoval(cell);
     }
 
     private void Start()
@@ -71,55 +71,24 @@ public class PollutionManager : MonoBehaviour
     }    
 
     private void Update()
-    {    
-        if (!controller.CheckForTick())
-        {
-            return;
-        }
-            
-        List<Vector2Int> candidateCellsToAdd = controller.GetCandidateCellsToAddPollution();
-        List<Vector2Int> confirmedCellsToAdd = new List<Vector2Int>();
-        List<Pollution> pollutionsToRemove = new List<Pollution>();
-        foreach (Vector2Int candidateCell in candidateCellsToAdd)
-        {                
-            Pollution pollutionAtTargetCell = GridMap.Current.GetObjectAtCell<Pollution>(candidateCell, MapLayer.pollution);
-            bool blockedByPriority = controller.BlockedByPriorityOf(pollutionAtTargetCell);
-            bool blockedByEffect = controller.BlockedByEffect(candidateCell);                
-            if (!blockedByPriority && !blockedByEffect) 
-            {
-                if(pollutionAtTargetCell) pollutionsToRemove.Add(pollutionAtTargetCell);
-                confirmedCellsToAdd.Add(candidateCell);
-            }
-            if (blockedByEffect && !blockedByPriority)
-            {                
-                controller.PollutionPrefab.OnSpawnBlocked(candidateCell);
-            }
-        }
-        foreach (Vector2Int cell in confirmedCellsToAdd)
-        {
-            AddPollution(cell, controller);
-            UpdateFreePositionsForAddition(cell, controller.PollutionPrefab.Priority);                
-        }
-        foreach (Pollution pollution in pollutionsToRemove)
-        {
-            RemovePollutionSoft(pollution);
-            UpdateFreePositionsForRemoval(pollution.GetComponent<GridTransform>().topLeftPosMap, pollution.Priority);                
-        }                
+    {
+        controller.Update();                
     }
 
-    private void AddPollution(Vector2Int cell, PollutionTypeController controller)
+    //not sure about having this be public...
+    public void AddPollution(Vector2Int cell, PollutionTypeController controller)
     {
         controller.AddPollution(cell);        
         OnPollutionAdded?.Invoke(cell);
     }
-    
 
+    //not sure about having this be public...
     public void RemovePollution(Pollution pollution)
     {
         Vector2Int pollutionPosition = pollution.GetComponent<GridTransform>().topLeftPosMap;
         
         controller.RemovePollution(pollution, pollutionPosition);        
-        controller.UpdateFreePositionsForPollutionRemoval(pollutionPosition, pollution.Priority);        
+        controller.UpdateFreePositionsForPollutionRemoval(pollutionPosition);        
         OnPollutionDead?.Invoke(pollutionPosition);
     }
 
@@ -136,7 +105,7 @@ public class PollutionManager : MonoBehaviour
     {
         Vector2Int pollutionPosition = pollution.GetComponent<GridTransform>().topLeftPosMap;
         controller.RemovePollution(pollution, pollutionPosition);
-        controller.UpdateFreePositionsForPollutionRemoval(pollutionPosition, pollution.Priority);        
+        controller.UpdateFreePositionsForPollutionRemoval(pollutionPosition);        
     }
 
     public void NotifyOfSourceDeletion(PollutionSource source)
@@ -162,6 +131,11 @@ public class PollutionManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public string DebugText(Vector2Int cell)
+    {
+        return controller.DebugText(cell);
     }
 
 }

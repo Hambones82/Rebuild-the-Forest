@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6f3262d8f85a4428a9c298e5f8cb95, type: 3}
   m_Name: DamagePollutionEffect
   m_EditorClassIdentifier: 
-  _damageAmount: 0.1
+  _damageAmount: 1

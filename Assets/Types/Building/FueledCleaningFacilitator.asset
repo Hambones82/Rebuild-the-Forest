@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingPrefab: {fileID: 114058856135367282, guid: 62145d553c3e562419c0c2cecf840546, type: 3}
   buildingName: Fueled Cleaning Aura
+  shortName: Cleaner

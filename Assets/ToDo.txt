@@ -1,4 +1,4 @@
-- one issue w the pixel art is that the pixels are of conflicting sizes.  
+
 
 -- actually have to carry the pollution, bring it somewhere, clean it...???
 	- maybe the individual guys have a max carry size, need to drop it somewhere... then those things have a buffer that takes time to process the pollution...?  i think that's a decent idea tbh, it would slow down the cleaning.  you can put pollution down but it'll continue to spread...?  maybe not, but it'll still take up a tile.
@@ -81,11 +81,6 @@ NEW IDEA: PLAYER CAN ADD EFFECTS TO PUDDLES -> COOL IDEA I THINK.
 	- give it range 0?
 - turn down pollution spawn rate
 - add fow???
-
-- maybe pollution spawns too fast
-- also, fuel seems depleted too quickly...
-- it's definitely kind of annoying that the pollution just KEEPS COMING BACK...
-- removed the idea that all buildings covered by pollution cannot be operated on - i think this was too restricting...
 
 - maybe turn off the idea that pollution prevents the cando on operable buildings...  it's too annoying and it also breaks the initial interaction where you need a cleaner to dig, etc...
 

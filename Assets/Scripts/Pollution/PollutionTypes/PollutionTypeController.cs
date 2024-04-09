@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,20 +14,44 @@ public class PollutionTypeController
     {
         public int collectionID;
         public List<PollutionSource> sources;
+        public HashSet<Vector2Int> freePositions;
         public Color debugDisplayColor;
+        public float updateTimer;
+        const float maxPeriodMultiplier = 4f;
+        const int slowestSize = 50;
+
         public PollutionGroup()
         {            
             sources = new List<PollutionSource>();
             debugDisplayColor = UnityEngine.Random.ColorHSV();
+            freePositions = new HashSet<Vector2Int>();
+            updateTimer = 0;
+        }
+
+        public void Clear()
+        {
+            sources.Clear();
+            freePositions.Clear();
+        }
+        public float GetUpdatePeriod(float basePeriod, int numPollutions)
+        {
+            //interpolate btw 1 and 50, use to select between 1 and max multiplier to modify base period
+            float interpolationFactor = (numPollutions - 1) / (float)slowestSize;
+            return Mathf.Lerp(basePeriod, maxPeriodMultiplier * basePeriod, interpolationFactor);
+            //modify (slow down) base period with greater number of free positions?            
+        }
+        public List<Vector2Int> GetCandidateCellsToAddPollution()
+        {
+            List<Vector2Int> retval = new List<Vector2Int>();
+            if (freePositions.Count == 0) return retval;
+            int index = UnityEngine.Random.Range(0, freePositions.Count);
+            retval.Add(freePositions.ElementAt(index));
+            return retval;
         }
     }
     Dictionary<int, PollutionGroup> pGroups = new Dictionary<int, PollutionGroup>();
     [SerializeField]
     protected PollutionManager pollutionManager;
-
-    [SerializeField]
-    protected List<Vector2Int> freePositions;
-    public List<Vector2Int> FreePositions { get => freePositions; }
 
     [SerializeField]
     protected GridMap gridMap;
@@ -47,12 +72,8 @@ public class PollutionTypeController
     protected GameObjectPool pollutionPool;
     
     [SerializeField]
-    private float spreadPeriod;    
-    private float spreadTimer = 0;
-
-    [SerializeField]//a lower number means higher priority...
-    private int priority;
-    public int Priority { get => priority; }    
+    private float baseSpreadPeriod;    
+    private float rawSourceSpreadTimer = 0;
 
     [SerializeField]
     private int freeZoneWidth;
@@ -62,6 +83,62 @@ public class PollutionTypeController
 
     [SerializeField]
     private List<PollutionEffect> sourceEffects;
+
+    public void Update()
+    {
+        List<PollutionGroup> groups = pGroups.Select(item => item.Value).ToList();        
+        foreach(var group in groups)
+        {
+            if (group.sources.Count == 0) continue;            
+            group.updateTimer += Time.deltaTime;
+            int numPollutions = pollutionObjects.GetPositions(group.collectionID).Count;
+            float updatePeriod = group.GetUpdatePeriod(baseSpreadPeriod, numPollutions);
+            if (group.updateTimer >= updatePeriod)
+            {
+                Debug.Log($"update period: {updatePeriod}, pollutions: {numPollutions}");
+                group.updateTimer -= updatePeriod;
+                List<Vector2Int> candidateCellsToAdd = group.GetCandidateCellsToAddPollution();
+                List<Vector2Int> confirmedCellsToAdd = new List<Vector2Int>();
+                foreach (Vector2Int candidateCell in candidateCellsToAdd)
+                {
+                    if (!BlockedByEffect(candidateCell))
+                    {
+                        confirmedCellsToAdd.Add(candidateCell);
+                    }
+                    else
+                    {
+                        PollutionPrefab.OnSpawnBlocked(candidateCell);
+                    }
+                }
+                foreach (Vector2Int cell in confirmedCellsToAdd)
+                {
+                    pollutionManager.AddPollution(cell, this);
+                    pollutionManager.UpdateFreePositionsForAddition(cell);
+                }
+            }                        
+        }
+        List<PollutionSource> rawSources = new List<PollutionSource>();
+        foreach(PollutionSource source in pollutionSources)
+        {
+            Vector2Int sourcePos = source.GetComponent<GridTransform>().topLeftPosMap;
+            if(pollutionObjects.GetGraphID(sourcePos) == -1)
+            {
+                rawSources.Add(source);
+            }
+        }
+        if(rawSources.Count > 0)
+        {
+            rawSourceSpreadTimer += Time.deltaTime;
+            if(rawSourceSpreadTimer >= baseSpreadPeriod)
+            {
+                rawSourceSpreadTimer -= baseSpreadPeriod;
+                //select one, add to it
+                int selectionIndex = UnityEngine.Random.Range(0, rawSources.Count);
+                AddPollution(rawSources[selectionIndex].GetComponent<GridTransform>().topLeftPosMap);
+            }
+        }                        
+    }
+
 
     public IReadOnlyList<PollutionEffect> GetSourceEffectsAt(Vector2Int cell)
     {
@@ -83,10 +160,8 @@ public class PollutionTypeController
     public void Initialize(GridMap inGridMap, PollutionManager inPollutionManager)
     {
         gridMap = inGridMap;
-        pollutionManager = inPollutionManager;        
-        priority = pollutionPrefab.PollutionData.Priority;
-        pollutionMap = gridMap.GetMapOfType(MapLayer.pollution);
-        freePositions = new List<Vector2Int>();  
+        pollutionManager = inPollutionManager;                
+        pollutionMap = gridMap.GetMapOfType(MapLayer.pollution);          
         pollutionObjects = new Vector2GraphSet<Pollution>(gridMap.width, gridMap.height);
         pollutionSources = new List<PollutionSource>();
         pGroups = new Dictionary<int, PollutionGroup>();
@@ -102,9 +177,11 @@ public class PollutionTypeController
             height = (uint)GridMap.Current.height,
             numCellsHorizontal = 5,
             numCellsVertical = 5,
-            minSplotchRadius = 4,
-            maxSplotchRadius = 7,
-            splotchProbability = .8f,
+            minSplotchRadius = 3,
+            maxSplotchRadius = 5,
+            //splotchProbability = .8f,
+            //splotchProbability = 0f,
+            splotchProbability = .5f,
             seed = (uint)(Random.Range(0f, 1f) * 10000)
         };
         SplotchMap splotchMap = SplotchGenerator.GenerateSplotchMap(splotchParameters);
@@ -129,9 +206,7 @@ public class PollutionTypeController
                     if (splotchValue != SplotchMap.SplotchValue.Empty)
                     {
                         pollutionsToAdd.Add(new Vector2Int(x, y));
-
-                    }
-                        
+                    }                        
                 }
                 for (int x = (gridMap.width + freeZoneWidth) / 2; x < gridMap.width; x++)
                 {
@@ -139,8 +214,7 @@ public class PollutionTypeController
                     if (splotchValue != SplotchMap.SplotchValue.Empty)
                     {
                         pollutionsToAdd.Add(new Vector2Int(x, y));
-                    }
-                        
+                    }                        
                 }
             }            
         }
@@ -153,7 +227,7 @@ public class PollutionTypeController
                 AddPollution(cell);                
             }
             
-            else if(existing.Priority < priority)
+            else
             {
                 existing.PTypeController.RemovePollution(existing, cell);
                 AddPollution(cell);
@@ -175,7 +249,6 @@ public class PollutionTypeController
             }
             
         }
-
         
         foreach (var component in pollutionObjects.ConnectedComponents)
         {
@@ -187,41 +260,65 @@ public class PollutionTypeController
                 DebugTilemap.Instance.AddTile(pos, pGroups[component.Key].debugDisplayColor);
             }
         }
+        foreach(var component in pGroups)
+        {
+            UpdatePGroupProperties(component.Key);
+        }        
     }
 
-   
-    public void RecalculateFreePositions()
-    {   
-        for(int i = freePositions.Count - 1; i >= 0; i--)
+    public void RecalculateFreePositions(int groupID)
+    {        
+        //check the pollution sources...
+        var positions = pollutionObjects.GetPositions(groupID);
+        pGroups[groupID].freePositions.Clear();
+        //also clear the debug tiles?
+        foreach(Vector2Int position in positions)
         {
-            RemoveFreePosition(freePositions[i]);
-        }     
-        
+            List<Vector2Int> neighbors = position.GetNeighborsInBounds(gridMap.width, gridMap.height);
+            foreach(Vector2Int neighbor in neighbors)
+            {
+                if(pollutionObjects.GetValue(neighbor) == null)
+                {
+                    pGroups[groupID].freePositions.Add(neighbor);
+                }
+            }
+        }
+        //set the debug tiles.
+    }
+
+   //add free position to all neighbor groups of the cell
+    public void RecalculateFreePositions()//... i think we should do this for ALL free positions.
+    {
+
         for(int x = 0; x < gridMap.width; x++)
         {
             for(int y = 0; y < gridMap.height; y++)
-            {                
+            {
+                RemoveFreePosition(new Vector2Int(x, y));
+            }
+        }
+        
+        for (int x = 0; x < gridMap.width; x++)
+        {
+            for (int y = 0; y < gridMap.height; y++)
+            {
                 Vector2Int cell = new Vector2Int(x, y);
                 Pollution pollution = GetPollutionAt(cell);
-                if(pollution != null)
-                {
-                    if (pollution.Priority >= priority)
-                    {
-                        continue;
-                    }
-                }                
+
+                if (pollution != null) continue;
+
                 List<Vector2Int> neighbors = cell.GetNeighbors();
                 bool isFree = false;
-                foreach(Vector2Int neighbor in neighbors)
+                foreach (Vector2Int neighbor in neighbors)
                 {
-                    if(GridMap.Current.IsWithinBounds(neighbor))
-                    {   
-                        isFree |= GetPollutionAt(neighbor)?.Priority == priority;
+                    if (GridMap.Current.IsWithinBounds(neighbor))
+                    {
+                        isFree |= GetPollutionAt(neighbor) != null;
                     }
                 }
-                if(isFree)
-                {                    
-                    AddFreePosition(cell);                    
+                if (isFree)
+                {
+                    AddFreePosition(cell);  //i think we need to just have this for each group id rather than a universal one                  
                 }
             }
         }
@@ -233,68 +330,48 @@ public class PollutionTypeController
     }
 
     //--METHODS FOR TRACKING WHAT POSITIONS IN THE MAP ARE AVAILABLE FOR NEXT POLLUTION SPAWN--//
-    public void UpdateFreePositionsForPollutionAddition(Vector2Int cell, int inPriority)
-    {
-        if (inPriority < priority) return;
-        if (freePositions.Contains(cell))
-        {
-            RemoveFreePosition(cell);
-        }
-
-        List<Vector2Int> positions = cell.GetNeighbors();
+    public void UpdateFreePositionsForPollutionAddition(Vector2Int cell)
+    {             
+        RemoveFreePosition(cell);
+        
+        List<Vector2Int> positions = cell.GetNeighborsInBounds(gridMap.width, gridMap.height);
 
         foreach (Vector2Int position in positions)
         {
-            Pollution pollAtCell = GridMap.Current.GetObjectAtCell<Pollution>(position, MapLayer.pollution)?.GetComponent<Pollution>();
-            bool cellIsOccupied = false;
-            if (pollAtCell != null)
-            {
-                cellIsOccupied = pollAtCell.Priority >= priority;
-            }
-            if (!freePositions.Contains(position) && gridMap.IsWithinBounds(position) && !cellIsOccupied)
+            Pollution pollAtCell = GridMap.Current.GetObjectAtCell<Pollution>(position, MapLayer.pollution)?.GetComponent<Pollution>();            
+            
+            if (pollAtCell == null)
             {
                 AddFreePosition(position);
             }
         }
     }
 
-    public void UpdateFreePositionsForPollutionRemoval(Vector2Int cell, int inPriority)
-    {        
-        if (inPriority < priority)
-        {
-            return;
-        }
-
-        List<Vector2Int> positions = cell.GetNeighbors();
+    public void UpdateFreePositionsForPollutionRemoval(Vector2Int cell)
+    {                
+        List<Vector2Int> neighbors = cell.GetNeighborsInBounds(gridMap.width, gridMap.height);
         bool neighborsPollution = false;
-        foreach (Vector2Int position in positions)
+        foreach (Vector2Int neighborPosition in neighbors)
         {
-            if (pollutionMap.IsCellOccupied(position))
-            {
-                if (GridMap.Current.GetObjectAtCell<Pollution>(position, MapLayer.pollution).Priority == priority)
-                {
-                    neighborsPollution = true;
-                }
+            if (pollutionMap.IsCellOccupied(neighborPosition))
+            {                
+                neighborsPollution = true;                
             }
-            List<Vector2Int> subPositions = position.GetNeighbors();
+            List<Vector2Int> subPositions = neighborPosition.GetNeighborsInBounds(gridMap.width, gridMap.height);
             bool subNeighborsPollution = false;
-            if (freePositions.Contains(position))
+            
+            foreach (Vector2Int subPosition in subPositions)
             {
-                foreach (Vector2Int subPosition in subPositions)
-                {
-                    if (pollutionMap.IsCellOccupied(subPosition))
-                    {
-                        if (GridMap.Current.GetObjectAtCell<Pollution>(subPosition, MapLayer.pollution).Priority == priority)
-                        {
-                            subNeighborsPollution = true;
-                        }
-                    }
-                }
-                if (subNeighborsPollution == false)
-                {
-                    RemoveFreePosition(position);
+                if (pollutionMap.IsCellOccupied(subPosition))
+                {                        
+                    subNeighborsPollution = true;                        
                 }
             }
+            if (subNeighborsPollution == false)
+            {
+                RemoveFreePosition(neighborPosition);
+            }
+            
         }
         if (neighborsPollution) 
         {
@@ -304,49 +381,78 @@ public class PollutionTypeController
 
     private void AddFreePosition(Vector2Int cell)
     {
-        freePositions.Add(cell);
+        foreach(Vector2Int neighbor in cell.GetNeighborsInBounds(gridMap.width, gridMap.height))
+        {
+            int neighborID = pollutionObjects.GetGraphID(neighbor);
+            if (neighborID != -1)
+            {
+                pGroups[neighborID].freePositions.Add(cell);
+            }            
+        }        
         DebugTilemap.Instance.AddTile(cell);
     }
 
     
     private void RemoveFreePosition(Vector2Int cell)
     {
-        freePositions.Remove(cell);
-        
+        foreach (Vector2Int neighbor in cell.GetNeighborsInBounds(gridMap.width, gridMap.height))
+        {
+            int neighborID = pollutionObjects.GetGraphID(neighbor);
+            if(neighborID != -1)
+            {
+                pGroups[neighborID].freePositions.Remove(cell);
+            }            
+        }
+
         if (pollutionObjects.GetValue(cell) == null)                                                    
         {
             DebugTilemap.Instance.RemoveTile(cell);
         }
 
     }
+
+    public List<Vector2Int> GetAllFreePositions()
+    {
+        List<Vector2Int> retval = new List<Vector2Int>();
+        foreach(var pgroupKVP in pGroups)
+        {
+            retval.AddRange(pgroupKVP.Value.freePositions);
+        }
+        int i = 0;
+        foreach(var psource in pollutionSources)
+        {
+            Vector2Int psourcePos = psource.GetComponent<GridTransform>().topLeftPosMap;
+            if (pollutionObjects.GetGraphID(psourcePos) == -1)
+            {
+                //Debug.Log($"adding raw psource {psourcePos}");
+                retval.Add(psourcePos);
+                i++;
+            }
+        }
+        //Debug.Log($"added {i} raw psources");
+        return retval;
+    }
     //--TIMING BASED METHODS FOR UPDATING POLLUTION STATE--//
    
-    public bool CheckForTick()
-    {
-        spreadTimer += Time.deltaTime;
-        if (spreadTimer >= spreadPeriod)
-        {
-            spreadTimer -= spreadPeriod;
-            return true;
-        }
-        return false;
-    }
-
     public List<Vector2Int> GetCandidateCellsToAddPollution()
-    {        
-        int position = UnityEngine.Random.Range(0, freePositions.Count - 1);
-        List<Vector2Int> retval = new List<Vector2Int>();
+    {
+
+        var freePositions = GetAllFreePositions();//pGroups[pGroupID].freePositions.ToList();
+        
+        int positionIndex = UnityEngine.Random.Range(0, freePositions.Count);
+        List<Vector2Int> retval = new List<Vector2Int>();        
+
         if (freePositions.Count == 0)
         {
             return retval;
         }
         try
         {
-            retval.Add(freePositions[position]);
+            retval.Add(freePositions[positionIndex]); //??????????
         }
         catch (System.Exception e)
         {
-            Debug.Log($"trying to add for free positions {position}");
+            Debug.Log($"trying to add for free positions {positionIndex}");
             throw e;
         }
         return retval;
@@ -368,6 +474,7 @@ public class PollutionTypeController
             pollutionObjects.ClearDirtyIDs();
         }
     }
+    //maybe recalculate free positions for each pgroup id only (not whole map).
 
     private void UpdatePGroupProperties(int pGroupID)
     {
@@ -415,10 +522,19 @@ public class PollutionTypeController
             DebugTilemap.Instance.AddTile(cell, pGroups[pGroupID].debugDisplayColor);
         }
 
+        
+
         if (cells.Count == 0)
         {
             pGroups.Remove(pGroupID);            
         }
+        
+        else
+        {
+            RecalculateFreePositions(pGroupID);
+        }
+        //RecalculateFreePositions(); //this results in high initialization lag because it happens for every addition, and half 
+        //of the map is additions, resulting in n^2 time
     }
 
     public void NotifyOfSourceDeletion(PollutionSource psource)
@@ -432,6 +548,7 @@ public class PollutionTypeController
             }
         }
         pollutionSources.Remove(psource);
+        //also... if the group has no more sources, remove all free positions.
     }
 
     private void RemoveSourceFromGroup(PollutionSource psource, int groupID)
@@ -472,11 +589,6 @@ public class PollutionTypeController
     {        
         return pollutionPrefab.IsSpawnBlocked(cell);
     }
-
-    public bool BlockedByPriorityOf(Pollution pollutionAtCell)
-    {        
-        return pollutionPrefab.PollutionData.Priority < (pollutionAtCell?.PollutionData?.Priority ?? 0);
-    }
     
     public Pollution AddPollution(Vector2Int cell)
     {        
@@ -496,5 +608,18 @@ public class PollutionTypeController
         pollutionObjects.ClearDirtyIDs();
 
         return newPollution;        
+    }
+
+    public string DebugText(Vector2Int cell)
+    {
+        string retval = "";
+        foreach(var pgroupKVP in pGroups)
+        {
+            if(pgroupKVP.Value.freePositions.Contains(cell))
+            {
+                retval += $"Group {pgroupKVP.Key} contains {cell}\n";
+            }
+        }
+        return retval;
     }
 }

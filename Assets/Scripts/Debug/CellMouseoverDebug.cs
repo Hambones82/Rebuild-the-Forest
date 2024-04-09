@@ -52,6 +52,7 @@ public class CellMouseoverDebug : MonoBehaviour
                 
             }
         }
+        text.text += "\n" + PollutionManager.Instance.DebugText(cell);
         TerrainTile tile = (TerrainTile)gridMap.GetTileAt(typeof(TerrainTile), cell);
         text.text += "\n" + "Buildable?: " + tile.Buildable.ToString();
         List<MapEffectObject> effects = MapEffectsManager.Instance.GetEffectsAtCell(cell);

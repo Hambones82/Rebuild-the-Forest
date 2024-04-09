@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingPrefab: {fileID: 114058856135367282, guid: 44ade000e281a774d9d749be8fcfc78d, type: 3}
   buildingName: Fueled Log
+  shortName: Log

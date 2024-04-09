@@ -18,6 +18,10 @@ public class Vector2GraphSet <T>
     private HashSet<int> dirtyIDs;
     public IReadOnlyCollection<int> DirtyIDs { get { return dirtyIDs; } }
     
+    public IReadOnlyList<Vector2Int> GetPositions(int groupID)
+    {
+        return connectedComponents[groupID];
+    }
 
     public void AddValue(T value, Vector2Int position)
     {

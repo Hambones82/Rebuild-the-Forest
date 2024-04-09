@@ -11,6 +11,9 @@ public class BuildingType : ObjectType<Building>
     [SerializeField]
     private string buildingName;
     public string BuildingName { get => buildingName; }
+    [SerializeField]
+    private string shortName;
+    public string ShortName { get => shortName; }
     public override Building GetObject()
     {
         return buildingPrefab;
