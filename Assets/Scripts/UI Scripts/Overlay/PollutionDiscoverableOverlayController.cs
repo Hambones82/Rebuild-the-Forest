@@ -14,6 +14,7 @@ public class PollutionDiscoverableOverlayController : MonoBehaviour
 
     private void Awake()
     {
+        discoverableManager = FindObjectOfType<DiscoverableManager>();
         tdm = GetComponent<TileDataMap>();
         discoverableManager.OnDiscoverableChange += SetDiscoverable;
     }

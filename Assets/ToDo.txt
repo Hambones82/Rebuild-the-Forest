@@ -1,3 +1,27 @@
+- maybe a "set references" function that just sets all references.  then you can null check everything...
+
+ok we are trying to just... start from scratch - load whole scene.  problem is... if we do giant prefabs, there are like... circular dependencies.
+
+- maybe just have an "initialize" for all of the things...?
+
+
+
+- keep old scene.  start a new scene where we have some controller that generates everything necessary in that scene.
+
+right now...  there's one "winnability" bug -> if the pollution source is on the same tile as a tree building, you can't clean the pollution source - very problematic.  i think the best way to deal w this is to not allow tree building to be on pollution source.  --> should be in world creation.  
+
+ok... we don't even have a real map gen... it's just basic map that i put into scene.  so the thing to fix would be splotch gen, but we really need to have dynamic/algorithmic map gen (building gen).
+
+at some point it might be cool to do sort of "auto actions" - e.g., "clean up this area, this other area, etc"
+
+separate debug displays from actual displays
+
+put heal back in.
+
+expand on the items idea - pretty cool i think.
+
+regrowth hysteresis
+
 
 
 -- actually have to carry the pollution, bring it somewhere, clean it...???

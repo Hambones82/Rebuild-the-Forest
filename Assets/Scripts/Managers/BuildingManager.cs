@@ -9,6 +9,9 @@ using System.Linq;
 [DefaultExecutionOrder(-8)]
 public class BuildingManager : MonoBehaviour {
 
+    [SerializeField] bool initializeBuildings;
+    [SerializeField] BuildingInitData buildingInitData; //maybe this should have prefabs?
+    
     public delegate void BuildingSpawnEventHandler(Building building);
 
     public event BuildingSpawnEventHandler OnBuildingSpawn;
@@ -28,6 +31,31 @@ public class BuildingManager : MonoBehaviour {
         }
         _instance = this;
         _buildings = FindObjectsOfType<Building>().ToList();
+    }
+
+    private void Start()
+    {
+        if(gridMap == null)
+        {
+            gridMap = FindObjectOfType<GridMap>();
+        }
+        foreach(var dataItem in buildingInitData.InitDataItems)
+        {
+            for(int i = 0; i < dataItem.count; i++)
+            {
+                SpawnInitBuilding(dataItem.buildingType);
+            }
+        }        
+    }
+
+    private void SpawnInitBuilding(BuildingType buildingType)
+    {
+        //choose a position
+        //check if position is occupied
+        //if occupied, move around position in a radius
+        //if radius is all occupied, fail.
+        //how fail?  maybe just throw an error?  console.writeline?  something...  i think throw an error.
+
     }
 
     [SerializeField]

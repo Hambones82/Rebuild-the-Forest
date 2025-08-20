@@ -95,7 +95,7 @@ public class PollutionTypeController
             float updatePeriod = group.GetUpdatePeriod(baseSpreadPeriod, numPollutions);
             if (group.updateTimer >= updatePeriod)
             {
-                Debug.Log($"update period: {updatePeriod}, pollutions: {numPollutions}");
+                //Debug.Log($"update period: {updatePeriod}, pollutions: {numPollutions}");
                 group.updateTimer -= updatePeriod;
                 List<Vector2Int> candidateCellsToAdd = group.GetCandidateCellsToAddPollution();
                 List<Vector2Int> confirmedCellsToAdd = new List<Vector2Int>();
