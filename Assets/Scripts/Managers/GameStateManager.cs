@@ -1,37 +1,48 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 [DefaultExecutionOrder(0)]
-public class GameStateManager : MonoBehaviour
+public class GameStateManager : MonoBehaviour, IGameManager
 {
     [SerializeField]
     List<PollutionSource> pollutionSources;
     [SerializeField]
-    ActorUnitManager unitManager;
+    private ActorUnitManager _unitManager;
     [SerializeField]
-    PollutionManager pollutionManager;
+    private PollutionManager _pollutionManager;
     [SerializeField]
-    GridMap gridMap;
+    private GridMap _gridMap;
+    [SerializeField]
+    private BuildingManager _buildingManager;
 
+    private ServiceLocator _serviceLocator;
     
-    //get references to all
-    private void Awake()
+    public void SelfInit(ServiceLocator serviceLocator)
+    {
+        if (serviceLocator == null) throw new ArgumentNullException("service locator cannot be null");
+        _serviceLocator = serviceLocator;
+        _serviceLocator.RegisterService(this);
+    }
+
+    public void MutualInit()
     {
         pollutionSources = FindObjectsOfType<PollutionSource>().ToList();
-        BuildingManager.Instance.OnBuildingDelete += BuildingIsDeleted;
-        unitManager = FindObjectOfType<ActorUnitManager>();
-        unitManager.OnActorUnitDeath += ActorUnitDies;
-        pollutionManager = FindObjectOfType<PollutionManager>();
-        pollutionManager.OnPollutionAdded += PollutionIsAdded;
-        gridMap = FindObjectOfType<GridMap>();        
+        _buildingManager = _serviceLocator.LocateService<BuildingManager>();
+        _unitManager = _serviceLocator.LocateService<ActorUnitManager>();
+        _pollutionManager = _serviceLocator.LocateService<PollutionManager>();
+        _buildingManager.OnBuildingDelete += BuildingIsDeleted;        
+        _unitManager.OnActorUnitDeath += ActorUnitDies;        
+        _pollutionManager.OnPollutionAdded += PollutionIsAdded;
+        _gridMap = FindObjectOfType<GridMap>();
     }
 
     private void ActorUnitDies(ActorUnit actorUnit)
     {
         //Debug.Log($"actor unit dies, number: {unitManager.CurrentActorUnitsCount}");
-        if(unitManager.CurrentActorUnitsCount == 0)
+        if(_unitManager.CurrentActorUnitsCount == 0)
         {
             Lose();
         }
@@ -58,7 +69,7 @@ public class GameStateManager : MonoBehaviour
     {
         //check if it's on the cleaner building.  if so, check that the entire cleaner building is covered, then call lose if so...
         BuildingComponentCleaner cleaner = 
-            gridMap.GetObjectAtCell<BuildingComponentCleaner>(cell, MapLayer.buildings);
+            _gridMap.GetObjectAtCell<BuildingComponentCleaner>(cell, MapLayer.buildings);
         if(cleaner != null)
         {
             //check if all of it is covered...
@@ -66,7 +77,7 @@ public class GameStateManager : MonoBehaviour
             RectInt cleanerArea = cleaner.GetComponent<GridTransform>().GetRect();
             foreach(Vector2Int pos in cleanerArea.allPositionsWithin)
             {
-                if(gridMap.GetObjectsAtCell(pos, MapLayer.pollution).Count == 0)
+                if(_gridMap.GetObjectsAtCell(pos, MapLayer.pollution).Count == 0)
                 {
                     allIsCovered = false;
                     break;

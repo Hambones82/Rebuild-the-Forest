@@ -1,3 +1,35 @@
+so ok. the main things we need to do are...  
+- be able to set initialization data for all the managers
+- make gridmap less brittle
+
+for the config... configbank idea is pretty cool -- maybe that.
+
+
+
+
+- also need prefab locator???
+- gridMap is a singleton.  should fix but... very messy.
+- problem is gridmap has some sort of implicit reliance on children gameobjects... not sure what that's all about...
+- can get rid of all instance references...
+- so... the other problem with instantiating from code is i need to find serialized objects.
+- so i need to find both serialized objects and prefabs
+- maybe... what i can do is just...  in the self-init, have all the guys set their own values based on some kind of prefab loader and SO loader...
+- one easy way to do it is just... one giant object with SO refs and one giant object with prefab refs.  then we pass in those objects in our init and they can get what they want
+
+ActorUnitManager -> references UIManager directly... probably don't want...
+
+- self init and mutual init should get a service locator class
+- service locator, pass that in as DI
+- move away from singletons -- use the service locator to get what is needed
+
+- the main thing we need to do here is to spawn all managers programmatically, as well as a bunch of other things.
+	- FOR ALL MANAGERS, WE SHOULD AVOID USING AWAKE AND START.  THESE MANAGERS SHOULD BE SPAWNED AND INITIALIZED PROGRAMMATICALLY.
+
+	- gridmap
+	- map gen
+		- splotches
+		- buildings (trees?)
+
 - maybe a "set references" function that just sets all references.  then you can null check everything...
 
 ok we are trying to just... start from scratch - load whole scene.  problem is... if we do giant prefabs, there are like... circular dependencies.

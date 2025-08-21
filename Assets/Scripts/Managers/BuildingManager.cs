@@ -7,7 +7,7 @@ using System.Linq;
 //fix the... dict thing... make it more generic so we can use it here...
 
 [DefaultExecutionOrder(-8)]
-public class BuildingManager : MonoBehaviour {
+public class BuildingManager : MonoBehaviour, IGameManager {
 
     [SerializeField] bool initializeBuildings;
     [SerializeField] BuildingInitData buildingInitData; //maybe this should have prefabs?
@@ -23,30 +23,30 @@ public class BuildingManager : MonoBehaviour {
         get => _instance;
     }
 
-    private void Awake()
+    private ServiceLocator _serviceLocator;
+    
+    public void SelfInit(ServiceLocator serviceLocator)
     {
-        if(_instance != null)
+        if (serviceLocator == null) throw new ArgumentNullException("service locator cannot be null");
+        _serviceLocator = serviceLocator;
+        _serviceLocator.RegisterService(this);
+        if (_instance != null)
         {
             throw new InvalidOperationException("cannot instantiate more than one BuildingManager");
         }
         _instance = this;
-        _buildings = FindObjectsOfType<Building>().ToList();
     }
 
-    private void Start()
-    {
-        if(gridMap == null)
+    public void MutualInit()
+    {        
+        _buildings = FindObjectsOfType<Building>().ToList();
+
+        if (_gridMap == null)
         {
-            gridMap = FindObjectOfType<GridMap>();
+            _gridMap = FindObjectOfType<GridMap>();
         }
-        foreach(var dataItem in buildingInitData.InitDataItems)
-        {
-            for(int i = 0; i < dataItem.count; i++)
-            {
-                SpawnInitBuilding(dataItem.buildingType);
-            }
-        }        
     }
+
 
     private void SpawnInitBuilding(BuildingType buildingType)
     {
@@ -62,7 +62,7 @@ public class BuildingManager : MonoBehaviour {
     private List<BuildingType> availableBuildingTypes;
 
     [SerializeField]
-    public GridMap gridMap;
+    private GridMap _gridMap;
 
     [SerializeField]
     public Vector2Int defaultSpawnCoords;
@@ -79,7 +79,7 @@ public class BuildingManager : MonoBehaviour {
 
     public Building SpawnBuildingAt(Building buildingPrefab, Vector3 worldCoords)
     {
-        Building building = Instantiate(buildingPrefab, worldCoords, Quaternion.identity, gridMap.GetComponent<Transform>());
+        Building building = Instantiate(buildingPrefab, worldCoords, Quaternion.identity, _gridMap.GetComponent<Transform>());
         return FinishBuildingSpawn(building);
     }
     
@@ -106,7 +106,7 @@ public class BuildingManager : MonoBehaviour {
             for(int y = mapCoords.y; y > mapCoords.y - buildingGT.Height; y--)
             {
                 Vector2Int coords = new Vector2Int(x, y);
-                TerrainTile terrainTile = (TerrainTile)(gridMap.GetTileAt(typeof(TerrainTile), coords));
+                TerrainTile terrainTile = (TerrainTile)(_gridMap.GetTileAt(typeof(TerrainTile), coords));
                 
                 if(!terrainTile.Buildable)
                 {

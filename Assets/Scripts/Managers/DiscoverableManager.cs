@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class DiscoverableManager : MonoBehaviour
+public class DiscoverableManager : MonoBehaviour, IGameManager
 {
     public delegate void DiscoverableChangeDelegate(int x, int y, bool b);
     public event DiscoverableChangeDelegate OnDiscoverableChange;
@@ -27,14 +27,24 @@ public class DiscoverableManager : MonoBehaviour
         }
     }
 
-    private void Awake()
+    private PollutionManager _pollutionManager;
+    private ServiceLocator _serviceLocator;
+    
+    public void SelfInit(ServiceLocator serviceLocator)
     {
+        if (serviceLocator == null) throw new ArgumentNullException("service locator cannot be null");
+        _serviceLocator = serviceLocator;
+        _serviceLocator.RegisterService(this);
         pollutionDropTable.Initialize();
+    }
+    public void MutualInit()
+    {
         width = GridMap.Current.width;
         height = GridMap.Current.height;
         _discovered = new bool[width, height];
-        PollutionManager.Instance.OnInitComplete += InitializeDiscovered;
-        PollutionManager.Instance.OnPollutionDead += SpawnDiscovered;
+        _pollutionManager = _serviceLocator.LocateService<PollutionManager>();
+        _pollutionManager.OnInitComplete += InitializeDiscovered;
+        _pollutionManager.OnPollutionDead += SpawnDiscovered;
     }
 
     private void InitializeDiscovered()

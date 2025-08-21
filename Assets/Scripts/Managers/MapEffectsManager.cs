@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [DefaultExecutionOrder(-7)]
-public class MapEffectsManager : MonoBehaviour
+public class MapEffectsManager : MonoBehaviour, IGameManager
 {
 
     public delegate void MapEffectChangeDelegate(Vector2Int cell);
@@ -20,13 +20,22 @@ public class MapEffectsManager : MonoBehaviour
     private static MapEffectsManager _instance;
     public static MapEffectsManager Instance { get => _instance; }
 
-    private void Awake()
+    private ServiceLocator _serviceLocator;
+    public void SelfInit(ServiceLocator serviceLocator)
     {
-        mapEffects = new List<MapEffectObject>[gridMap.width, gridMap.height];
-        extents = new RectInt(0, 0, gridMap.width, gridMap.height);
+        if (serviceLocator == null) throw new ArgumentNullException("service locator cannot be null");
+        _serviceLocator = serviceLocator;
+        _serviceLocator.RegisterService(this);
         if (_instance == null) _instance = this;
         else throw new InvalidOperationException("can't instantiate MapEffectsManager twice");
     }
+
+    public void MutualInit()
+    {
+        gridMap = FindObjectOfType<GridMap>();
+        mapEffects = new List<MapEffectObject>[gridMap.width, gridMap.height];
+        extents = new RectInt(0, 0, gridMap.width, gridMap.height);
+    }   
     
     public void AddEffect(MapEffectObject mapEffect, Vector2Int mapCoords)
     {

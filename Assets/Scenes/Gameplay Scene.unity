@@ -39165,7 +39165,7 @@ PrefabInstance:
       objectReference: {fileID: 950741559}
     - target: {fileID: 4475077108263684719, guid: 0631bef6b2c783a45bcb39d4687c1137, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000005222809
+      value: -0.0000076293945
       objectReference: {fileID: 0}
     - target: {fileID: 5878061745547285308, guid: 0631bef6b2c783a45bcb39d4687c1137, type: 3}
       propertyPath: uIManager
@@ -39276,6 +39276,22 @@ PrefabInstance:
       propertyPath: gridMap
       value: 
       objectReference: {fileID: 1990238066}
+    - target: {fileID: 8606963930880981375, guid: 96385c494d4f12449a372bf4a862ca02, type: 3}
+      propertyPath: initializeBuildings
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8606963930880981375, guid: 96385c494d4f12449a372bf4a862ca02, type: 3}
+      propertyPath: _buildings.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8606963930880981375, guid: 96385c494d4f12449a372bf4a862ca02, type: 3}
+      propertyPath: buildingInitData.buildingsToInitialize.keys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8606963930880981375, guid: 96385c494d4f12449a372bf4a862ca02, type: 3}
+      propertyPath: buildingInitData.buildingsToInitialize.values.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8606963931161572386, guid: 96385c494d4f12449a372bf4a862ca02, type: 3}
       propertyPath: m_Name
       value: Managers

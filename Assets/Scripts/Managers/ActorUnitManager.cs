@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class ActorUnitManager : MonoBehaviour
+public class ActorUnitManager : MonoBehaviour, IGameManager
 {
     private static ActorUnitManager _instance;
     public static ActorUnitManager Instance { get => _instance; }
@@ -40,15 +40,37 @@ public class ActorUnitManager : MonoBehaviour
     public event ActorUnitLifecycleDelegate OnActorUnitSpawn;
     public event Action OnInitComplete;
 
-    private void Awake()
+
+    private ServiceLocator _serviceLocator;
+    
+    public void SelfInit(ServiceLocator serviceLocator)
     {
+        if (serviceLocator == null) throw new ArgumentNullException("service locator cannot be null");
+        _serviceLocator = serviceLocator;
+        _serviceLocator.RegisterService(this);
         if (_instance != null)
         {
             throw new InvalidOperationException("cannot instantiate more than one BuildingManager");
         }
         _instance = this;
+        
+        
+    }
+
+    //do we really want to reference UI manager with this game element?...  maybe not right?  ui probably is the one that 
+    //shoudl know about actor units, not the other way around...
+    public void MutualInit()
+    {
+        
+        //
+        UIManager.Instance.OnSelectEvent.AddListener(ProcessSelectionEvent);
+        UIManager.Instance.OnDeselectEvent.AddListener(ProcessDeselectionEvent);
+        //this assumes gridmap is a singleton.  
+        gridMap = GridMap.Current;
         actorUnitPool = new GameObjectPool(actorUnitPrefab, parentObj: gridMap.gameObject, activeByDefault: false);
+        //what about for test scene...???  
         //register all the actor units on the gridmap with this thing.
+        /*
         List<GridTransform> actorUnits = gridMap.GetMapOfType(MapLayer.playerUnits).GetAllObjects();
         foreach(GridTransform gt in actorUnits)
         {
@@ -58,15 +80,17 @@ public class ActorUnitManager : MonoBehaviour
                 RegisterActorUnit(actor);
             }
         }
-        UIManager.Instance.OnSelectEvent.AddListener(ProcessSelectionEvent);
-        UIManager.Instance.OnDeselectEvent.AddListener(ProcessDeselectionEvent);
+        */
     }
 
+    //this "invoke" call -- probably can be gotten rid of.  this should work normally based on our initiation code.
+    //in other words, our scene gen should just order these things properly - spawn managers, then load UI.
+    /*
     private void Start()
     {
         OnInitComplete?.Invoke();
     }
-
+    */
     public void CancelActorUnitActions()
     {
         selectedActorUnit.GetComponent<UnitActionController>().CancelAllActions();

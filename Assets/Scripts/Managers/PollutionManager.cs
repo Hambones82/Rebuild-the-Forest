@@ -6,7 +6,7 @@ using System.Linq;
 
 
 [DefaultExecutionOrder(-3)]
-public class PollutionManager : MonoBehaviour
+public class PollutionManager : MonoBehaviour, IGameManager
 {
     [SerializeField]
     private SlowEffect _slowEffect;
@@ -38,8 +38,12 @@ public class PollutionManager : MonoBehaviour
     private PollutionTypeController controller;
     public PollutionTypeController PollutionController {  get => controller; }
 
-    private void Awake()//so initialize...  go from highest to lowest priority...
+    private ServiceLocator _serviceLocator;
+    public void SelfInit(ServiceLocator serviceLocator)
     {
+        if (serviceLocator == null) throw new ArgumentNullException("service locator cannot be null");
+        _serviceLocator = serviceLocator;
+        _serviceLocator.RegisterService(this);
         if (_instance == null)
         {
             _instance = this;
@@ -47,12 +51,17 @@ public class PollutionManager : MonoBehaviour
         else
         {
             throw new InvalidOperationException("can't have two pollution managers");
-        }        
-        controller.Initialize(gridMap, this);
-        controller.InitializePollutionState();        
-        controller.RecalculateFreePositions();//need to write this method -- just use a scan line technique        
+        }
     }
 
+    public void MutualInit()
+    {
+        //set gridMap
+        gridMap = FindObjectOfType<GridMap>();  
+        controller.Initialize(gridMap, this);
+        controller.InitializePollutionState();
+        controller.RecalculateFreePositions();//need to write this method -- just use a scan line technique   
+    }
 
     public void UpdateFreePositionsForAddition(Vector2Int cell)
     {        

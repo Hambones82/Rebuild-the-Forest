@@ -7,7 +7,8 @@ using UnityEngine.Tilemaps;
 
 //want to have this use a list of maps. each map is for a different mappable monobehaviour component
 [DefaultExecutionOrder(-10)] //the reason for this is we want the map to be initialized before things that rely on the map.  for example, the grid transforms rely on the map
-public class GridMap : MonoBehaviour { //maybe this imapdisplayable thing is for those individual maps
+public class GridMap : MonoBehaviour 
+{
 
     private static GridMap _current;
     public static GridMap Current { get => _current; }
