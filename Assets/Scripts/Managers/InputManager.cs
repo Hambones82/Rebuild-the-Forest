@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ using UnityEngine;
 //let's just go w this for now
 
 //problem: need to get all input actions covered by a keycode and try all for the current object.???
-public class InputManager : MonoBehaviour {
+public class InputManager : MonoBehaviour, IGameManager {
 
     //from raw to InputActionType
     //this is some kind of... fixed definitions file.  read in the file, build a map.
@@ -25,34 +26,37 @@ public class InputManager : MonoBehaviour {
     private InputDefinitionModule inputDefinitionModule;
     private InputDefinitionModule backgroundInputDefinitionModule;
 
+    private ServiceLocator _serviceLocator;
 
-    private void Awake()
+    public void SelfInit(ServiceLocator serviceLocator)
     {
+        if (serviceLocator == null) throw new ArgumentNullException("service locator cannot be null");
+        _serviceLocator = serviceLocator;
+        _serviceLocator.RegisterService(this);
+        
         activeKeyPresses = new List<KeyPress>();
-        //keyPressesActivated = new List<KeyPress>();
-        //inputDefinitionModule = new InputDefinitionModule(); // default module?  sometimes it's null, sometimes it's something.  probably want a default one.
-        //backgroundInputDefinitionModule = new InputDefinitionModule();
-
-        //build a list of keycodes from definitions
-        //in other words, what key presses are we looking for?
         foreach (KeyCodeToInputActionTypeDefinitions.KeyCodeToInputActionType kC in keyCodeToInputActionTypeDefinitions.keyCodeToInputActionTypes)
         {
             bool keyPressFound = false;
-            foreach(KeyPress keyPressToCheck in activeKeyPresses)
+            foreach (KeyPress keyPressToCheck in activeKeyPresses)
             {
-                if(keyPressToCheck.keyCode == kC.keyPress.keyCode)
+                if (keyPressToCheck.keyCode == kC.keyPress.keyCode)
                 {
                     keyPressFound = true;
                 }
             }
-            if(keyPressFound == false)
+            if (keyPressFound == false)
             {
                 activeKeyPresses.Add(kC.keyPress);
             }
         }
     }
 
-   
+    public void MutualInit()
+    {
+
+    }
+
 	void Update () {
         //add all keys released to keycodespressed
         //keycodes... presses... pressed... get rid of that?

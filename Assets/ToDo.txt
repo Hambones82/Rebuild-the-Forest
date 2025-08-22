@@ -1,11 +1,35 @@
-so ok. the main things we need to do are...  
-- be able to set initialization data for all the managers
-- make gridmap less brittle
+- did all the first rework for managers -- need a manager spawner
 
-for the config... configbank idea is pretty cool -- maybe that.
+- cleanup to remove all globals?
 
+- maybe just... an object with a bunch of functions.  maybe even a monobehavior?  maybe an SO that just has functions?
+- would need a monobehavior
+- could also just put those things into the background manager itself but...  i think that's fighting the design too much...
+- maybe just a monobehavior taht's just like... input policy or something like that...
 
+- OK for... background input manager... how the f would we even hook up the actions without code or whatever?
+- just put the code in the manager itself or at the very worst, some POOC attached to the manager
+- something like "input code definitions"
+- maybe that's it, we just need code?
+- alternatively, there can just be an SO with a whole shitload of actions you select from...  ???
 
+UIManager is a bit weird... at the very least, the naming is off...
+ok... i think "UIManager" is really like... divorced from actual inputs or display.  it's more of like... "focus manager" or something.. - look into it
+
+-ok new direction. prefab all the managers.  this will allow us to keep all the refs to various things like prefabs and so's.  still need to do hookups in code
+	- probably the best of both worlds
+	- code changes to:
+		- mousemanager
+		- backgroundinputmanager
+		- uimanager
+		- pollutionmanager
+		- actorunitmanager (gridmap)
+		- mapeffectsmanager (gridmap)
+		- PATHINGCONTROLLER (gridmap)
+
+- then need to do another pass removing singletons
+
+WHEN DONE WITH ALL THESE "FIXES" COME BACK AND DELETE ALL THE COMMENTED OUT CODE
 
 - also need prefab locator???
 - gridMap is a singleton.  should fix but... very messy.
@@ -435,26 +459,13 @@ UI/EOU Fixes:
 - area of effect tools
 - units shouldn't stack
 - queue unit actions (w/ visual feedback)
-- debug mouseover -- give it a timer to limit update frequency.
 - add an info panel for the unit you clicked on
 - need to refactor the unitactioncontextclick
-- need to make the pollution sources as buildings.
 - pollution source manager
-- game state manager w/ win/loss
-- game state manager checks pollution source manager
 - add: error/status messages in game.
 - since cleaning pollution will be such a big part of the game, i think we need to reduce the number of clicks necessary.  we can go with the "Traditional" method of 
 	removing control of individual units and just designating orders for parts of the map.  but i think an intermediate method of allowing dragged rectangles for cleaning 
 	would be best.  try it out and see if not.
-
-CODE IMPROVEMENTS:
-Maybe we want to get rid of all the singletons and just do "findobjectinscene" which really isn't that terrible if you do it once...
-I think I'd rather have that because it would have all references be to actual objects in the scene rather than based on some c# statics.
-This would allow normal scene cleanup, etc., to properly delete all the old stuff, etc...  I hope.
-
-Move placement cursor into the place building tool?
-
-if any action cannot happen, the entire queue should get dropped.
 
 pixel art: https://www.reddit.com/r/IndieGaming/comments/msfjpe/hello_i_am_a_pixel_artist_that_goes_by_the_name/
 https://opengameart.org/content/swamp-2d-tileset-pixel-art

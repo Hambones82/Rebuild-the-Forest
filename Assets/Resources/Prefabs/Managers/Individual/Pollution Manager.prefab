@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7656967956582901792
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7656967956582901798}
+  - component: {fileID: 7656967956582901793}
+  m_Layer: 0
+  m_Name: Pollution Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7656967956582901798
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7656967956582901792}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7656967956582901793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7656967956582901792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 764409823f5b7944a805487174d08401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _slowEffect: {fileID: 11400000, guid: b37afd19eceb4f945814d0c3f7a9d3f9, type: 2}
+  _stopEffect: {fileID: 11400000, guid: 14ebbd1eb4c5c854db9f7aba7da7339e, type: 2}
+  _damageEffect: {fileID: 11400000, guid: 4cc8eafe972c8864e9d3f4bf8ae8d54a, type: 2}
+  gridMap: {fileID: 0}
+  controller:
+    pollutionManager: {fileID: 0}
+    gridMap: {fileID: 0}
+    pollutionPrefab: {fileID: 332257860741888898, guid: a5d1b1f1f11595049b029ebf44392545, type: 3}
+    pollutionSourcePrefab: {fileID: 4293550278123150882, guid: 0c87dc0187bf5774396044a71b00c064, type: 3}
+    baseSpreadPeriod: 1
+    freeZoneWidth: 10
+    pollutionSources: []
+    sourceEffects:
+    - {fileID: 11400000, guid: b37afd19eceb4f945814d0c3f7a9d3f9, type: 2}
+    - {fileID: 11400000, guid: d4ef0f05f2aafc54e99816294bbc14ab, type: 2}

@@ -10,6 +10,13 @@ using UnityEngine.Events;
 public class InputDefinition {
     public InputActionType inputActionType;
     public UnityEvent unityEvent;
+
+    public InputDefinition(InputActionType inputActionType, UnityEvent unityEvent)
+    {
+        this.inputActionType = inputActionType;
+        this.unityEvent = unityEvent;
+    }
+
     //string tooltip
     //string action name
     //then you can auto-generate buttons based on this information.  

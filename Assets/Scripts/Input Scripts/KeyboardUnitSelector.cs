@@ -4,29 +4,42 @@ using UnityEngine;
 using System;
 
 
-public class KeyboardUnitSelector : MonoBehaviour
+public class KeyboardUnitSelector : MonoBehaviour, IGameManager
 {
     [SerializeField]
     private int numSelectables;
 
     [SerializeField]
-    private UIManager uiManager;
+    private UIManager _uiManager;
 
     [SerializeField]
-    ActorUnitManager actorUnitManager;
+    private ActorUnitManager _actorUnitManager;
+
     [SerializeField]
     private ActorUnit[] keyboardSelectableActorUnits;
 
-    private void Start()
+
+    private ServiceLocator _serviceLocator;
+
+    public void SelfInit(ServiceLocator serviceLocator)
     {
+        if (serviceLocator == null) throw new ArgumentNullException("service locator cannot be null");
+        _serviceLocator = serviceLocator;
+        _serviceLocator.RegisterService(this);
+        keyboardSelectableActorUnits = new ActorUnit[numSelectables];        
+    }
+
+    public void MutualInit()
+    {
+        _actorUnitManager = _serviceLocator.LocateService<ActorUnitManager>();
         keyboardSelectableActorUnits = new ActorUnit[numSelectables];
         int count = 0;
-        foreach(ActorUnit actor in actorUnitManager.ActorUnits)
+        foreach (ActorUnit actor in _actorUnitManager.ActorUnits)
         {
             keyboardSelectableActorUnits[count++] = actor;
         }
-        actorUnitManager.OnActorUnitDeath += ActorUnitDies;
-        actorUnitManager.OnActorUnitSpawn += ActorUnitSpawned;
+        _actorUnitManager.OnActorUnitDeath += ActorUnitDies;
+        _actorUnitManager.OnActorUnitSpawn += ActorUnitSpawned;
     }
 
     private void ActorUnitDies(ActorUnit actor)
@@ -53,7 +66,7 @@ public class KeyboardUnitSelector : MonoBehaviour
         GridTransform gtToSelect = keyboardSelectableActorUnits[unitNum]?.GetComponent<GridTransform>();
         if(gtToSelect != null)
         {
-            uiManager.HardSelectGridTransform(gtToSelect);
+            _uiManager.HardSelectGridTransform(gtToSelect);
         }
     }
 

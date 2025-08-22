@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class RootManager : MonoBehaviour
+public class RootManager : MonoBehaviour, IGameManager
 {
     private static RootManager _instance;
     public static RootManager Instance { get => _instance; }
@@ -13,8 +13,8 @@ public class RootManager : MonoBehaviour
     [SerializeField]
     private Root rootPrefab;
 
-    int width;
-    int height;
+    private int width;
+    private int height;
 
     private bool[,] rootPassableMap;//map for the roots to grow?
     private PathFinder rootPathfinder;
@@ -26,14 +26,22 @@ public class RootManager : MonoBehaviour
 
     private List<RootBuildingComponent> rootBuildings;
 
-    private void Awake()
+    private ServiceLocator _serviceLocator;
+    public void SelfInit(ServiceLocator serviceLocator)
+    {
+        if (serviceLocator == null) throw new ArgumentNullException("service locator cannot be null");
+        _serviceLocator = serviceLocator;
+        _serviceLocator.RegisterService(this);
+    }
+
+    public void MutualInit() 
     {
         width = GridMap.Current.width;
         height = GridMap.Current.height;
         rootPassableMap = new bool[width, height];
-        for(int x = 0; x < width; x++)
+        for (int x = 0; x < width; x++)
         {
-            for(int y = 0; y < height; y++)
+            for (int y = 0; y < height; y++)
             {
                 rootPassableMap[x, y] = true;
             }
@@ -42,49 +50,27 @@ public class RootManager : MonoBehaviour
         if (_instance != null) throw new InvalidOperationException("can't have two root managers");
         else _instance = this;
         mapOfRoots = new bool[width, height];
-        for(int x=0; x<width; x++)
+        for (int x = 0; x < width; x++)
         {
-            for(int y = 0; y < height; y++)
+            for (int y = 0; y < height; y++)
             {
                 mapOfRoots[x, y] = GridMap.Current.IsCellOccupied(new Vector2Int(x, y), MapLayer.roots)
                     || GridMap.Current.IsCellOccupied<RootBuildingComponent>(new Vector2Int(x, y), MapLayer.buildings);
             }
         }
         rootBuildings = new List<RootBuildingComponent>();
-        foreach(Building building in BuildingManager.Instance.Buildings)
+        foreach (Building building in BuildingManager.Instance.Buildings)
         {
             RootBuildingComponent rbc = building.GetComponent<RootBuildingComponent>();
-            if(rbc != null)
+            if (rbc != null)
             {
                 rootBuildings.Add(rbc);
             }
         }
         //then, need to set the networks for the rbcs... test for connectivity, etc...
         mapOfRootsPathfinder = new PathFinder(width, height, mapOfRoots, PathFinder.NeighborType.fourWay);
-        /*
-        List<RootBuildingComponent> openList = new List<RootBuildingComponent>(rootBuildings);
-        List<RootBuildingComponent> closedList = new List<RootBuildingComponent>();//might not need the closed list.
-        int currentNetwork = 0;
-        while(openList.Count > 0)
-        {
-            RootBuildingComponent currentRBC = openList[0];
-            openList.Remove(currentRBC);
-            closedList.Add(currentRBC);
-            currentRBC.RootNetwork = currentNetwork;
-            foreach(RootBuildingComponent candidateRBC in openList)
-            {
-                if(mapOfRootsPathfinder.GetPath(currentRBC.GetComponent<GridTransform>().topLeftPosMap, 
-                    candidateRBC.GetComponent<GridTransform>().topLeftPosMap, out List<Vector2Int> _))
-                {
-                    candidateRBC.RootNetwork = currentNetwork;
-                    openList.Remove(candidateRBC);
-                    closedList.Add(candidateRBC);
-                }
-            }
-            currentNetwork++;
-            
-        }//don't we also want to assign */
-    }
+
+    }    
 
     public Root SpawnRoot(Vector2Int position)
     {

@@ -11,6 +11,8 @@ public class DiscoverableManager : MonoBehaviour, IGameManager
     private bool[,] _discovered; //don't set this directly -- doing so fails to call callbacks
     private int width, height;
 
+    [SerializeField] private GridMap _gridMap;
+
     [SerializeField]
     private DropTable pollutionDropTable;
 
@@ -39,8 +41,9 @@ public class DiscoverableManager : MonoBehaviour, IGameManager
     }
     public void MutualInit()
     {
-        width = GridMap.Current.width;
-        height = GridMap.Current.height;
+        //gridmap should be given as reference
+        width = _gridMap.width;
+        height = _gridMap.height;
         _discovered = new bool[width, height];
         _pollutionManager = _serviceLocator.LocateService<PollutionManager>();
         _pollutionManager.OnInitComplete += InitializeDiscovered;
