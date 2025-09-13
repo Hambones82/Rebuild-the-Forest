@@ -24,19 +24,25 @@ public class ScrollableContentPanel : MonoBehaviour
     }
 
     [SerializeField]
-    protected UIManager uIManager;
+    protected UIManager _uIManager;
 
     protected virtual void Awake()
     {
+        _uIManager = FindObjectOfType<UIManager>();
+        if (_uIManager == null)
+        {
+            Debug.Log("ui manager is null");
+        }
+
         contentObjectPool = new GameObjectPool(contentObjectPrefab.gameObject, parentObj: contentParent.gameObject, activeByDefault: false);
-        uIManager.OnSelectEvent.AddListener(ProcessSelectionEvent);
-        uIManager.OnDeselectEvent.AddListener(ProcessDeselectionEvent);
+        _uIManager.OnSelectEvent.AddListener(ProcessSelectionEvent);
+        _uIManager.OnDeselectEvent.AddListener(ProcessDeselectionEvent);
         //need a hookup for when the current actor unit is set. <-- ?
     }
 
     protected virtual void ProcessSelectionEvent()
     {
-        CurrentActorUnit = uIManager.SelectedGridTransform.GetComponent<ActorUnit>();
+        CurrentActorUnit = _uIManager.SelectedGridTransform.GetComponent<ActorUnit>();
         if (currentActorUnit != null)
         {
             SetCachedReferences();

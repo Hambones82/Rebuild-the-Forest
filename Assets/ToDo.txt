@@ -1,33 +1,17 @@
-- did all the first rework for managers -- need a manager spawner
+- for grid map --> maybe we can initialize all their data maps after the managers and ui has been initialized?
 
-- cleanup to remove all globals?
+- ok so the problem is that... the UI stuff...  is loaded in as part of scene.  its awake does not see the managers (UI manager) whichi s loaded programmatically, later.  
 
-- maybe just... an object with a bunch of functions.  maybe even a monobehavior?  maybe an SO that just has functions?
-- would need a monobehavior
-- could also just put those things into the background manager itself but...  i think that's fighting the design too much...
-- maybe just a monobehavior taht's just like... input policy or something like that...
+- asynchronous service request???  seems overly complicated.  we just want to set the manager when it's spawned in or at some early initialization time.
 
-- OK for... background input manager... how the f would we even hook up the actions without code or whatever?
-- just put the code in the manager itself or at the very worst, some POOC attached to the manager
-- something like "input code definitions"
-- maybe that's it, we just need code?
-- alternatively, there can just be an SO with a whole shitload of actions you select from...  ???
+- so let's transition to loading everything into the scene first...
 
-UIManager is a bit weird... at the very least, the naming is off...
-ok... i think "UIManager" is really like... divorced from actual inputs or display.  it's more of like... "focus manager" or something.. - look into it
+- in the gameplay scene loader, i need to load all managers, and THEN load the UI, and THEN load the world.  except gridmap... (?????)...
+- wow... 
+- so... gridmap should also be spawned (e.g., as a prefab) and i'll need to set refs for that in all the managers
 
--ok new direction. prefab all the managers.  this will allow us to keep all the refs to various things like prefabs and so's.  still need to do hookups in code
-	- probably the best of both worlds
-	- code changes to:
-		- mousemanager
-		- backgroundinputmanager
-		- uimanager
-		- pollutionmanager
-		- actorunitmanager (gridmap)
-		- mapeffectsmanager (gridmap)
-		- PATHINGCONTROLLER (gridmap)
-
-- then need to do another pass removing singletons
+- main issue right now is fix the null ref exceptions...
+- working on map gen/building spawner
 
 WHEN DONE WITH ALL THESE "FIXES" COME BACK AND DELETE ALL THE COMMENTED OUT CODE
 

@@ -42,6 +42,7 @@ public class DiscoverableManager : MonoBehaviour, IGameManager
     public void MutualInit()
     {
         //gridmap should be given as reference
+        _gridMap = GridMap.Current;
         width = _gridMap.width;
         height = _gridMap.height;
         _discovered = new bool[width, height];

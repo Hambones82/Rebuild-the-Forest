@@ -41,7 +41,7 @@ public class InputSubscriber : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        inputManager = GameObject.Find("InputManager").GetComponent<InputManager>();
+        inputManager = GameObject.FindObjectOfType<InputManager>().GetComponent<InputManager>();
         if (inputDefinitionModuleType == InputDefinitionModuleType.background) Activate();
         else
         {
@@ -49,12 +49,12 @@ public class InputSubscriber : MonoBehaviour {
             attachedSelector.OnSelect.AddListener(Activate);
             attachedSelector.OnDeselect.AddListener(DeActivate);
         }
-        
+        inputDefinitionModule.Initialize();
     }
 	
 
     private void Awake()
     {
-        inputManager = GameObject.Find("InputManager").GetComponent<InputManager>();
+        inputManager = GameObject.FindObjectOfType<InputManager>().GetComponent<InputManager>();
     }
 }

@@ -31,6 +31,7 @@ public class KeyboardUnitSelector : MonoBehaviour, IGameManager
 
     public void MutualInit()
     {
+        if (_serviceLocator == null) Debug.Log("service locator is null");
         _actorUnitManager = _serviceLocator.LocateService<ActorUnitManager>();
         keyboardSelectableActorUnits = new ActorUnit[numSelectables];
         int count = 0;

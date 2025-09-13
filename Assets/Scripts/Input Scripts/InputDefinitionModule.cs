@@ -23,17 +23,17 @@ public class InputDefinitionModule  {
     public List<InputDefinition> inputDefinitions;
     private bool _initialized = false;
 
-    private ServiceLocator _serviceLocator;
-    public virtual void Initialize(ServiceLocator serviceLocator)
+    //private ServiceLocator _serviceLocator;
+    public virtual void Initialize()
     {
         if(_initialized)
         {
             return;           
         }
-        _serviceLocator = serviceLocator;
+        //_serviceLocator = serviceLocator;
         if (definitions != null)
         {
-            definitions.Initialize(serviceLocator);
+            //definitions.Initialize(serviceLocator);
             inputDefinitions.Clear();
             foreach(InputDefinition iDefinition in definitions.InputDefinitions)
             {

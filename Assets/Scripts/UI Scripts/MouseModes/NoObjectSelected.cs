@@ -19,7 +19,7 @@ public class NoObjectSelected : MouseMode
 
     public override MouseMode LeftClick(Vector3 clickPoint)
     {
-        GridTransform target = UIManager.Instance.gridMap.GetClosestClickedObject(clickPoint);
+        GridTransform target = GridMap.Current.GetClosestClickedObject(clickPoint);
             
         if (target != null) //if you click on something
         {

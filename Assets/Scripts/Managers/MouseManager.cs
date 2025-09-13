@@ -8,9 +8,9 @@ using UnityEngine.Events;
 
 public class MouseManager : MonoBehaviour {
 
-    public UIManager uIManager;
+    public UIManager _uIManager;
     
-    public GridMap gridMap;
+    public GridMap _gridMap;
     private Plane TileMapPlane;
     [SerializeField]
     private Vector3 mouseWorldPosition = new Vector3(0, 0, 0);
@@ -24,7 +24,7 @@ public class MouseManager : MonoBehaviour {
         
     public Vector2Int GetMouseMapCoords()
     {
-        return gridMap.WorldToMap(GetMouseWorldCoords());
+        return _gridMap.WorldToMap(GetMouseWorldCoords());
     }
 
     private static MouseManager _instance;
@@ -36,6 +36,7 @@ public class MouseManager : MonoBehaviour {
 
     void Awake()
     {
+        
         TileMapPlane = new Plane(Vector3.zero, Vector3.right, Vector3.up);//a hacky way to instantiate a plane at z=0
         if(_instance != null)
         {
@@ -45,6 +46,12 @@ public class MouseManager : MonoBehaviour {
         {
             _instance = this;
         }
+    }
+
+    private void Start()
+    {
+        _uIManager = FindObjectOfType<UIManager>();
+        _gridMap = FindObjectOfType<GridMap>();
     }
 
     public Vector3 GetMouseWorldCoords()
@@ -62,28 +69,28 @@ public class MouseManager : MonoBehaviour {
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-                uIManager.LeftClickAt(mouseWorldPosition);
+                _uIManager.LeftClickAt(mouseWorldPosition);
             }
         }
         if(Input.GetMouseButtonDown(1))
         {
             if(!EventSystem.current.IsPointerOverGameObject())
             {
-                uIManager.rightClickAt(mouseWorldPosition);
+                _uIManager.rightClickAt(mouseWorldPosition);
             }
         }
         if(Input.mouseScrollDelta.y > 0)
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-                uIManager.ZoomIn();
+                _uIManager.ZoomIn();
             }
         }
         if(Input.mouseScrollDelta.y < 0)
         {
             if(!EventSystem.current.IsPointerOverGameObject())
             {
-                uIManager.ZoomOut();
+                _uIManager.ZoomOut();
             }
         }
     }

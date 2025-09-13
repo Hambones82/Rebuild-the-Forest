@@ -8,7 +8,7 @@ public delegate void SelectBuildingDelegate(Building selectedBuilding);
 
 [DefaultExecutionOrder(-5)]
 public class UIManager : MonoBehaviour {
-    public CameraMover cameraMover;
+    public CameraMover _cameraMover;
     public bool forcePlacement = false; 
     public GridMap gridMap;
     public MouseManager mouseManager;
@@ -60,6 +60,7 @@ public class UIManager : MonoBehaviour {
         {
             _instance = this;
         }
+        _cameraMover = FindObjectOfType<CameraMover>();   
     }
 
     public void LeftClickAt(Vector3 mouseWorldPosition)
@@ -126,12 +127,12 @@ public class UIManager : MonoBehaviour {
 
     public void ZoomIn()
     {
-        cameraMover.zoomIn();
+        _cameraMover.zoomIn();
     }
 
     public void ZoomOut()
     {
-        cameraMover.zoomOut();
+        _cameraMover.zoomOut();
     }
 }
 

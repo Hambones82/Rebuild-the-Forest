@@ -30,6 +30,7 @@ public class PathingController : MonoBehaviour, IGameManager
     {
         if (_instance == null) _instance = this;
         else throw new InvalidOperationException("cannot have two pathing controllers");
+        _gridMap = GridMap.Current;
         width = _gridMap.width;
         height = _gridMap.height;
         //initialize pathfinder
