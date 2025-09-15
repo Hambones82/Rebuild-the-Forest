@@ -25,7 +25,7 @@ public class BackgroundInputModuleDefinitions : InputDefinitionModuleSO
         base.Initialize(serviceLocator);
         //this is just a code replixa of the settings from the in-scene prefab
         inputDefinitions.Clear();
-        CameraMover cameraMover = Camera.main.GetComponent<CameraMover>();
+        CameraMover cameraMover = serviceLocator.LocateService<CameraMover>();
         if(cameraMover == null)
         {
             throw new System.InvalidOperationException("cannot begin without a camera");

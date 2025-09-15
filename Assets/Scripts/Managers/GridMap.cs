@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 
 //want to have this use a list of maps. each map is for a different mappable monobehaviour component
 [DefaultExecutionOrder(-10)] //the reason for this is we want the map to be initialized before things that rely on the map.  for example, the grid transforms rely on the map
-public class GridMap : MonoBehaviour 
+public class GridMap : MonoBehaviour, IGameManager
 {
 
     private static GridMap _current;
@@ -51,12 +51,18 @@ public class GridMap : MonoBehaviour
         }
         return GetTileDataMapOfType(tileType).GetTileAt(coords);
     }
-    
-    void Awake()
+
+    private ServiceLocator _serviceLocator;
+
+    public void SelfInit(ServiceLocator serviceLocator)
     {
+        if (serviceLocator == null) throw new ArgumentNullException("service locator cannot be null");
+        _serviceLocator = serviceLocator;
+        _serviceLocator.RegisterService(this);
+
         _current = this;
 
-        foreach(TileDataMap tileDataMap in gameObject.transform.GetComponentsInChildren<TileDataMap>())
+        foreach (TileDataMap tileDataMap in gameObject.transform.GetComponentsInChildren<TileDataMap>())
         {
             tileDataMaps.Add(tileDataMap);
         }
@@ -64,10 +70,15 @@ public class GridMap : MonoBehaviour
         //for each type in enums...
         gridSubMaps = new List<GridSubMap>();
         //ok so the problem is... we want to have a type.  i guess?
-        foreach(MapLayer mapLayer in Enum.GetValues(typeof(MapLayer)))
+        foreach (MapLayer mapLayer in Enum.GetValues(typeof(MapLayer)))
         {
             gridSubMaps.Add(new GridSubMap(width, height, mapLayer));
         }
+    }
+
+    public void MutualInit()
+    {
+        
     }
     
     //so... the terrain could be a map layer... the problem is... we're returning a gridsubmap...  which isn't necessarily what we want.
@@ -358,4 +369,5 @@ public class GridMap : MonoBehaviour
         return GetClosestGridTransform(gridTransforms);
         
     }
+
 }

@@ -130,14 +130,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3219644488521257931, guid: 10542e94f65d990448c7357206834118, type: 3}
-      propertyPath: world
-      value: 
-      objectReference: {fileID: 6331021698009289460, guid: db3c36b58a7f7e6418b3b44907ab7791, type: 3}
-    - target: {fileID: 3219644488521257931, guid: 10542e94f65d990448c7357206834118, type: 3}
-      propertyPath: UIPreFab
-      value: 
-      objectReference: {fileID: 4269953778093272222, guid: 0631bef6b2c783a45bcb39d4687c1137, type: 3}
     - target: {fileID: 5400782408819532584, guid: 10542e94f65d990448c7357206834118, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -199,7 +191,6 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
-  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -215,24 +206,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
---- !u!114 &519420030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acee1e74ce89ffe48801ee458631e403, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  padding: 3
-  moveSpeed: 3
-  gridMap: {fileID: 0}
-  zoomSpeed: 1.1
-  maxZoom: 20
-  minZoom: 3
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0

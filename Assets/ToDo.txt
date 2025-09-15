@@ -1,4 +1,6 @@
-- for grid map --> maybe we can initialize all their data maps after the managers and ui has been initialized?
+-UI Manager has to come into play here... -> need to register w service locator, etc...
+-ok problem is it's not part of the UI prefab but it's also not an igamemanager...  
+	- probably just want it to be an igamemanager
 
 - ok so the problem is that... the UI stuff...  is loaded in as part of scene.  its awake does not see the managers (UI manager) whichi s loaded programmatically, later.  
 

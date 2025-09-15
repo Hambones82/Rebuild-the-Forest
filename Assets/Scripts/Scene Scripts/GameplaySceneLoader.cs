@@ -11,7 +11,7 @@ public class GameplaySceneLoader : MonoBehaviour
     [SerializeField] List<InputDefinitionModuleSO> inputDefinitionModuleSOs;
     private void Awake()
     {
-        GameObject.Instantiate(world);             
+        //GameObject.Instantiate(world);             
         
         GameObject managers = new GameObject("Managers");
         List<GameObject> createdManagers = new List<GameObject>();

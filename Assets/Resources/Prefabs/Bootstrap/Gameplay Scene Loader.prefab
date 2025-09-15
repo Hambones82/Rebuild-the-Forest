@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d88253821d27e07499e021d6df1b8b81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  world: {fileID: 0}
-  UIPreFab: {fileID: 0}
+  world: {fileID: 6331021698009289460, guid: db3c36b58a7f7e6418b3b44907ab7791, type: 3}
+  UIPreFab: {fileID: 4269953778093272222, guid: 0631bef6b2c783a45bcb39d4687c1137, type: 3}
   gameManagers:
   - {fileID: 2457576843274264388, guid: 6decbd96b790ef24080a44fb57f6bccb, type: 3}
   - {fileID: 7691759798664388608, guid: bdeff2f56b2622f438d35a946082a81c, type: 3}
@@ -62,5 +62,7 @@ MonoBehaviour:
   - {fileID: 2331296511099659469, guid: b058067c4ef39bc4dad99fa1c1cd1ba4, type: 3}
   - {fileID: 5843295005095385028, guid: 68e707e676a772f46901d7c2e026cab4, type: 3}
   - {fileID: 1406103248822456625, guid: c700c7beddaf4ad4cbdc1f8f2b9830b0, type: 3}
+  - {fileID: 6331021698009289451, guid: db3c36b58a7f7e6418b3b44907ab7791, type: 3}
+  - {fileID: 153548387099746252, guid: 20641ec3105ffff47b3463a56010c38a, type: 3}
   inputDefinitionModuleSOs:
   - {fileID: 11400000, guid: aceb5155943e3d74187072308ec38cd0, type: 2}

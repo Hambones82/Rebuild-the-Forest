@@ -7,7 +7,8 @@ using UnityEngine.Events;
 public delegate void SelectBuildingDelegate(Building selectedBuilding);
 
 [DefaultExecutionOrder(-5)]
-public class UIManager : MonoBehaviour {
+public class UIManager : MonoBehaviour, IGameManager
+{
     public CameraMover _cameraMover;
     public bool forcePlacement = false; 
     public GridMap gridMap;
@@ -50,9 +51,13 @@ public class UIManager : MonoBehaviour {
     private static UIManager _instance;
     public static UIManager Instance { get => _instance; }
 
-    private void Awake()
+    private ServiceLocator _serviceLocator;
+    public void SelfInit(ServiceLocator serviceLocator)
     {
-        if(_instance != null)
+        if (serviceLocator == null) throw new ArgumentNullException("service locator cannot be null");
+        _serviceLocator = serviceLocator;
+        _serviceLocator.RegisterService(this);
+        if (_instance != null)
         {
             throw new InvalidOperationException("Trying to instantiate two UIManagers, but it is a singleton.");
         }
@@ -60,7 +65,11 @@ public class UIManager : MonoBehaviour {
         {
             _instance = this;
         }
-        _cameraMover = FindObjectOfType<CameraMover>();   
+    }
+
+    public void MutualInit()
+    {
+        _cameraMover = _serviceLocator.LocateService<CameraMover>();
     }
 
     public void LeftClickAt(Vector3 mouseWorldPosition)
@@ -134,6 +143,7 @@ public class UIManager : MonoBehaviour {
     {
         _cameraMover.zoomOut();
     }
+
 }
 
 
